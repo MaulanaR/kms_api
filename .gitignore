@@ -22,3 +22,4 @@ logs/
 # Go workspace file
 go.work
 main
+docs/openapi.json
