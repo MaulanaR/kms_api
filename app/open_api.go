@@ -18,7 +18,7 @@ type openAPIUtil struct {
 func (o *openAPIUtil) Configure() *openAPIUtil {
 	o.SetVersion()
 	o.Servers = []map[string]any{
-		{"description": "Local", "url": "http://localhost:4001"},
+		{"description": "Local", "url": APP_URL},
 	}
 	o.Info.Title = "KMS"
 	o.Info.Description = "The KMS allows you to perform all the operations that you do with our applications. " +

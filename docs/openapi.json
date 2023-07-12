@@ -14,11 +14,11 @@
   "servers": [
     {
       "description": "Local",
-      "url": "http://localhost:4001"
+      "url": "http://127.1.1.1:4001"
     }
   ],
   "paths": {
-    "/src/akademi": {
+    "/api/v1/akademi": {
       "post": {
         "description": "Use this method to create Akademi",
         "parameters": [
@@ -140,7 +140,7 @@
         ]
       }
     },
-    "/src/akademi/{id}": {
+    "/api/v1/akademi/{id}": {
       "get": {
         "description": "Use this method to get Akademi by id",
         "parameters": [
@@ -397,7 +397,7 @@
         ]
       }
     },
-    "/src/jenis_pengetahuan": {
+    "/api/v1/jenis_pengetahuan": {
       "post": {
         "description": "Use this method to create JenisPengetahuan",
         "parameters": [
@@ -519,7 +519,7 @@
         ]
       }
     },
-    "/src/jenis_pengetahuan/{id}": {
+    "/api/v1/jenis_pengetahuan/{id}": {
       "get": {
         "description": "Use this method to get JenisPengetahuan by id",
         "parameters": [
@@ -776,7 +776,7 @@
         ]
       }
     },
-    "/src/kompetensi": {
+    "/api/v1/kompetensi": {
       "post": {
         "description": "Use this method to create Kompetensi",
         "parameters": [
@@ -898,7 +898,7 @@
         ]
       }
     },
-    "/src/kompetensi/{id}": {
+    "/api/v1/kompetensi/{id}": {
       "get": {
         "description": "Use this method to get Kompetensi by id",
         "parameters": [
@@ -1155,7 +1155,7 @@
         ]
       }
     },
-    "/src/lingkup_pengetahuan": {
+    "/api/v1/lingkup_pengetahuan": {
       "post": {
         "description": "Use this method to create LingkupPengetahuan",
         "parameters": [
@@ -1277,7 +1277,7 @@
         ]
       }
     },
-    "/src/lingkup_pengetahuan/{id}": {
+    "/api/v1/lingkup_pengetahuan/{id}": {
       "get": {
         "description": "Use this method to get LingkupPengetahuan by id",
         "parameters": [
@@ -1534,7 +1534,7 @@
         ]
       }
     },
-    "/src/orang": {
+    "/api/v1/orang": {
       "post": {
         "description": "Use this method to create Orang",
         "parameters": [
@@ -1656,7 +1656,7 @@
         ]
       }
     },
-    "/src/orang/{id}": {
+    "/api/v1/orang/{id}": {
       "get": {
         "description": "Use this method to get Orang by id",
         "parameters": [
@@ -1913,7 +1913,7 @@
         ]
       }
     },
-    "/src/pengetahuan": {
+    "/api/v1/pengetahuan": {
       "post": {
         "description": "Use this method to create Pengetahuan",
         "parameters": [
@@ -2035,7 +2035,7 @@
         ]
       }
     },
-    "/src/pengetahuan/{id}": {
+    "/api/v1/pengetahuan/{id}": {
       "get": {
         "description": "Use this method to get Pengetahuan by id",
         "parameters": [
@@ -2292,7 +2292,7 @@
         ]
       }
     },
-    "/src/referensi": {
+    "/api/v1/referensi": {
       "post": {
         "description": "Use this method to create Referensi",
         "parameters": [
@@ -2414,7 +2414,7 @@
         ]
       }
     },
-    "/src/referensi/{id}": {
+    "/api/v1/referensi/{id}": {
       "get": {
         "description": "Use this method to get Referensi by id",
         "parameters": [
@@ -2671,7 +2671,7 @@
         ]
       }
     },
-    "/src/status_pengetahuan": {
+    "/api/v1/status_pengetahuan": {
       "post": {
         "description": "Use this method to create StatusPengetahuan",
         "parameters": [
@@ -2793,7 +2793,7 @@
         ]
       }
     },
-    "/src/status_pengetahuan/{id}": {
+    "/api/v1/status_pengetahuan/{id}": {
       "get": {
         "description": "Use this method to get StatusPengetahuan by id",
         "parameters": [
@@ -3050,7 +3050,7 @@
         ]
       }
     },
-    "/src/subjenis_pengetahuan": {
+    "/api/v1/subjenis_pengetahuan": {
       "post": {
         "description": "Use this method to create SubjenisPengetahuan",
         "parameters": [
@@ -3172,7 +3172,7 @@
         ]
       }
     },
-    "/src/subjenis_pengetahuan/{id}": {
+    "/api/v1/subjenis_pengetahuan/{id}": {
       "get": {
         "description": "Use this method to get SubjenisPengetahuan by id",
         "parameters": [
@@ -3429,7 +3429,7 @@
         ]
       }
     },
-    "/src/tag": {
+    "/api/v1/tag": {
       "post": {
         "description": "Use this method to create Tag",
         "parameters": [
@@ -3551,7 +3551,7 @@
         ]
       }
     },
-    "/src/tag/{id}": {
+    "/api/v1/tag/{id}": {
       "get": {
         "description": "Use this method to get Tag by id",
         "parameters": [
@@ -3808,7 +3808,7 @@
         ]
       }
     },
-    "/src/user": {
+    "/api/v1/user": {
       "post": {
         "description": "Use this method to create User",
         "parameters": [
@@ -3930,7 +3930,7 @@
         ]
       }
     },
-    "/src/user/{id}": {
+    "/api/v1/user/{id}": {
       "get": {
         "description": "Use this method to get User by id",
         "parameters": [
