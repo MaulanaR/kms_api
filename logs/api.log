@@ -1,0 +1,54 @@
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:10:21+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:10:21+07:00","message":"Cache configured with redis."}
+{"level":"fatal","error":"dial tcp 127.0.0.1:3008: connectex: No connection could be made because the target machine actively refused it.","driver":"mysql","host":"127.0.0.1","port":3008,"user":"root","password":"secret","db_name":"db_kms","time":"2023-07-07T11:10:23+07:00","message":"Failed to connect to main DB"}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:10:58+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:10:58+07:00","message":"Cache configured with redis."}
+{"level":"fatal","error":"dial tcp 127.0.0.1:3008: connectex: No connection could be made because the target machine actively refused it.","driver":"mysql","host":"127.0.0.1","port":3008,"user":"root","password":"","db_name":"db_kms","time":"2023-07-07T11:11:00+07:00","message":"Failed to connect to main DB"}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:14:48+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:14:48+07:00","message":"Cache configured with redis."}
+{"level":"fatal","error":"dial tcp 127.0.0.1:3008: connectex: No connection could be made because the target machine actively refused it.","driver":"mysql","host":"127.0.0.1","port":3008,"user":"root","password":"","db_name":"db_kms","time":"2023-07-07T11:14:50+07:00","message":"Failed to connect to main DB"}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:15:46+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:15:46+07:00","message":"Cache configured with redis."}
+{"level":"fatal","error":"dial tcp 127.0.0.1:3008: connectex: No connection could be made because the target machine actively refused it.","driver":"mysql","host":"127.0.0.1","port":3008,"user":"root","password":"","db_name":"db_kms","time":"2023-07-07T11:15:48+07:00","message":"Failed to connect to main DB"}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:16:21+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:16:21+07:00","message":"Cache configured with redis."}
+{"level":"fatal","error":"Error 1832 (HY000): Cannot change column 'id_pengetahuan': used in a foreign key constraint 'fk_pengetahuan_kapitalisasi_pengetahuan'","time":"2023-07-07T11:16:21+07:00"}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:31:29+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:31:29+07:00","message":"Cache configured with redis."}
+{"level":"fatal","error":"Error 1832 (HY000): Cannot change column 'id_subjenis_pengetahuan': used in a foreign key constraint 'fk_subjenis_pengetahuan'","time":"2023-07-07T11:31:29+07:00"}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T11:36:20+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T11:36:20+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T14:12:12+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T14:12:12+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T14:17:53+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T14:17:53+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T14:19:03+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T14:19:03+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T14:49:46+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T14:49:46+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T14:51:14+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T14:51:14+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T14:59:00+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T14:59:00+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T15:06:31+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T15:06:31+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T15:19:03+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T15:19:03+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T15:53:39+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T15:53:39+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T15:56:10+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T15:56:10+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-07T16:07:50+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-07T16:07:50+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-10T22:47:47+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-10T22:47:47+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-10T22:56:56+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-10T22:56:56+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-10T23:02:54+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-10T23:02:54+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-10T23:33:13+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-10T23:33:13+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-10T23:39:54+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-10T23:39:54+07:00","message":"Cache configured with redis."}
+{"level":"info","LOG_CONSOLE_ENABLED":true,"LOG_FILE_ENABLED":true,"LOG_FILE_FILENAME":"logs/api.log","LOG_FILE_MAX_SIZE":100,"LOG_FILE_MAX_AGE":7,"LOG_FILE_MAX_BACKUPS":0,"time":"2023-07-10T23:52:19+07:00","message":"Logging configured"}
+{"level":"info","time":"2023-07-10T23:52:19+07:00","message":"Cache configured with redis."}
