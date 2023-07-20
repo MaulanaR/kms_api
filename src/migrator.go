@@ -2,6 +2,7 @@ package src
 
 import (
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
@@ -53,6 +54,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTugas{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanReferensi{})
 	app.DB().RegisterTable("main", referensi.Referensi{})
+	app.DB().RegisterTable("main", accesstoken.AccessToken{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

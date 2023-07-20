@@ -13,11 +13,33 @@ import (
 const CtxKey = "ctx"
 
 type Ctx struct {
-	Lang   string // language code
-	Action Action // general request info
-
+	Lang    string   // language code
+	Action  Action   // general request info
+	User    User     //user login
+	Token   Token    //token
 	IsAsync bool     // for async use, autocommit
 	mainTx  *gorm.DB // for normal use, commit & rollback from middleware
+}
+
+type User struct {
+	ID           int64  `json:"id" db:"id_user"`
+	OrangId      int64  `json:"orang.id" db:"-"`
+	OrangNama    string `json:"orang.nama" db:"-"`
+	OrangJabatan string `json:"orang.jabatan" db:"-"`
+	OrangFoto    string `json:"orang.foto" db:"-"`
+	Username     string `json:"username" db:"username"`
+	Jenis        string `json:"jenis" db:"jenis"`
+	Password     string `json:"password" db:"password"`
+	Nip          string `json:"nip" db:"nip"`
+	Jabatan      string `json:"jabatan" db:"jabatan"`
+}
+
+type Token struct {
+	AccessToken NullString   `json:"access_token"       db:"m.access_token"    gorm:"column:access_token;PrimaryKey"`
+	ExpiredAt   NullDateTime `json:"expired_at"         db:"m.expired_at"      gorm:"column:expired_at"`
+	UserId      NullInt64    `json:"user.id"            db:"m.user_id"         gorm:"column:user_id"`
+	IpAddress   NullString   `json:"ip_address"         db:"m.ip_address"      gorm:"column:ip_address"`
+	CreatedAt   NullDateTime `json:"created_at"         db:"m.created_at"      gorm:"column:created_at"`
 }
 
 type Action struct {

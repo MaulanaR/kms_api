@@ -14,10 +14,75 @@
   "servers": [
     {
       "description": "Local",
-      "url": "http://127.1.1.1:4001"
+      "url": "http://127.0.0.1:4001"
     }
   ],
   "paths": {
+    "/api/login": {
+      "post": {
+        "description": "Use this method to start login session",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Login Session",
+        "tags": [
+          "Login"
+        ]
+      }
+    },
     "/api/v1/akademi": {
       "post": {
         "description": "Use this method to create Akademi",
@@ -4226,6 +4291,67 @@
       }
     },
     "schemas": {
+      "": {
+        "properties": {},
+        "type": "object"
+      },
+      "AccessToken": {
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expired_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "ip_address": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "user": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "jabatan": {
+                "type": "string"
+              },
+              "jenis": {
+                "type": "string"
+              },
+              "nip": {
+                "type": "string"
+              },
+              "orang": {
+                "id": {
+                  "type": "integer"
+                },
+                "properties": {
+                  "jabatan": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "password": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
       "Akademi": {
         "properties": {
           "created_at": {
@@ -5843,6 +5969,9 @@
     },
     {
       "name": "Referensi"
+    },
+    {
+      "name": "Login"
     }
   ],
   "externalDocs": {

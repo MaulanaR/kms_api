@@ -60,7 +60,7 @@ var (
 	DB_MAX_OPEN_CONNS    = 0
 	DB_MAX_IDLE_CONNS    = 5
 	DB_CONN_MAX_LIFETIME = time.Hour // on .env = "1h". Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h".
-	DB_IS_DEBUG          = false
+	DB_IS_DEBUG          = true
 
 	REDIS_HOST      = "127.0.0.1"
 	REDIS_PORT      = "6379"

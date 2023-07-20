@@ -12,7 +12,7 @@ type User struct {
 	OrangFoto    app.NullString   `json:"orang.foto"    db:"o.foto"            gorm:"-"`
 	Username     app.NullString   `json:"username"      db:"m.username"        gorm:"column:username"`
 	Jenis        app.NullString   `json:"jenis"         db:"m.jenis"           gorm:"column:jenis"`
-	Password     app.NullString   `json:"password"      db:"m.password"        gorm:"column:password"`
+	Password     app.NullString   `json:"password"      db:"m.password,hide"   gorm:"column:password"`
 	Nip          app.NullString   `json:"nip"           db:"m.nip"             gorm:"column:nip"`
 	Jabatan      app.NullString   `json:"jabatan"       db:"m.jabatan"         gorm:"column:jabatan"`
 	CreatedAt    app.NullDateTime `json:"created_at"    db:"m.created_at"      gorm:"column:created_at"`

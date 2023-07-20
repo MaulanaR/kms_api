@@ -28,6 +28,7 @@ func (*dbHandler) New(c *fiber.Ctx) error {
 	err := c.Next()
 	if err != nil || (c.Response().StatusCode() >= http.StatusBadRequest || c.Response().StatusCode() < http.StatusOK) {
 		ctx.TxRollback()
+		return err
 	} else {
 		ctx.TxCommit()
 	}

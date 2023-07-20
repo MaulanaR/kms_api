@@ -9,5 +9,7 @@ func IdID() map[string]string {
 		"500_internal_error":           "Gagal terhubung ke server, silakan coba lagi nanti.",
 		"invalid_username_or_password": "Username atau kata sandi tidak valid",
 		"unique":                       ":attribute (:value) sudah ada dan tidak bisa digunakan lagi.",
+		"username_wrong":               "Username tidak ditemukan.",
+		"password_wrong":               "Username/Password tidak sesuai.",
 	}
 }

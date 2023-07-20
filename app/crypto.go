@@ -1,6 +1,8 @@
 package app
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"strings"
 	"time"
 
@@ -36,6 +38,14 @@ func (c *cryptoUtil) configure() {
 	c.Salt = CRYPTO_SALT
 	c.Info = CRYPTO_INFO
 	c.JWTKey = JWT_KEY
+}
+
+func (c *cryptoUtil) GenerateAccessToken(length int) string {
+	b := make([]byte, length)
+	if _, err := rand.Read(b); err != nil {
+		return ""
+	}
+	return hex.EncodeToString(b)
 }
 
 // NewToken generates a new token using UUID.

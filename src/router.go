@@ -2,6 +2,7 @@ package src
 
 import (
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
@@ -110,6 +111,8 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/referensi/{id}", "PUT", referensi.REST().UpdateByID, referensi.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/referensi/{id}", "PATCH", referensi.REST().PartiallyUpdateByID, referensi.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/referensi/{id}", "DELETE", referensi.REST().DeleteByID, referensi.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/login", "POST", accesstoken.REST().Login, accesstoken.OpenAPI().Create())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

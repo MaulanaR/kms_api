@@ -759,7 +759,7 @@ func (q *DBQuery) SetSelect(db *gorm.DB, schema map[string]any, query url.Values
 			}
 			f, _ := fields[k]
 			field, ok := f["db"].(string)
-			isHide, _ := f["isHide"].(bool)
+			isHide, ok := f["isHide"].(bool)
 			if ok && !isHide {
 				selectedFields = q.addSelect(selectedFields, field, k)
 			}

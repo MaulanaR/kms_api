@@ -9,9 +9,7 @@ import (
 func Scheduler() *schedulerUtil {
 	if scheduler == nil {
 		scheduler = &schedulerUtil{}
-		if app.APP_ENV == "local" || app.IS_MAIN_SERVER {
-			scheduler.Configure()
-		}
+		scheduler.Configure()
 		scheduler.isConfigured = true
 	}
 	return scheduler
@@ -27,7 +25,7 @@ func (s *schedulerUtil) Configure() {
 	c := cron.New()
 
 	// add scheduler func here, for example :
-	// c.AddFunc("CRON_TZ=Asia/Jakarta 5 0 * * *", app.Auth().RemoveExpiredToken)
+	c.AddFunc("CRON_TZ=Asia/Jakarta * * * * *", app.RemoveExpiredToken)
 
 	c.Start()
 }

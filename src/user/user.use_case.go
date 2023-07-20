@@ -87,10 +87,10 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 	// get from cache and return if exists
 	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
-	err = app.Cache().Get(cacheKey, &res)
-	if err == nil {
-		return res, err
-	}
+	// err = app.Cache().Get(cacheKey, &res)
+	// if err == nil {
+	// 	return res, err
+	// }
 
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()

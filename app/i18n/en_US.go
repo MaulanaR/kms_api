@@ -9,5 +9,7 @@ func EnUS() map[string]string {
 		"500_internal_error":           "Failed to connect to the server, please try again later.",
 		"invalid_username_or_password": "Invalid username or password",
 		"unique":                       ":attribute (:value) sudah ada dan tidak bisa digunakan lagi.",
+		"username_wrong":               "Username is not found.",
+		"password_wrong":               "Username/Password not valid.",
 	}
 }

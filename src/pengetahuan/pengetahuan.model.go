@@ -22,11 +22,11 @@ type Pengetahuan struct {
 	Penulis1Nama           app.NullString                                     `json:"penulis_1.nama"           db:"p1.nama"                             gorm:"-"`
 	Penulis1Jabatan        app.NullString                                     `json:"penulis_1.jabatan"        db:"p1.jabatan"                          gorm:"-"`
 	Penulis1Foto           app.NullString                                     `json:"penulis_1.foto"           db:"p1.foto"                             gorm:"-"`
-	Penulis2ID             app.NullInt64                                      `json:"penulis_2.id"                db:"m.penulis_2"                         gorm:"column:penulis_2"`
+	Penulis2ID             app.NullInt64                                      `json:"penulis_2.id"             db:"m.penulis_2"                         gorm:"column:penulis_2"`
 	Penulis2Nama           app.NullString                                     `json:"penulis_2.nama"           db:"p2.nama"                             gorm:"-"`
 	Penulis2Jabatan        app.NullString                                     `json:"penulis_2.jabatan"        db:"p2.jabatan"                          gorm:"-"`
 	Penulis2Foto           app.NullString                                     `json:"penulis_2.foto"           db:"p2.foto"                             gorm:"-"`
-	Penulis3ID             app.NullInt64                                      `json:"penulis_3.id"                db:"m.penulis_3"                         gorm:"column:penulis_3"`
+	Penulis3ID             app.NullInt64                                      `json:"penulis_3.id"             db:"m.penulis_3"                         gorm:"column:penulis_3"`
 	Penulis3Nama           app.NullString                                     `json:"penulis_3.nama"           db:"p3.nama"                             gorm:"-"`
 	Penulis3Jabatan        app.NullString                                     `json:"penulis_3.jabatan"        db:"p3.jabatan"                          gorm:"-"`
 	Penulis3Foto           app.NullString                                     `json:"penulis_3.foto"           db:"p3.foto"                             gorm:"-"`
@@ -52,24 +52,24 @@ type Pengetahuan struct {
 	Kompetensi             []tpengetahuanrelation.TPengetahuanKompetensi      `json:"kompetensi"               db:"tpkompetensi.id_pengetahuan=id"      gorm:"-"`
 	//jenis
 	//tugas
-	Tujuan         app.NullText `json:"tujuan"          db:"tptugas.tujuan"               gorm:"-"`
-	DasarHukum     app.NullText `json:"dasar_hukum"     db:"tptugas.dasar_hukum"          gorm:"-"`
-	ProsesBisnis   app.NullText `json:"proses_bisnis"   db:"tptugas.proses_bisnis"        gorm:"-"`
-	RumusanMasalah app.NullText `json:"rumusan_masalah" db:"tptugas.rumusan_masalah"      gorm:"-"`
-	PenyebabTemuan app.NullText `json:"penyebab_temuan" db:"tptugas.penyebab_temuan"      gorm:"-"`
-	Keahlian       app.NullText `json:"keahlian"        db:"tptugas.keahlian"             gorm:"-"`
-	KebutuhanData  app.NullText `json:"kebutuhan_data"  db:"tptugas.kebutuhan_data"       gorm:"-"`
-	TenagaAhli     app.NullText `json:"tenaga_ahli"     db:"tptugas.tenaga_ahli"          gorm:"-"`
-	Pedoman        app.NullText `json:"pedoman"         db:"tptugas.pedoman"              gorm:"-"`
+	Tujuan         app.NullText `json:"tujuan"                   db:"tptugas.tujuan"                      gorm:"-"`
+	DasarHukum     app.NullText `json:"dasar_hukum"              db:"tptugas.dasar_hukum"                 gorm:"-"`
+	ProsesBisnis   app.NullText `json:"proses_bisnis"            db:"tptugas.proses_bisnis"               gorm:"-"`
+	RumusanMasalah app.NullText `json:"rumusan_masalah"          db:"tptugas.rumusan_masalah"             gorm:"-"`
+	PenyebabTemuan app.NullText `json:"penyebab_temuan"          db:"tptugas.penyebab_temuan"             gorm:"-"`
+	Keahlian       app.NullText `json:"keahlian"                 db:"tptugas.keahlian"                    gorm:"-"`
+	KebutuhanData  app.NullText `json:"kebutuhan_data"           db:"tptugas.kebutuhan_data"              gorm:"-"`
+	TenagaAhli     app.NullText `json:"tenaga_ahli"              db:"tptugas.tenaga_ahli"                 gorm:"-"`
+	Pedoman        app.NullText `json:"pedoman"                  db:"tptugas.pedoman"                     gorm:"-"`
 	//Kiat
-	Masalah        app.NullText `json:"masalah"         db:"tpkiat.masalah"             gorm:"-"`
-	Dampak         app.NullText `json:"dampak"          db:"tpkiat.dampak"              gorm:"-"`
-	Penyebab       app.NullText `json:"penyebab"        db:"tpkiat.penyebab"            gorm:"-"`
-	Solusi         app.NullText `json:"solusi"          db:"tpkiat.solusi"              gorm:"-"`
-	HasilPerbaikan app.NullText `json:"hasil_perbaikan" db:"tpkiat.hasil_perbaikan"     gorm:"-"`
+	Masalah        app.NullText `json:"masalah"                  db:"tpkiat.masalah"                      gorm:"-"`
+	Dampak         app.NullText `json:"dampak"                   db:"tpkiat.dampak"                       gorm:"-"`
+	Penyebab       app.NullText `json:"penyebab"                 db:"tpkiat.penyebab"                     gorm:"-"`
+	Solusi         app.NullText `json:"solusi"                   db:"tpkiat.solusi"                       gorm:"-"`
+	HasilPerbaikan app.NullText `json:"hasil_perbaikan"          db:"tpkiat.hasil_perbaikan"              gorm:"-"`
 	//kapitalisasi
-	Diskusi app.NullText `json:"diskusi"        db:"tpk.diskusi"                     gorm:"-"`
-	Kapus   app.NullText `json:"kapus"          db:"tpk.kapus"                       gorm:"-"`
+	Diskusi app.NullText `json:"diskusi"                  db:"tpk.diskusi"                         gorm:"-"`
+	Kapus   app.NullText `json:"kapus"                    db:"tpk.kapus"                           gorm:"-"`
 }
 
 // EndPoint returns the Pengetahuan end point, it used for cache key, etc.

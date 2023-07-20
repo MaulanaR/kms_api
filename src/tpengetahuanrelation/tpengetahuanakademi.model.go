@@ -501,10 +501,10 @@ func (p *TPengetahuanTugasList) GetOpenAPISchema() map[string]any {
 // pengetahuan referensi
 type TPengetahuanReferensi struct {
 	app.Model
-	ID            app.NullInt64 `json:"-"              db:"tpref.id_pengetahuan_referensi"  gorm:"column:id_pengetahuan_referensi;primaryKey"`
-	PengetahuanID app.NullInt64 `json:"pengetahuan.id" db:"tpref.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	ReferensiID   app.NullInt64 `json:"id"             db:"tpref.id_referensi"              gorm:"column:id_referensi"`
-	ReferensiNama app.NullText  `json:"nama"           db:"mref.nama_referensi"              gorm:"-"`
+	ID            app.NullInt64 `json:"-"              db:"tpref.id_pengetahuan_referensi" gorm:"column:id_pengetahuan_referensi;primaryKey"`
+	PengetahuanID app.NullInt64 `json:"pengetahuan.id" db:"tpref.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
+	ReferensiID   app.NullInt64 `json:"id"             db:"tpref.id_referensi"             gorm:"column:id_referensi"`
+	ReferensiNama app.NullText  `json:"nama"           db:"mref.nama_referensi"            gorm:"-"`
 }
 
 func (TPengetahuanReferensi) EndPoint() string {
