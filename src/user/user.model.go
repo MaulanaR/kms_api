@@ -5,19 +5,23 @@ import "github.com/maulanar/kms/app"
 // User is the main model of User data. It provides a convenient interface for app.ModelInterface
 type User struct {
 	app.Model
-	ID           app.NullInt64    `json:"id"            db:"m.id_user"         gorm:"column:id_user;primaryKey"`
-	OrangId      app.NullInt64    `json:"orang.id"      db:"m.id_orang"        gorm:"column:id_orang"`
-	OrangNama    app.NullString   `json:"orang.nama"    db:"o.nama"            gorm:"-"`
-	OrangJabatan app.NullString   `json:"orang.jabatan" db:"o.jabatan"         gorm:"-"`
-	OrangFoto    app.NullString   `json:"orang.foto"    db:"o.foto"            gorm:"-"`
-	Username     app.NullString   `json:"username"      db:"m.username"        gorm:"column:username"`
-	Jenis        app.NullString   `json:"jenis"         db:"m.jenis"           gorm:"column:jenis"`
-	Password     app.NullString   `json:"password"      db:"m.password,hide"   gorm:"column:password"`
-	Nip          app.NullString   `json:"nip"           db:"m.nip"             gorm:"column:nip"`
-	Jabatan      app.NullString   `json:"jabatan"       db:"m.jabatan"         gorm:"column:jabatan"`
-	CreatedAt    app.NullDateTime `json:"created_at"    db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt    app.NullDateTime `json:"updated_at"    db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt    app.NullDateTime `json:"deleted_at"    db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	ID                 app.NullInt64    `json:"id"             db:"m.id_user"         gorm:"column:id_user;primaryKey"`
+	OrangId            app.NullInt64    `json:"orang.id"       db:"m.id_orang,hide"   gorm:"column:id_orang"`
+	OrangNama          app.NullString   `json:"nama_lengkap"   db:"o.nama"            gorm:"-"`
+	OrangNamaPanggilan app.NullString   `json:"nama_panggilan" db:"o.nama_panggilan"  gorm:"-"`
+	OrangJabatan       app.NullString   `json:"jabatan"        db:"o.jabatan"         gorm:"-"`
+	OrangEmail         app.NullString   `json:"email"          db:"o.email"           gorm:"-"`
+	OrangFoto          app.NullString   `json:"foto"           db:"o.foto"            gorm:"-"`
+	OrangUnitKerja     app.NullString   `json:"unit_kerja"     db:"o.unit_kerja"      gorm:"-"`
+	OrangUserLevel     app.NullString   `json:"user_level"     db:"o.user_level"      gorm:"-"`
+	OrangStatusLevel   app.NullString   `json:"status_level"   db:"o.status_level"    gorm:"-"`
+	OrangNip           app.NullString   `json:"nip"            db:"o.nip"             gorm:"-"`
+	Username           app.NullString   `json:"username"       db:"m.username"        gorm:"column:username"`
+	Jenis              app.NullString   `json:"jenis"          db:"m.jenis"           gorm:"column:jenis"`
+	Password           app.NullString   `json:"password"       db:"m.password,hide"   gorm:"column:password"`
+	CreatedAt          app.NullDateTime `json:"created_at"     db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt          app.NullDateTime `json:"updated_at"     db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt          app.NullDateTime `json:"deleted_at"     db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the User end point, it used for cache key, etc.
@@ -28,7 +32,7 @@ func (User) EndPoint() string {
 // TableVersion returns the versions of the User table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (User) TableVersion() string {
-	return "28.06.291154"
+	return "28.07.011154"
 }
 
 // TableName returns the name of the User table in the database.
@@ -97,6 +101,8 @@ func (p *UserList) GetOpenAPISchema() map[string]any {
 // ParamCreate is the expected parameters for create a new User data.
 type ParamCreate struct {
 	UseCaseHandler
+	Username app.NullString `json:"username" db:"m.username"      gorm:"column:username" validate:"required"`
+	Password app.NullString `json:"password" db:"m.password,hide" gorm:"column:password" validate:"required"`
 }
 
 // ParamUpdate is the expected parameters for update the User data.

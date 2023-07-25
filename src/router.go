@@ -4,6 +4,7 @@ import (
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
+	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
@@ -33,7 +34,7 @@ type routerUtil struct {
 }
 
 func (r *routerUtil) Configure() {
-	app.Server().AddRoute("/api/version", "GET", app.VersionHandler, nil)
+	app.Server().AddRoute("/api/v1/version", "GET", app.VersionHandler, nil)
 
 	app.Server().AddRoute("/api/v1/user", "POST", user.REST().Create, user.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/user", "GET", user.REST().Get, user.OpenAPI().Get())
@@ -112,7 +113,12 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/referensi/{id}", "PATCH", referensi.REST().PartiallyUpdateByID, referensi.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/referensi/{id}", "DELETE", referensi.REST().DeleteByID, referensi.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/login", "POST", accesstoken.REST().Login, accesstoken.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/login", "POST", accesstoken.REST().Login, accesstoken.OpenAPI().Create())
+
+	app.Server().AddRoute("/api/v1/attachments", "POST", attachment.REST().Create, attachment.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/attachments", "GET", attachment.REST().Get, attachment.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/attachments/{id}", "GET", attachment.REST().GetByID, attachment.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/attachments/{id}", "DELETE", attachment.REST().DeleteByID, attachment.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

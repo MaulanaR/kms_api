@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"net/http"
+	"path"
 	"strings"
 	"time"
 
@@ -76,13 +77,23 @@ func (auth *authHandler) ValidateAuth(c *fiber.Ctx) error {
 }
 
 func (auth *authHandler) IsNeedValidate() bool {
-	path := auth.FiberCtx.Path()
+	urlPath := auth.FiberCtx.Path()
 	// method := auth.FiberCtx.Method()
+	cleanedPath := path.Clean(urlPath)
 
-	// legacy
-	switch path {
-	case "/api/login", "/api/version":
-		return false
+	// Split the cleaned path into segments
+	segments := strings.Split(cleanedPath, "/")
+
+	if len(segments) >= 4 {
+		if segments[1] != "api" || segments[2] == "docs" {
+			return false
+		}
+
+		switch segments[3] {
+		case "login", "version", "docs":
+			return false
+		}
+
 	}
 
 	// // check login, login pake jwt

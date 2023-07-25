@@ -1,6 +1,8 @@
 package app
 
 import (
+	"fmt"
+
 	enLocale "github.com/go-playground/locales/en"
 	idLocale "github.com/go-playground/locales/id"
 	enTranslation "github.com/go-playground/validator/v10/translations/en"
@@ -8,20 +10,23 @@ import (
 	"grest.dev/grest"
 )
 
+// validator is a pointer to a validatorUtil instance.
+// It is used to store and access the singleton instance of validatorUtil.
+var validator *validatorUtil
+
 // Validator returns a pointer to the validatorUtil instance (validator).
 // If validator is not initialized, it creates a new validatorUtil instance, configures it, and assigns it to validator.
 // It ensures that only one instance of validatorUtil is created and reused.
 func Validator() *validatorUtil {
+	fmt.Println(validator)
 	if validator == nil {
 		validator = &validatorUtil{}
 		validator.configure()
+		fmt.Println(validator)
+
 	}
 	return validator
 }
-
-// validator is a pointer to a validatorUtil instance.
-// It is used to store and access the singleton instance of validatorUtil.
-var validator *validatorUtil
 
 // validatorUtil represents a validator utility.
 // It embeds grest.Validator, indicating that validatorUtil inherits from grest.Validator.
@@ -47,4 +52,5 @@ func (v *validatorUtil) configure() {
 	v.RegisterTranslator("en", enLocale.New(), enTranslation.RegisterDefaultTranslations)
 	v.RegisterTranslator("id", idLocale.New(), idTranslation.RegisterDefaultTranslations)
 	v.RegisterTranslator("id-ID", idLocale.New(), idTranslation.RegisterDefaultTranslations)
+	v.RegisterTranslator("en-EN", idLocale.New(), idTranslation.RegisterDefaultTranslations)
 }

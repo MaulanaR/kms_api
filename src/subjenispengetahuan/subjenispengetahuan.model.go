@@ -97,6 +97,7 @@ type ParamCreate struct {
 // ParamUpdate is the expected parameters for update the SubjenisPengetahuan data.
 type ParamUpdate struct {
 	UseCaseHandler
+	Nama app.NullText `json:"nama" db:"m.nama_subjenis_pengetahuan" gorm:"column:nama_subjenis_pengetahuan" validate:"required"`
 }
 
 // ParamPartiallyUpdate is the expected parameters for partially update the SubjenisPengetahuan data.

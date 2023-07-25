@@ -18,71 +18,6 @@
     }
   ],
   "paths": {
-    "/api/login": {
-      "post": {
-        "description": "Use this method to start login session",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccessToken"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Login Session",
-        "tags": [
-          "Login"
-        ]
-      }
-    },
     "/api/v1/akademi": {
       "post": {
         "description": "Use this method to create Akademi",
@@ -459,6 +394,253 @@
         "summary": "Delete Akademi By ID",
         "tags": [
           "Akademi"
+        ]
+      }
+    },
+    "/api/v1/attachments": {
+      "post": {
+        "description": "Use this method to create Attachment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Attachment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Attachment",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of Attachment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Attachment",
+        "tags": [
+          "Attachment"
+        ]
+      }
+    },
+    "/api/v1/attachments/{id}": {
+      "get": {
+        "description": "Use this method to get Attachment by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Attachment By ID",
+        "tags": [
+          "Attachment"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete Attachment by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Attachment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attachment"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete Attachment By ID",
+        "tags": [
+          "Attachment"
         ]
       }
     },
@@ -1596,6 +1778,71 @@
         "summary": "Delete LingkupPengetahuan By ID",
         "tags": [
           "LingkupPengetahuan"
+        ]
+      }
+    },
+    "/api/v1/login": {
+      "post": {
+        "description": "Use this method to start login session",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessToken"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Login Session",
+        "tags": [
+          "Login"
         ]
       }
     },
@@ -4291,10 +4538,6 @@
       }
     },
     "schemas": {
-      "": {
-        "properties": {},
-        "type": "object"
-      },
       "AccessToken": {
         "properties": {
           "access_token": {
@@ -4317,6 +4560,12 @@
           },
           "user": {
             "properties": {
+              "email": {
+                "type": "string"
+              },
+              "foto": {
+                "type": "string"
+              },
               "id": {
                 "type": "integer"
               },
@@ -4326,21 +4575,25 @@
               "jenis": {
                 "type": "string"
               },
+              "nama_lengkap": {
+                "type": "string"
+              },
+              "nama_panggilan": {
+                "type": "string"
+              },
               "nip": {
                 "type": "string"
               },
-              "orang": {
-                "id": {
-                  "type": "integer"
-                },
-                "properties": {
-                  "jabatan": {
-                    "type": "string"
-                  }
-                },
-                "type": "object"
-              },
               "password": {
+                "type": "string"
+              },
+              "status_level": {
+                "type": "string"
+              },
+              "unit_kerja": {
+                "type": "string"
+              },
+              "user_level": {
                 "type": "string"
               },
               "username": {
@@ -4422,6 +4675,116 @@
                 },
                 "updated_at": {
                   "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "Attachment": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "extension": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "storage_location": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AttachmentList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "extension": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                },
+                "filename": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "storage_location": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "url": {
                   "type": "string"
                 }
               },
@@ -4729,6 +5092,17 @@
         },
         "type": "object"
       },
+      "Login": {
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "Orang": {
         "properties": {
           "created_at": {
@@ -4740,6 +5114,10 @@
           },
           "deleted_by": {
             "type": "integer"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
           },
           "foto": {
             "type": "string"
@@ -4753,12 +5131,27 @@
           "nama": {
             "type": "string"
           },
+          "nama_panggilan": {
+            "type": "string"
+          },
+          "nip": {
+            "type": "string"
+          },
+          "status_level": {
+            "type": "string"
+          },
+          "unit_kerja": {
+            "type": "string"
+          },
           "updated_at": {
             "format": "date-time",
             "type": "string"
           },
           "updated_by": {
             "type": "integer"
+          },
+          "user_level": {
+            "type": "string"
           }
         },
         "type": "object"
@@ -4812,6 +5205,10 @@
                 "deleted_by": {
                   "type": "integer"
                 },
+                "email": {
+                  "format": "email",
+                  "type": "string"
+                },
                 "foto": {
                   "type": "string"
                 },
@@ -4824,12 +5221,27 @@
                 "nama": {
                   "type": "string"
                 },
+                "nama_panggilan": {
+                  "type": "string"
+                },
+                "nip": {
+                  "type": "string"
+                },
+                "status_level": {
+                  "type": "string"
+                },
+                "unit_kerja": {
+                  "type": "string"
+                },
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
                 },
                 "updated_by": {
                   "type": "integer"
+                },
+                "user_level": {
+                  "type": "string"
                 }
               },
               "type": "object"
@@ -5791,6 +6203,12 @@
             "format": "date-time",
             "type": "string"
           },
+          "email": {
+            "type": "string"
+          },
+          "foto": {
+            "type": "string"
+          },
           "id": {
             "type": "integer"
           },
@@ -5800,31 +6218,26 @@
           "jenis": {
             "type": "string"
           },
+          "nama_lengkap": {
+            "type": "string"
+          },
+          "nama_panggilan": {
+            "type": "string"
+          },
           "nip": {
             "type": "string"
           },
-          "orang": {
-            "properties": {
-              "foto": {
-                "type": "string"
-              },
-              "id": {
-                "type": "integer"
-              },
-              "jabatan": {
-                "type": "string"
-              },
-              "nama": {
-                "type": "string"
-              }
-            },
-            "type": "object"
+          "status_level": {
+            "type": "string"
           },
-          "password": {
+          "unit_kerja": {
             "type": "string"
           },
           "updated_at": {
             "format": "date-time",
+            "type": "string"
+          },
+          "user_level": {
             "type": "string"
           },
           "username": {
@@ -5876,6 +6289,12 @@
                   "format": "date-time",
                   "type": "string"
                 },
+                "email": {
+                  "type": "string"
+                },
+                "foto": {
+                  "type": "string"
+                },
                 "id": {
                   "type": "integer"
                 },
@@ -5885,31 +6304,26 @@
                 "jenis": {
                   "type": "string"
                 },
+                "nama_lengkap": {
+                  "type": "string"
+                },
+                "nama_panggilan": {
+                  "type": "string"
+                },
                 "nip": {
                   "type": "string"
                 },
-                "orang": {
-                  "properties": {
-                    "foto": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "jabatan": {
-                      "type": "string"
-                    },
-                    "nama": {
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
+                "status_level": {
+                  "type": "string"
                 },
-                "password": {
+                "unit_kerja": {
                   "type": "string"
                 },
                 "updated_at": {
                   "format": "date-time",
+                  "type": "string"
+                },
+                "user_level": {
                   "type": "string"
                 },
                 "username": {
@@ -5972,6 +6386,9 @@
     },
     {
       "name": "Login"
+    },
+    {
+      "name": "Attachment"
     }
   ],
   "externalDocs": {

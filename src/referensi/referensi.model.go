@@ -90,6 +90,7 @@ func (p *ReferensiList) GetOpenAPISchema() map[string]any {
 // ParamCreate is the expected parameters for create a new Referensi data.
 type ParamCreate struct {
 	UseCaseHandler
+	NamaReferensi app.NullText `json:"referensi" db:"m.nama_referensi" gorm:"column:nama_referensi" validate:"required"`
 }
 
 // ParamUpdate is the expected parameters for update the Referensi data.

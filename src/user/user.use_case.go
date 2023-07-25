@@ -1,8 +1,10 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strconv"
 	"time"
 
@@ -126,7 +128,6 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 
 // Create creates a new data User with specified parameters.
 func (u UseCaseHandler) Create(p *ParamCreate) error {
-
 	// check permission
 	err := u.Ctx.ValidatePermission("user.create")
 	if err != nil {
@@ -139,7 +140,11 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	// set default value for undefined field
+	// copy same field to param.UsecaseHandler.Model & set default value for undefined field
+	err = copySameField(p, &p.UseCaseHandler.User)
+	if err != nil {
+		return err
+	}
 	err = p.setDefaultValue(User{})
 	if err != nil {
 		return err
@@ -147,11 +152,16 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	//Insert to Orang
 	org := orang.ParamCreate{}
-	org.Nama.Set(p.Username.String)
-	org.Jabatan.Set(p.Jabatan.String)
-	org.Foto.Set("")
+	org.Nama = p.OrangNama
+	org.NamaPanggilan = p.OrangNamaPanggilan
+	org.Jabatan = p.OrangJabatan
+	org.Email = p.OrangEmail
+	org.Foto = p.OrangFoto
 
-	orang.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.Create(&org)
+	err = orang.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.Create(&org)
+	if err != nil {
+		return err
+	}
 
 	p.OrangId.Set(org.ID.Int64)
 	// prepare db for current ctx
@@ -171,6 +181,31 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	// save history (user activity), send webhook, etc
 	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	return nil
+}
+
+func copySameField(source interface{}, dest *User) error {
+	sourceValue := reflect.ValueOf(source)
+	destValue := reflect.ValueOf(dest).Elem()
+
+	if sourceValue.Kind() != reflect.Ptr || sourceValue.IsNil() {
+		return fmt.Errorf("source must be a non-nil pointer to a struct")
+	}
+
+	sourceValue = sourceValue.Elem()
+	if sourceValue.Kind() != reflect.Struct {
+		return fmt.Errorf("source must be a non-nil pointer to a struct")
+	}
+
+	for i := 0; i < sourceValue.NumField(); i++ {
+		sourceField := sourceValue.Field(i)
+		destField := destValue.FieldByName(sourceValue.Type().Field(i).Name)
+
+		if destField.IsValid() && sourceField.Type() == destField.Type() {
+			destField.Set(sourceField)
+		}
+	}
+
 	return nil
 }
 

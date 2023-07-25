@@ -11,5 +11,6 @@ func IdID() map[string]string {
 		"unique":                       ":attribute (:value) sudah ada dan tidak bisa digunakan lagi.",
 		"username_wrong":               "Username tidak ditemukan.",
 		"password_wrong":               "Username/Password tidak sesuai.",
+		"extenstion_not_in":            "Ekstensi file harus salah satu dari: (:value).",
 	}
 }

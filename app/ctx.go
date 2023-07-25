@@ -98,7 +98,8 @@ func (c Ctx) ValidatePermission(aclKey string) error {
 // This method validates the parameters based on struct tag.
 // It returns an error using the language specified in the context (c.Lang) if the validation fails.
 func (c Ctx) ValidateParam(v any) error {
-	return Validator().ValidateStruct(v, c.Lang)
+	err := Validator().ValidateStruct(v, c.Lang)
+	return err
 }
 
 // This method returns the GORM database connection based on the provided connection name (connName).

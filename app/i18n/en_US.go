@@ -11,5 +11,6 @@ func EnUS() map[string]string {
 		"unique":                       ":attribute (:value) sudah ada dan tidak bisa digunakan lagi.",
 		"username_wrong":               "Username is not found.",
 		"password_wrong":               "Username/Password not valid.",
+		"extension_not_in":             "The file extension must be one of the following types: (:value).",
 	}
 }

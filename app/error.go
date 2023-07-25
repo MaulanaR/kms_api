@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -123,10 +124,13 @@ func (errorUtil) Handler(c *fiber.Ctx, err error) error {
 // Recover recovers from a panic during Fiber request processing.
 // It uses a defer statement to catch and recover from panics.
 // Inside the deferred function, there is a placeholder for saving logs and sending alerts.
-func (errorUtil) Recover(c *fiber.Ctx) (err error) {
+func (e errorUtil) Recover(c *fiber.Ctx) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			// todo: save log & send alert to telegram
+			fmt.Println("ERROR", r)
+			fmt.Println("ERROR", errorUtil.Detail)
+			err = e.New(500, "Error ")
 		}
 	}()
 	return c.Next()
