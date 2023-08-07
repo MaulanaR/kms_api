@@ -565,3 +565,72 @@ func (TPengetahuanReferensiList) OpenAPISchemaName() string {
 func (p *TPengetahuanReferensiList) GetOpenAPISchema() map[string]any {
 	return p.SetOpenAPISchema(&TPengetahuanReferensi{})
 }
+
+// tpengetahuan dokumen
+type TPengetahuanDokumen struct {
+	app.Model
+	ID             app.NullInt64 `json:"-"              db:"tpdokumen.id_pengetahuan_referensi" gorm:"column:id_pengetahuan_referensi;primaryKey"`
+	PengetahuanID  app.NullInt64 `json:"pengetahuan.id" db:"tpdokumen.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
+	AttachmentID   app.NullInt64 `json:"id"             db:"tpdokumen.id_attachment"            gorm:"column:id_attachment"`
+	AttachmentNama app.NullText  `json:"nama"           db:"attachment.filename"                gorm:"-"`
+	AttachmentUrl  app.NullText  `json:"url"            db:"attachment.url"                gorm:"-"`
+}
+
+func (TPengetahuanDokumen) EndPoint() string {
+	return "t_pengetahuan_dokumen"
+}
+
+func (TPengetahuanDokumen) TableVersion() string {
+	return "28.06.291152"
+}
+
+func (TPengetahuanDokumen) TableName() string {
+	return "t_pengetahuan_dokumen"
+}
+
+func (TPengetahuanDokumen) TableAliasName() string {
+	return "tpdokumen"
+}
+
+func (m *TPengetahuanDokumen) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_attachments", "attachment", []map[string]any{{"column1": "attachment.id", "column2": "tpdokumen.id_attachment"}})
+
+	return m.Relations
+}
+
+func (m *TPengetahuanDokumen) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanDokumen) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanDokumen) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanDokumen) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanDokumen) OpenAPISchemaName() string {
+	return "TPengetahuanDokumen"
+}
+
+func (m *TPengetahuanDokumen) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type TPengetahuanDokumenList struct {
+	app.ListModel
+}
+
+func (TPengetahuanDokumenList) OpenAPISchemaName() string {
+	return "TPengetahuanDokumenList"
+}
+
+func (p *TPengetahuanDokumenList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&TPengetahuanDokumen{})
+}

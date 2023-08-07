@@ -54,6 +54,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTag{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTugas{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanReferensi{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanDokumen{})
 	app.DB().RegisterTable("main", referensi.Referensi{})
 	app.DB().RegisterTable("main", accesstoken.AccessToken{})
 	app.DB().RegisterTable("main", attachment.Attachment{})

@@ -8,8 +8,8 @@ import (
 
 type Attachment struct {
 	app.Model
-	ID              app.NullInt64         `json:"id"               db:"m.id"               gorm:"column:id;primaryKey"`
-	File            *multipart.FileHeader `json:"file"             db:""                   gorm:"-"`
+	ID              app.NullInt64         `json:"id"               db:"m.id"               gorm:"column:id;primaryKey;autoIncrement"`
+	File            *multipart.FileHeader `json:"file"             db:"-"                   gorm:"-"`
 	Filename        app.NullString        `json:"filename"         db:"m.filename"         gorm:"column:filename"`
 	Size            app.NullInt64         `json:"size"             db:"m.size"             gorm:"column:size"`
 	Extension       app.NullString        `json:"extension"        db:"m.extension"        gorm:"column:extension"`
@@ -25,11 +25,11 @@ func (Attachment) EndPoint() string {
 }
 
 func (Attachment) TableVersion() string {
-	return "28.06.291152"
+	return "28.07.291152"
 }
 
 func (Attachment) TableName() string {
-	return "attachments"
+	return "m_attachments"
 }
 
 func (Attachment) TableAliasName() string {

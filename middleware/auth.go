@@ -84,16 +84,16 @@ func (auth *authHandler) IsNeedValidate() bool {
 	// Split the cleaned path into segments
 	segments := strings.Split(cleanedPath, "/")
 
-	if len(segments) >= 4 {
+	if len(segments) >= 3 {
 		if segments[1] != "api" || segments[2] == "docs" {
 			return false
 		}
-
-		switch segments[3] {
-		case "login", "version", "docs":
-			return false
+		if len(segments) >= 4 {
+			switch segments[3] {
+			case "login", "version", "docs", "caches":
+				return false
+			}
 		}
-
 	}
 
 	// // check login, login pake jwt

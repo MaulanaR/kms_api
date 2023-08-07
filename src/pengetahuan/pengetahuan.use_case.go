@@ -7,6 +7,14 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/jenispengetahuan"
+	"github.com/maulanar/kms/src/kompetensi"
+	"github.com/maulanar/kms/src/lingkuppengetahuan"
+	"github.com/maulanar/kms/src/referensi"
+	"github.com/maulanar/kms/src/statuspengetahuan"
+	"github.com/maulanar/kms/src/tag"
+	"github.com/maulanar/kms/src/tpengetahuanrelation"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -150,10 +158,127 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	// save data to db
+	//cek by jenis
+	jenis, err := jenispengetahuan.REST().UseCase.GetByID(strconv.Itoa(int(p.JenisPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+
+	//validasi LingkupPengetahuan
+	_, err = lingkuppengetahuan.REST().UseCase.GetByID(strconv.Itoa(int(p.LingkupPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+
+	//validasi StatusPengetahuan
+	_, err = statuspengetahuan.REST().UseCase.GetByID(strconv.Itoa(int(p.StatusPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+
+	// save data to db to get ID
 	err = tx.Model(&p).Create(&p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//RELATION
+
+	//validasi referensi
+	if len(p.Referensi) > 0 {
+		for i, ref := range p.Referensi {
+			//validasi
+			_, err := referensi.REST().UseCase.GetByID(strconv.Itoa(int(ref.ReferensiID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Referensi[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Referensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi penulis
+	if len(p.PenulisExternal) > 0 {
+		for i, _ := range p.PenulisExternal {
+			p.PenulisExternal[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.PenulisExternal).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi hastag
+	if len(p.Tag) > 0 {
+		for i, ref := range p.Tag {
+			//validasi
+			_, err := tag.REST().UseCase.GetByID(strconv.Itoa(int(ref.TagID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Tag[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Tag).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi kompetensi
+	if len(p.Kompetensi) > 0 {
+		for i, ref := range p.Kompetensi {
+			//validasi
+			_, err := kompetensi.REST().UseCase.GetByID(strconv.Itoa(int(ref.KompetensiID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Kompetensi[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Kompetensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi dokumen
+	if len(p.Dokumen) > 0 {
+		for i, ref := range p.Dokumen {
+			//validasi
+			_, err := attachment.REST().UseCase.GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Dokumen[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Dokumen).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	if jenis.Nama.String == "Tugas" || jenis.Nama.String == "Tugas (Panduan Penugasan)" {
+		relTugas := tpengetahuanrelation.TPengetahuanTugas{}
+		relTugas.PengetahuanID.Set(p.ID.Int64)
+		relTugas.Tujuan = p.Tujuan
+		relTugas.DasarHukum = p.DasarHukum
+		relTugas.ProsesBisnis = p.ProsesBisnis
+		relTugas.RumusanMasalah = p.RumusanMasalah
+		relTugas.PenyebabTemuan = p.PenyebabTemuan
+		relTugas.Keahlian = p.Keahlian
+		relTugas.KebutuhanData = p.KebutuhanData
+
+		err = tx.Create(&relTugas).Error
+		if err != nil {
+			return err
+		}
 	}
 
 	// invalidate cache

@@ -149,7 +149,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	//upload
-	storageDir := "storage"
+	storageDir := "storages"
 	_, err = os.Stat(storageDir)
 	if os.IsNotExist(err) {
 		err = os.Mkdir(storageDir, 0755)
@@ -168,10 +168,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	if err != nil {
 		return err
 	}
-	p.Url.Set("https://" + app.APP_URL + "/" + storageDir + "/" + fileName)
-	if app.APP_ENV == "local" {
-		p.Url.Set("http://" + app.APP_URL + "/" + storageDir + "/" + fileName)
-	}
+	p.Url.Set(app.APP_URL + "/" + storageDir + "/" + fileName)
 	p.Filename.Set(fileName)
 	p.Size.Set(file.Size)
 	p.Extension.Set(extension)

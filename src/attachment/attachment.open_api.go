@@ -117,3 +117,17 @@ func (o *OpenAPIOperation) DeleteByID() *OpenAPIOperation {
 	o.Body = map[string]any{"application/json": &ParamDelete{}}
 	return o
 }
+
+// ClearCaches is detail of `DELETE /api/v3/caches` open api document component.
+func (o *OpenAPIOperation) ClearCaches() *OpenAPIOperation {
+	if !app.IS_GENERATE_OPEN_API_DOC {
+		return o // skip for efficiency
+	}
+
+	o.Base()
+	o.Summary = "Delete Caches"
+	o.Description = "Use this method to delete Caches"
+	o.PathParams = []map[string]any{{"$ref": "#/components/parameters/pathParam.ID"}}
+	o.Body = map[string]any{}
+	return o
+}

@@ -1,6 +1,9 @@
 package src
 
 import (
+	"time"
+
+	"github.com/gofiber/fiber/v2"
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
@@ -35,6 +38,14 @@ type routerUtil struct {
 
 func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/version", "GET", app.VersionHandler, nil)
+	app.Server().AddStatic("/storages", "./storages", fiber.Static{
+		Compress:      true,
+		ByteRange:     true,
+		Browse:        true,
+		Index:         "index.html",
+		CacheDuration: 1 * time.Hour,
+		MaxAge:        3600,
+	})
 
 	app.Server().AddRoute("/api/v1/user", "POST", user.REST().Create, user.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/user", "GET", user.REST().Get, user.OpenAPI().Get())
@@ -119,6 +130,8 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/attachments", "GET", attachment.REST().Get, attachment.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/attachments/{id}", "GET", attachment.REST().GetByID, attachment.OpenAPI().GetByID())
 	app.Server().AddRoute("/api/v1/attachments/{id}", "DELETE", attachment.REST().DeleteByID, attachment.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/caches", "DELETE", attachment.REST().ClearCaches, attachment.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

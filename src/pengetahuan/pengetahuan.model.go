@@ -17,7 +17,9 @@ type Pengetahuan struct {
 	StatusPengetahuanNama  app.NullText                                       `json:"status_pengetahuan.nama"  db:"status.nama_status_pengetahuan"      gorm:"-"`
 	Judul                  app.NullText                                       `json:"judul"                    db:"m.judul"                             gorm:"column:judul"`
 	Ringkasan              app.NullText                                       `json:"ringkasan"                db:"m.ringkasan"                         gorm:"column:ringkasan"`
-	Thumbnail              app.NullString                                     `json:"thumbnail"                db:"m.thumbnail"                         gorm:"column:thumbnail"`
+	ThumbnailID            app.NullInt64                                      `json:"thumbnail.id"             db:"m.thumbnail"                         gorm:"column:thumbnail"`
+	ThumbnailName          app.NullString                                     `json:"thumbnail.nama"           db:"attachment.filename"                 gorm:"-"`
+	ThumbnailUrl           app.NullString                                     `json:"thumbnail.url"            db:"attachment.url"                      gorm:"-"`
 	Penulis1ID             app.NullInt64                                      `json:"penulis_1.id"             db:"m.penulis_1"                         gorm:"column:penulis_1"`
 	Penulis1Nama           app.NullString                                     `json:"penulis_1.nama"           db:"p1.nama"                             gorm:"-"`
 	Penulis1Jabatan        app.NullString                                     `json:"penulis_1.jabatan"        db:"p1.jabatan"                          gorm:"-"`
@@ -50,6 +52,7 @@ type Pengetahuan struct {
 	Tag                    []tpengetahuanrelation.TPengetahuanTag             `json:"tag"                      db:"tptag.id_pengetahuan=id"             gorm:"-"`
 	Referensi              []tpengetahuanrelation.TPengetahuanReferensi       `json:"referensi"                db:"tpref.id_pengetahuan=id"             gorm:"-"`
 	Kompetensi             []tpengetahuanrelation.TPengetahuanKompetensi      `json:"kompetensi"               db:"tpkompetensi.id_pengetahuan=id"      gorm:"-"`
+	Dokumen                []tpengetahuanrelation.TPengetahuanDokumen         `json:"dokumen"                  db:"tpdokumen.id_pengetahuan=id"      gorm:"-"`
 	//jenis
 	//tugas
 	Tujuan         app.NullText `json:"tujuan"                   db:"tptugas.tujuan"                      gorm:"-"`
@@ -99,6 +102,9 @@ func (m *Pengetahuan) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
+
+	//attachment (thumbnail)
+	m.AddRelation("left", "m_attachments", "attachment", []map[string]any{{"column1": "attachment.id", "column2": "m.thumbnail"}})
 
 	//jenis pengetahuan
 	m.AddRelation("left", "m_jenis_pengetahuan", "sjp", []map[string]any{{"column1": "sjp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})

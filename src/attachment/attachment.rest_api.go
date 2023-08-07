@@ -76,11 +76,6 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
 	}
 	p.File = f
-
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
-		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
-	}
 	err = r.UseCase.Create(&p)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -178,6 +173,19 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 			"attachments": p.EndPoint(),
 			"id":          c.Params("id"),
 		}),
+	}
+	return c.JSON(res)
+}
+
+// DeleteByID is the REST API handler for `DELETE /api/attachments/{id}`.
+func (r *RESTAPIHandler) ClearCaches(c *fiber.Ctx) error {
+	err := app.Cache().Clear()
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res := map[string]any{
+		"code":    http.StatusOK,
+		"message": "deleted",
 	}
 	return c.JSON(res)
 }

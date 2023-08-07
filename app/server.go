@@ -58,6 +58,10 @@ func (s *serverUtil) AddStaticRoute(path string, fsConfig filesystem.Config) {
 	s.Fiber.Use(path, filesystem.New(fsConfig))
 }
 
+func (s *serverUtil) AddStatic(path string, root string, conf fiber.Static) {
+	s.Fiber.Static(path, root, conf)
+}
+
 func (s *serverUtil) AddOpenAPIDoc(path string, f embed.FS) {
 	docs, err := fs.Sub(f, "docs")
 	if err != nil {

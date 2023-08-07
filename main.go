@@ -32,7 +32,7 @@ func main() {
 	src.Middleware()
 	src.Router()
 	if app.APP_ENV != "production" {
-		app.Server().AddOpenAPIDoc("/api/v1/docs", f)
+		app.Server().AddOpenAPIDoc("/api/docs", f)
 	}
 
 	src.Migrator()
