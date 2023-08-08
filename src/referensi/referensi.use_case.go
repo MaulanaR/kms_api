@@ -286,7 +286,7 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Update("deleted_at", time.Now().UTC()).Error
+	err = tx.Model(&p).Where("id_referensi = ?", old.ID).Update("deleted_at", time.Now().UTC()).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}

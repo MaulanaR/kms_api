@@ -5,11 +5,11 @@ import "github.com/maulanar/kms/app"
 // Referensi is the main model of Referensi data. It provides a convenient interface for app.ModelInterface
 type Referensi struct {
 	app.Model
-	ID            app.NullInt64    `json:"id"         db:"m.id_referensi"    gorm:"column:id_referensi;primaryKey"`
+	ID            app.NullInt64    `json:"id"         db:"m.id_referensi"    gorm:"column:id_referensi;primaryKey;autoIncrement"`
 	NamaReferensi app.NullText     `json:"referensi"  db:"m.nama_referensi"  gorm:"column:nama_referensi"`
 	CreatedAt     app.NullDateTime `json:"created_at" db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt     app.NullDateTime `json:"updated_at" db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt     app.NullDateTime `json:"deleted_at" db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	DeletedAt     app.NullDateTime `json:"deleted_at" db:"m.deleted_at"      gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Referensi end point, it used for cache key, etc.
@@ -20,7 +20,7 @@ func (Referensi) EndPoint() string {
 // TableVersion returns the versions of the Referensi table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Referensi) TableVersion() string {
-	return "28.06.291152"
+	return "28.08.291152"
 }
 
 // TableName returns the name of the Referensi table in the database.

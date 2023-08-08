@@ -128,7 +128,6 @@ func (e errorUtil) Recover(c *fiber.Ctx) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			// todo: save log & send alert to telegram
-			fmt.Println("ERROR", r)
 			fmt.Println("ERROR", errorUtil.Detail)
 			err = e.New(500, "Error ")
 		}

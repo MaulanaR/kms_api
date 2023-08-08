@@ -159,7 +159,12 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	//cek by jenis
-	jenis, err := jenispengetahuan.REST().UseCase.GetByID(strconv.Itoa(int(p.JenisPengetahuanID.Int64)))
+	lp := jenispengetahuan.UseCaseHandler{
+		Ctx:   u.Ctx,
+		Query: url.Values{},
+	}
+
+	jenis, err := lp.GetByID(strconv.Itoa(int(p.JenisPengetahuanID.Int64)))
 	if err != nil {
 		return err
 	}
