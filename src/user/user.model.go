@@ -11,7 +11,9 @@ type User struct {
 	OrangNamaPanggilan app.NullString   `json:"nama_panggilan" db:"o.nama_panggilan"  gorm:"-"`
 	OrangJabatan       app.NullString   `json:"jabatan"        db:"o.jabatan"         gorm:"-"`
 	OrangEmail         app.NullString   `json:"email"          db:"o.email"           gorm:"-"`
-	OrangFoto          app.NullString   `json:"foto"           db:"o.foto"            gorm:"-"`
+	OrangFotoID        app.NullInt64    `json:"foto.id"        db:"o.foto"            gorm:"-"`
+	OrangFotoUrl       app.NullString   `json:"foto.url"       db:"att.url"            gorm:"-"`
+	OrangFotoNama      app.NullString   `json:"foto.nama"      db:"att.filename"            gorm:"-"`
 	OrangUnitKerja     app.NullString   `json:"unit_kerja"     db:"o.unit_kerja"      gorm:"-"`
 	OrangUserLevel     app.NullString   `json:"user_level"     db:"o.user_level"      gorm:"-"`
 	OrangStatusLevel   app.NullString   `json:"status_level"   db:"o.status_level"    gorm:"-"`
@@ -48,6 +50,7 @@ func (User) TableAliasName() string {
 // GetRelations returns the relations of the User data in the database, used for querying.
 func (m *User) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "m.id_orang"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "m.foto"}})
 	return m.Relations
 }
 

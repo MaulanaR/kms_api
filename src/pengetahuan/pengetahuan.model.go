@@ -10,7 +10,9 @@ type Pengetahuan struct {
 	app.Model
 	ID                     app.NullInt64                                      `json:"id"                       db:"m.id_pengetahuan"                    gorm:"column:id_pengetahuan;primaryKey"`
 	JenisPengetahuanID     app.NullInt64                                      `json:"jenis_pengetahuan.id"     db:"m.id_jenis_pengetahuan"              gorm:"column:id_jenis_pengetahuan"`
-	JenisPengtahuanNama    app.NullText                                       `json:"jenis_pengetahuan.nama"   db:"sjp.nama_jenis_pengetahuan"          gorm:"-"`
+	JenisPengtahuanNama    app.NullText                                       `json:"jenis_pengetahuan.nama"   db:"jp.nama_jenis_pengetahuan"          gorm:"-"`
+	SubJenisPengetahuanID  app.NullInt64                                      `json:"subjenis_pengetahuan.id"     db:"m.id_subjenis_pengetahuan"              gorm:"column:id_subjenis_pengetahuan"`
+	SubJenisPengtahuanNama app.NullText                                       `json:"subjenis_pengetahuan.nama"   db:"sjp.nama_subjenis_pengetahuan"          gorm:"-"`
 	LingkupPengetahuanID   app.NullInt64                                      `json:"lingkup_pengetahuan.id"   db:"m.id_lingkup_pengetahuan"            gorm:"column:id_lingkup_pengetahuan"`
 	LingkupPengetahuanNama app.NullText                                       `json:"lingkup_pengetahuan.nama" db:"lp.nama_lingkup_pengetahuan"         gorm:"-"`
 	StatusPengetahuanID    app.NullInt64                                      `json:"status_pengetahuan.id"    db:"m.id_status_pengetahuan"             gorm:"column:id_status_pengetahuan"`
@@ -47,12 +49,12 @@ type Pengetahuan struct {
 	CreatedAt              app.NullDateTime                                   `json:"created_at"               db:"m.created_at"                        gorm:"column:created_at"`
 	UpdatedAt              app.NullDateTime                                   `json:"updated_at"               db:"m.updated_at"                        gorm:"column:updated_at"`
 	DeletedAt              app.NullDateTime                                   `json:"deleted_at"               db:"m.deleted_at,hide"                   gorm:"column:deleted_at"`
-	Akademi                []tpengetahuanrelation.TPengetahuanAkademi         `json:"akademi"                  db:"tpa.id_pengetahuan=id"               gorm:"-"`
-	PenulisExternal        []tpengetahuanrelation.TPengetahuanPenulisExternal `json:"penulis_external"         db:"tppenulisexternal.id_pengetahuan=id" gorm:"-"`
-	Tag                    []tpengetahuanrelation.TPengetahuanTag             `json:"tag"                      db:"tptag.id_pengetahuan=id"             gorm:"-"`
-	Referensi              []tpengetahuanrelation.TPengetahuanReferensi       `json:"referensi"                db:"tpref.id_pengetahuan=id"             gorm:"-"`
-	Kompetensi             []tpengetahuanrelation.TPengetahuanKompetensi      `json:"kompetensi"               db:"tpkompetensi.id_pengetahuan=id"      gorm:"-"`
-	Dokumen                []tpengetahuanrelation.TPengetahuanDokumen         `json:"dokumen"                  db:"tpdokumen.id_pengetahuan=id"      gorm:"-"`
+	Akademi                []tpengetahuanrelation.TPengetahuanAkademi         `json:"akademi"                  db:"-"               gorm:"-"`
+	PenulisExternal        []tpengetahuanrelation.TPengetahuanPenulisExternal `json:"penulis_external"         db:"-" gorm:"-"`
+	Tag                    []tpengetahuanrelation.TPengetahuanTag             `json:"tag"                      db:"-"             gorm:"-"`
+	Referensi              []tpengetahuanrelation.TPengetahuanReferensi       `json:"referensi"                db:"-"             gorm:"-"`
+	Kompetensi             []tpengetahuanrelation.TPengetahuanKompetensi      `json:"kompetensi"               db:"-"      gorm:"-"`
+	Dokumen                []tpengetahuanrelation.TPengetahuanDokumen         `json:"dokumen"                  db:"-"      gorm:"-"`
 	//jenis
 	//tugas
 	Tujuan         app.NullText `json:"tujuan"                   db:"tptugas.tujuan"                      gorm:"-"`
@@ -83,7 +85,7 @@ func (Pengetahuan) EndPoint() string {
 // TableVersion returns the versions of the Pengetahuan table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Pengetahuan) TableVersion() string {
-	return "28.07.011152"
+	return "28.07.021152"
 }
 
 // TableName returns the name of the Pengetahuan table in the database.
@@ -107,7 +109,8 @@ func (m *Pengetahuan) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_attachments", "attachment", []map[string]any{{"column1": "attachment.id", "column2": "m.thumbnail"}})
 
 	//jenis pengetahuan
-	m.AddRelation("left", "m_jenis_pengetahuan", "sjp", []map[string]any{{"column1": "sjp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})
+	m.AddRelation("left", "m_jenis_pengetahuan", "jp", []map[string]any{{"column1": "jp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})
+	m.AddRelation("left", "m_subjenis_pengetahuan", "sjp", []map[string]any{{"column1": "sjp.id_subjenis_pengetahuan", "column2": "m.id_subjenis_pengetahuan"}})
 
 	//lingkup pengetahuan
 	m.AddRelation("left", "m_lingkup_pengetahuan", "lp", []map[string]any{{"column1": "lp.id_lingkup_pengetahuan", "column2": "m.id_lingkup_pengetahuan"}})

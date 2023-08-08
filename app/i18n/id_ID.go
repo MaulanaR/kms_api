@@ -12,5 +12,6 @@ func IdID() map[string]string {
 		"username_wrong":               "Username tidak ditemukan.",
 		"password_wrong":               "Username/Password tidak sesuai.",
 		"extenstion_not_in":            "Ekstensi file harus salah satu dari: (:value).",
+		"not_found":                    "Data :entity dengan :key = :value tidak ditemukan.",
 	}
 }

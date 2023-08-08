@@ -48,10 +48,10 @@ func (u UseCaseHandler) GetByID(id string) (Referensi, error) {
 
 	// get from cache and return if exists
 	cacheKey := u.EndPoint() + "." + id
-	app.Cache().Get(cacheKey, &res)
-	if res.ID.Valid {
-		return res, err
-	}
+	// app.Cache().Get(cacheKey, &res)
+	// if res.ID.Valid {
+	// 	return res, err
+	// }
 
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
@@ -61,9 +61,7 @@ func (u UseCaseHandler) GetByID(id string) (Referensi, error) {
 
 	// get from db
 	key := "id"
-	if !app.Validator().IsValid(id, "uuid") {
-		key = "code"
-	}
+
 	u.Query.Add(key, id)
 	err = app.Query().First(tx, &res, u.Query)
 	if err != nil {

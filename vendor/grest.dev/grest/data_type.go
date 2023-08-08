@@ -237,6 +237,24 @@ func (n NullInt64) IsZero() bool {
 	return !n.Valid
 }
 
+// GormDBDataType returns gorm DB data type based on the current using database.
+func (NullInt64) GormDBDataType(db *gorm.DB, field *schema.Field) string {
+	switch db.Dialector.Name() {
+	case "sqlite":
+		return "INTEGER"
+	case "mysql":
+		return "int"
+	case "postgres":
+		return "bigint"
+	case "sqlserver":
+		return "INTEGER"
+	case "firebird":
+		return "INTEGER"
+	default:
+		return "INTEGER"
+	}
+}
+
 // NullFloat64 is a nullable float64.
 // It supports number and a string that can be converted to a number.
 // Other input value will be considered null, not 0 and not error.

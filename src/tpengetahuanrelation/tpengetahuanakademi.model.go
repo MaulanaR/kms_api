@@ -223,7 +223,7 @@ func (p *TPengetahuanKiatList) GetOpenAPISchema() map[string]any {
 // Kompetensi
 type TPengetahuanKompetensi struct {
 	app.Model
-	ID             app.NullInt64 `json:"-"              db:"tpkompetensi.id_kompetensi"       gorm:"column:id_kompetensi;primaryKey"`
+	ID             app.NullInt64 `json:"-"              db:"tpkompetensi.id_pengetahuan_kompetensi"       gorm:"column:id_pengetahuan_kompetensi;primaryKey"`
 	PengetahuanID  app.NullInt64 `json:"pengetahuan.id" db:"tpkompetensi.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
 	KompetensiID   app.NullInt64 `json:"id"             db:"tpkompetensi.id_kompetensi"       gorm:"column:id_kompetensi"`
 	KompetensiNama app.NullText  `json:"nama"           db:"kom.nama_kompetensi"              gorm:"-"`
@@ -501,7 +501,7 @@ func (p *TPengetahuanTugasList) GetOpenAPISchema() map[string]any {
 // pengetahuan referensi
 type TPengetahuanReferensi struct {
 	app.Model
-	ID            app.NullInt64 `json:"-"              db:"tpref.id_pengetahuan_referensi" gorm:"column:id_pengetahuan_referensi;primaryKey"`
+	ID            app.NullInt64 `json:"-"              db:"tpref.id_pengetahuan_referensi" gorm:"column:id_pengetahuan_referensi;primaryKey;auto_increment"`
 	PengetahuanID app.NullInt64 `json:"pengetahuan.id" db:"tpref.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
 	ReferensiID   app.NullInt64 `json:"id"             db:"tpref.id_referensi"             gorm:"column:id_referensi"`
 	ReferensiNama app.NullText  `json:"nama"           db:"mref.nama_referensi"            gorm:"-"`
@@ -512,7 +512,7 @@ func (TPengetahuanReferensi) EndPoint() string {
 }
 
 func (TPengetahuanReferensi) TableVersion() string {
-	return "28.06.291152"
+	return "28.07.291152"
 }
 
 func (TPengetahuanReferensi) TableName() string {

@@ -64,9 +64,7 @@ func (u UseCaseHandler) GetByID(id string) (User, error) {
 
 	// get from db
 	key := "id"
-	if !app.Validator().IsValid(id, "uuid") {
-		key = "code"
-	}
+
 	u.Query.Add(key, id)
 	err = app.Query().First(tx, &res, u.Query)
 	if err != nil {
@@ -156,7 +154,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	org.NamaPanggilan = p.OrangNamaPanggilan
 	org.Jabatan = p.OrangJabatan
 	org.Email = p.OrangEmail
-	org.Foto = p.OrangFoto
+	org.FotoID = p.OrangFotoID
 
 	err = orang.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.Create(&org)
 	if err != nil {

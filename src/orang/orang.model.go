@@ -7,11 +7,13 @@ type Orang struct {
 	app.Model
 	ID            app.NullInt64    `json:"id"             db:"m.id_orang"        gorm:"column:id_orang;primaryKey"`
 	Nip           app.NullString   `json:"nip"            db:"m.nip"             gorm:"column:nip"`
-	Nama          app.NullString   `json:"nama_lengkap"           db:"m.nama"            gorm:"column:nama"`
+	Nama          app.NullString   `json:"nama_lengkap"   db:"m.nama"            gorm:"column:nama"`
 	NamaPanggilan app.NullString   `json:"nama_panggilan" db:"m.nama_panggilan"  gorm:"column:nama_panggilan"`
 	Jabatan       app.NullString   `json:"jabatan"        db:"m.jabatan"         gorm:"column:jabatan"`
 	Email         app.NullString   `json:"email"          db:"m.email"           gorm:"column:email"               validate:"email"`
-	Foto          app.NullString   `json:"foto"           db:"m.foto"            gorm:"column:foto"`
+	FotoID        app.NullInt64    `json:"foto.id"        db:"m.foto"            gorm:"column:foto"`
+	FotoUrl       app.NullString   `json:"foto.url"       db:"att.url"            gorm:"-"`
+	FotoNama      app.NullString   `json:"foto.nama"      db:"att.filename"            gorm:"-"`
 	UnitKerja     app.NullString   `json:"unit_kerja"     db:"m.unit_kerja"      gorm:"column:unit_kerja"`
 	UserLevel     app.NullString   `json:"user_level"     db:"m.user_level"      gorm:"column:user_level"`
 	StatusLevel   app.NullString   `json:"status_level"   db:"m.status_level"    gorm:"column:status_level"`
@@ -46,7 +48,7 @@ func (Orang) TableAliasName() string {
 
 // GetRelations returns the relations of the Orang data in the database, used for querying.
 func (m *Orang) GetRelations() map[string]map[string]any {
-	// m.AddRelation("left", "users", "cu", []map[string]any{{"column1": "cu.id", "column2": "m.created_by_user_id"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "m.foto"}})
 	// m.AddRelation("left", "users", "uu", []map[string]any{{"column1": "uu.id", "column2": "m.updated_by_user_id"}})
 	return m.Relations
 }

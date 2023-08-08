@@ -56,9 +56,7 @@ func (u UseCaseHandler) GetByID(id string) (Attachment, error) {
 	}
 
 	key := "id"
-	if !app.Validator().IsValid(id, "uuid") {
-		key = "code"
-	}
+
 	u.Query.Add(key, id)
 	err = app.Query().First(tx, &res, u.Query)
 	if err != nil {
