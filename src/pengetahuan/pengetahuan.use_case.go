@@ -180,6 +180,9 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	//validasi StatusPengetahuan
+	if !p.StatusPengetahuanID.Valid {
+		p.StatusPengetahuanID.Set(1)
+	}
 	sp := statuspengetahuan.UseCaseHandler{
 		Ctx:   u.Ctx,
 		Query: url.Values{},
@@ -323,17 +326,48 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	if jenis.Nama.String == "Tugas" || jenis.Nama.String == "Tugas (Panduan Penugasan)" {
-		relTugas := tpengetahuanrelation.TPengetahuanTugas{}
-		relTugas.PengetahuanID.Set(p.ID.Int64)
-		relTugas.Tujuan = p.Tujuan
-		relTugas.DasarHukum = p.DasarHukum
-		relTugas.ProsesBisnis = p.ProsesBisnis
-		relTugas.RumusanMasalah = p.RumusanMasalah
-		relTugas.PenyebabTemuan = p.PenyebabTemuan
-		relTugas.Keahlian = p.Keahlian
-		relTugas.KebutuhanData = p.KebutuhanData
+		rel := tpengetahuanrelation.TPengetahuanTugas{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.Tujuan = p.Tujuan
+		rel.DasarHukum = p.DasarHukum
+		rel.ProsesBisnis = p.ProsesBisnis
+		rel.RumusanMasalah = p.RumusanMasalah
+		rel.RisikoObjetPengawasan = p.RisikoObjetPengawasan
+		rel.MetodePengawasan = p.MetodePengawasan
+		rel.TemuanMaterial = p.TemuanMaterial
+		rel.KeahlianDibutuhkan = p.KeahlianDibutuhkan
+		rel.DataDigunakan = p.DataDigunakan
+		rel.TenagaAhli = p.TenagaAhli
+		rel.Pedoman = p.Pedoman
 
-		err = tx.Create(&relTugas).Error
+		err = tx.Create(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if jenis.Nama.String == "KIAT" || jenis.Nama.String == "kiat" {
+		rel := tpengetahuanrelation.TPengetahuanKiat{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.Masalah = p.Masalah
+		rel.Dampak = p.Dampak
+		rel.Penyebab = p.Penyebab
+		rel.Solusi = p.Solusi
+		rel.HasilPerbaikan = p.HasilPerbaikan
+
+		err = tx.Create(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if jenis.Nama.String == "Kapitalisasi" || jenis.Nama.String == "kapitalisasi" {
+		rel := tpengetahuanrelation.TPengetahuanKapitalisasi{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.LatarBelakang = p.LatarBelakang
+		rel.PenelitianTerdahulu = p.PenelitianTerdahulu
+		rel.Hipotesis = p.Hipotesis
+		rel.Pengujian = p.Pengujian
+		rel.Pembahasan = p.Pembahasan
+		rel.KesimpulanRekomendasi = p.KesimpulanRekomendasi
+
+		err = tx.Create(&rel).Error
 		if err != nil {
 			return err
 		}

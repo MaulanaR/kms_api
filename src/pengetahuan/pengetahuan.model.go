@@ -56,25 +56,34 @@ type Pengetahuan struct {
 	Kompetensi             []tpengetahuanrelation.TPengetahuanKompetensi      `json:"kompetensi"                db:"pengetahuan.id={id}"            gorm:"-"`
 	Dokumen                []tpengetahuanrelation.TPengetahuanDokumen         `json:"dokumen"                   db:"pengetahuan.id={id}"            gorm:"-"`
 	//jenis
+
 	//tugas
-	Tujuan         app.NullText `json:"tujuan"                    db:"tptugas.tujuan"                 gorm:"-"`
-	DasarHukum     app.NullText `json:"dasar_hukum"               db:"tptugas.dasar_hukum"            gorm:"-"`
-	ProsesBisnis   app.NullText `json:"proses_bisnis"             db:"tptugas.proses_bisnis"          gorm:"-"`
-	RumusanMasalah app.NullText `json:"rumusan_masalah"           db:"tptugas.rumusan_masalah"        gorm:"-"`
-	PenyebabTemuan app.NullText `json:"penyebab_temuan"           db:"tptugas.penyebab_temuan"        gorm:"-"`
-	Keahlian       app.NullText `json:"keahlian"                  db:"tptugas.keahlian"               gorm:"-"`
-	KebutuhanData  app.NullText `json:"kebutuhan_data"            db:"tptugas.kebutuhan_data"         gorm:"-"`
-	TenagaAhli     app.NullText `json:"tenaga_ahli"               db:"tptugas.tenaga_ahli"            gorm:"-"`
-	Pedoman        app.NullText `json:"pedoman"                   db:"tptugas.pedoman"                gorm:"-"`
+	Tujuan                app.NullText `json:"tujuan"                  db:"tptugas.tujuan"                  gorm:"-"`
+	DasarHukum            app.NullText `json:"dasar_hukum"             db:"tptugas.dasar_hukum"             gorm:"-"`
+	ProsesBisnis          app.NullText `json:"proses_bisnis"           db:"tptugas.proses_bisnis"           gorm:"-"`
+	RumusanMasalah        app.NullText `json:"rumusan_masalah"         db:"tptugas.rumusan_masalah"         gorm:"-"`
+	RisikoObjetPengawasan app.NullText `json:"risiko_objek_pengawasan" db:"tptugas.risiko_objek_pengawasan" gorm:"-"`
+	MetodePengawasan      app.NullText `json:"metode_pengawasan"       db:"tptugas.metode_pengawasan"       gorm:"-"`
+	TemuanMaterial        app.NullText `json:"temuan_material"         db:"tptugas.temuan_material"         gorm:"-"`
+	KeahlianDibutuhkan    app.NullText `json:"keahlian_dibutuhkan"     db:"tptugas.keahlian_dibutuhkan"     gorm:"-"`
+	DataDigunakan         app.NullText `json:"data_digunakan"          db:"tptugas.data_digunakan"          gorm:"-"`
+	TenagaAhli            app.NullText `json:"tenaga_ahli"             db:"tptugas.tenaga_ahli"             gorm:"-"`
+	Pedoman               app.NullText `json:"pedoman"                 db:"tptugas.pedoman"                 gorm:"-"`
+
 	//Kiat
 	Masalah        app.NullText `json:"masalah"                   db:"tpkiat.masalah"                 gorm:"-"`
 	Dampak         app.NullText `json:"dampak"                    db:"tpkiat.dampak"                  gorm:"-"`
 	Penyebab       app.NullText `json:"penyebab"                  db:"tpkiat.penyebab"                gorm:"-"`
 	Solusi         app.NullText `json:"solusi"                    db:"tpkiat.solusi"                  gorm:"-"`
 	HasilPerbaikan app.NullText `json:"hasil_perbaikan"           db:"tpkiat.hasil_perbaikan"         gorm:"-"`
+
 	//kapitalisasi
-	Diskusi app.NullText `json:"diskusi"                   db:"tpk.diskusi"                    gorm:"-"`
-	Kapus   app.NullText `json:"kapus"                     db:"tpk.kapus"                      gorm:"-"`
+	LatarBelakang         app.NullText `json:"latar_belakang"         db:"tpk.latar_belakang"              gorm:"-"`
+	PenelitianTerdahulu   app.NullText `json:"penelitian_terdahulu"   db:"tpk.penelitian_terdahulu"        gorm:"-"`
+	Hipotesis             app.NullText `json:"hipotesis"              db:"tpk.hipotesis"                   gorm:"-"`
+	Pengujian             app.NullText `json:"pengujian"              db:"tpk.pengujian"                   gorm:"-"`
+	Pembahasan            app.NullText `json:"pembahasan"             db:"tpk.pembahasan"                  gorm:"-"`
+	KesimpulanRekomendasi app.NullText `json:"kesimpulan_rekomendasi" db:"tpk.kesimpulan_rekomendasi"      gorm:"-"`
 }
 
 // EndPoint returns the Pengetahuan end point, it used for cache key, etc.

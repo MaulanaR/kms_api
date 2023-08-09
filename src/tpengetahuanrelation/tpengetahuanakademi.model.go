@@ -87,10 +87,14 @@ func (p *TPengetahuanAkademiList) GetOpenAPISchema() map[string]any {
 // kapitalisasi
 type TPengetahuanKapitalisasi struct {
 	app.Model
-	ID            app.NullInt64 `json:"-"              db:"tpk.id_pengetahuan_kapitalisasi" gorm:"column:id_pengetahuan_kapitalisasi;primaryKey"`
-	PengetahuanID app.NullInt64 `json:"pengetahuan.id" db:"tpk.id_pengetahuan,hide"         gorm:"column:id_pengetahuan"`
-	Diskusi       app.NullText  `json:"diskusi"        db:"tpk.diskusi"                     gorm:"column:diskusi"`
-	Kapus         app.NullText  `json:"kapus"          db:"tpk.kapus"                       gorm:"column:kapus"`
+	ID                    app.NullInt64 `json:"-"                      db:"tpk.id_pengetahuan_kapitalisasi" gorm:"column:id_pengetahuan_kapitalisasi;primaryKey"`
+	PengetahuanID         app.NullInt64 `json:"pengetahuan.id"         db:"tpk.id_pengetahuan,hide"         gorm:"column:id_pengetahuan"`
+	LatarBelakang         app.NullText  `json:"latar_belakang"         db:"tpk.latar_belakang"              gorm:"column:latar_belakang"`
+	PenelitianTerdahulu   app.NullText  `json:"penelitian_terdahulu"   db:"tpk.penelitian_terdahulu"        gorm:"column:penelitian_terdahulu"`
+	Hipotesis             app.NullText  `json:"hipotesis"              db:"tpk.hipotesis"                   gorm:"column:hipotesis"`
+	Pengujian             app.NullText  `json:"pengujian"              db:"tpk.pengujian"                   gorm:"column:pengujian"`
+	Pembahasan            app.NullText  `json:"pembahasan"             db:"tpk.pembahasan"                  gorm:"column:pembahasan"`
+	KesimpulanRekomendasi app.NullText  `json:"kesimpulan_rekomendasi" db:"tpk.kesimpulan_rekomendasi"      gorm:"column:kesimpulan_rekomendasi"`
 }
 
 func (TPengetahuanKapitalisasi) EndPoint() string {
@@ -98,7 +102,7 @@ func (TPengetahuanKapitalisasi) EndPoint() string {
 }
 
 func (TPengetahuanKapitalisasi) TableVersion() string {
-	return "28.06.291152"
+	return "28.08.081152"
 }
 
 func (TPengetahuanKapitalisasi) TableName() string {
@@ -150,7 +154,7 @@ func (p *TPengetahuanKapitalisasiList) GetOpenAPISchema() map[string]any {
 	return p.SetOpenAPISchema(&TPengetahuanKapitalisasi{})
 }
 
-// kiat
+// poengetahuan kiat
 type TPengetahuanKiat struct {
 	app.Model
 	ID             app.NullInt64 `json:"-"               db:"tpkiat.id_kiat"             gorm:"column:id_kiat;primaryKey"`
@@ -220,7 +224,7 @@ func (p *TPengetahuanKiatList) GetOpenAPISchema() map[string]any {
 	return p.SetOpenAPISchema(&TPengetahuanKiat{})
 }
 
-// Kompetensi
+// pengetahuan Kompetensi
 type TPengetahuanKompetensi struct {
 	app.Model
 	ID             app.NullInt64 `json:"-"              db:"tpkompetensi.id_pengetahuan_kompetensi" gorm:"column:id_pengetahuan_kompetensi;primaryKey;auto_increment;autoIncrement;primary_key"`
@@ -427,17 +431,19 @@ func (p *TPengetahuanTagList) GetOpenAPISchema() map[string]any {
 // pengetahuan tugas
 type TPengetahuanTugas struct {
 	app.Model
-	ID             app.NullInt64 `json:"-"               db:"tptugas.id_pengetahuan_tugas" gorm:"column:id_pengetahuan_tugas;primaryKey"`
-	PengetahuanID  app.NullInt64 `json:"pengetahuan.id"  db:"tptugas.id_pengetahuan,hide"  gorm:"column:id_pengetahuan"`
-	Tujuan         app.NullText  `json:"tujuan"          db:"tptugas.tujuan"               gorm:"column:tujuan"`
-	DasarHukum     app.NullText  `json:"dasar_hukum"     db:"tptugas.dasar_hukum"          gorm:"column:dasar_hukum"`
-	ProsesBisnis   app.NullText  `json:"proses_bisnis"   db:"tptugas.proses_bisnis"        gorm:"column:proses_bisnis"`
-	RumusanMasalah app.NullText  `json:"rumusan_masalah" db:"tptugas.rumusan_masalah"      gorm:"column:rumusan_masalah"`
-	PenyebabTemuan app.NullText  `json:"penyebab_temuan" db:"tptugas.penyebab_temuan"      gorm:"column:penyebab_temuan"`
-	Keahlian       app.NullText  `json:"keahlian"        db:"tptugas.keahlian"             gorm:"column:keahlian"`
-	KebutuhanData  app.NullText  `json:"kebutuhan_data"  db:"tptugas.kebutuhan_data"       gorm:"column:kebutuhan_data"`
-	TenagaAhli     app.NullText  `json:"tenaga_ahli"     db:"tptugas.tenaga_ahli"          gorm:"column:tenaga_ahli"`
-	Pedoman        app.NullText  `json:"pedoman"         db:"tptugas.pedoman"              gorm:"column:pedoman"`
+	ID                    app.NullInt64 `json:"-"                       db:"tptugas.id_pengetahuan_tugas"    gorm:"column:id_pengetahuan_tugas;primaryKey"`
+	PengetahuanID         app.NullInt64 `json:"pengetahuan.id"          db:"tptugas.id_pengetahuan,hide"     gorm:"column:id_pengetahuan"`
+	Tujuan                app.NullText  `json:"tujuan"                  db:"tptugas.tujuan"                  gorm:"column:tujuan"`
+	DasarHukum            app.NullText  `json:"dasar_hukum"             db:"tptugas.dasar_hukum"             gorm:"column:dasar_hukum"`
+	ProsesBisnis          app.NullText  `json:"proses_bisnis"           db:"tptugas.proses_bisnis"           gorm:"column:proses_bisnis"`
+	RumusanMasalah        app.NullText  `json:"rumusan_masalah"         db:"tptugas.rumusan_masalah"         gorm:"column:rumusan_masalah"`
+	RisikoObjetPengawasan app.NullText  `json:"risiko_objek_pengawasan" db:"tptugas.risiko_objek_pengawasan" gorm:"column:risiko_objek_pengawasan"`
+	MetodePengawasan      app.NullText  `json:"metode_pengawasan"       db:"tptugas.metode_pengawasan"       gorm:"column:metode_pengawasan"`
+	TemuanMaterial        app.NullText  `json:"temuan_material"         db:"tptugas.temuan_material"         gorm:"column:temuan_material"`
+	KeahlianDibutuhkan    app.NullText  `json:"keahlian_dibutuhkan"     db:"tptugas.keahlian_dibutuhkan"     gorm:"column:keahlian_dibutuhkan"`
+	DataDigunakan         app.NullText  `json:"data_digunakan"          db:"tptugas.data_digunakan"          gorm:"column:data_digunakan"`
+	TenagaAhli            app.NullText  `json:"tenaga_ahli"             db:"tptugas.tenaga_ahli"             gorm:"column:tenaga_ahli"`
+	Pedoman               app.NullText  `json:"pedoman"                 db:"tptugas.pedoman"                 gorm:"column:pedoman"`
 }
 
 func (TPengetahuanTugas) EndPoint() string {
@@ -445,7 +451,7 @@ func (TPengetahuanTugas) EndPoint() string {
 }
 
 func (TPengetahuanTugas) TableVersion() string {
-	return "28.06.291152"
+	return "28.07.291152"
 }
 
 func (TPengetahuanTugas) TableName() string {
