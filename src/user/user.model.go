@@ -12,8 +12,8 @@ type User struct {
 	OrangJabatan       app.NullString   `json:"jabatan"        db:"o.jabatan"         gorm:"-"`
 	OrangEmail         app.NullString   `json:"email"          db:"o.email"           gorm:"-"`
 	OrangFotoID        app.NullInt64    `json:"foto.id"        db:"o.foto"            gorm:"-"`
-	OrangFotoUrl       app.NullString   `json:"foto.url"       db:"att.url"            gorm:"-"`
-	OrangFotoNama      app.NullString   `json:"foto.nama"      db:"att.filename"            gorm:"-"`
+	OrangFotoUrl       app.NullString   `json:"foto.url"       db:"att.url"           gorm:"-"`
+	OrangFotoNama      app.NullString   `json:"foto.nama"      db:"att.filename"      gorm:"-"`
 	OrangUnitKerja     app.NullString   `json:"unit_kerja"     db:"o.unit_kerja"      gorm:"-"`
 	OrangUserLevel     app.NullString   `json:"user_level"     db:"o.user_level"      gorm:"-"`
 	OrangStatusLevel   app.NullString   `json:"status_level"   db:"o.status_level"    gorm:"-"`

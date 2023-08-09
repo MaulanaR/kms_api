@@ -9,7 +9,7 @@ import (
 type Attachment struct {
 	app.Model
 	ID              app.NullInt64         `json:"id"               db:"m.id"               gorm:"column:id;primaryKey;autoIncrement"`
-	File            *multipart.FileHeader `json:"file"             db:"-"                   gorm:"-"`
+	File            *multipart.FileHeader `json:"file"             db:"-"                  gorm:"-"`
 	Filename        app.NullString        `json:"filename"         db:"m.filename"         gorm:"column:filename"`
 	Size            app.NullInt64         `json:"size"             db:"m.size"             gorm:"column:size"`
 	Extension       app.NullString        `json:"extension"        db:"m.extension"        gorm:"column:extension"`

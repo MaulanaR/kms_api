@@ -223,10 +223,10 @@ func (p *TPengetahuanKiatList) GetOpenAPISchema() map[string]any {
 // Kompetensi
 type TPengetahuanKompetensi struct {
 	app.Model
-	ID             app.NullInt64 `json:"-"              db:"tpkompetensi.id_pengetahuan_kompetensi"       gorm:"column:id_pengetahuan_kompetensi;primaryKey"`
-	PengetahuanID  app.NullInt64 `json:"pengetahuan.id" db:"tpkompetensi.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	KompetensiID   app.NullInt64 `json:"id"             db:"tpkompetensi.id_kompetensi"       gorm:"column:id_kompetensi"`
-	KompetensiNama app.NullText  `json:"nama"           db:"kom.nama_kompetensi"              gorm:"-"`
+	ID             app.NullInt64 `json:"-"              db:"tpkompetensi.id_pengetahuan_kompetensi" gorm:"column:id_pengetahuan_kompetensi;primaryKey;auto_increment;autoIncrement;primary_key"`
+	PengetahuanID  app.NullInt64 `json:"pengetahuan.id" db:"tpkompetensi.id_pengetahuan,hide"       gorm:"column:id_pengetahuan"`
+	KompetensiID   app.NullInt64 `json:"id"             db:"tpkompetensi.id_kompetensi"             gorm:"column:id_kompetensi"`
+	KompetensiNama app.NullText  `json:"nama"           db:"kom.nama_kompetensi"                    gorm:"-"`
 }
 
 func (TPengetahuanKompetensi) EndPoint() string {
@@ -573,7 +573,7 @@ type TPengetahuanDokumen struct {
 	PengetahuanID  app.NullInt64 `json:"pengetahuan.id" db:"tpdokumen.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
 	AttachmentID   app.NullInt64 `json:"id"             db:"tpdokumen.id_attachment"            gorm:"column:id_attachment"`
 	AttachmentNama app.NullText  `json:"nama"           db:"attachment.filename"                gorm:"-"`
-	AttachmentUrl  app.NullText  `json:"url"            db:"attachment.url"                gorm:"-"`
+	AttachmentUrl  app.NullText  `json:"url"            db:"attachment.url"                     gorm:"-"`
 }
 
 func (TPengetahuanDokumen) EndPoint() string {
