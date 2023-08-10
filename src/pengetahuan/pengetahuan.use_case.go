@@ -325,7 +325,47 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		}
 	}
 
-	if jenis.Nama.String == "Tugas" || jenis.Nama.String == "Tugas (Panduan Penugasan)" {
+	//validasi tenaga ahli
+	if len(p.TenagaAhli) > 0 {
+		for i, ref := range p.TenagaAhli {
+			//validasi
+			_, err := org.GetByID(strconv.Itoa(int(ref.TenagaAhliID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.TenagaAhli[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.TenagaAhli).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi pedoman
+	if len(p.Pedoman) > 0 {
+		for i, _ := range p.Pedoman {
+			//validasi
+			p.Pedoman[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Pedoman).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//NOTE :
+	// 1 : Tugas (Panduan Penugasan)
+	// 2 : KIAT
+	// 3 : Kapitalisasi / Analytic Today
+	// 4 : Resensi
+	// 5 : Aksi Perubahan
+	// 6 : PKS (Pelatihan Kantor Sendiri)
+	// 7 : Karya Tulis
+	// 8 : Newsletter LC
+	if jenis.ID.Int64 == 1 {
+		//tugas
 		rel := tpengetahuanrelation.TPengetahuanTugas{}
 		rel.PengetahuanID.Set(p.ID.Int64)
 		rel.Tujuan = p.Tujuan
@@ -337,27 +377,25 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		rel.TemuanMaterial = p.TemuanMaterial
 		rel.KeahlianDibutuhkan = p.KeahlianDibutuhkan
 		rel.DataDigunakan = p.DataDigunakan
-		rel.TenagaAhli = p.TenagaAhli
-		rel.Pedoman = p.Pedoman
 
 		err = tx.Create(&rel).Error
 		if err != nil {
 			return err
 		}
-	} else if jenis.Nama.String == "KIAT" || jenis.Nama.String == "kiat" {
+	} else if jenis.ID.Int64 == 2 {
 		rel := tpengetahuanrelation.TPengetahuanKiat{}
 		rel.PengetahuanID.Set(p.ID.Int64)
 		rel.Masalah = p.Masalah
 		rel.Dampak = p.Dampak
 		rel.Penyebab = p.Penyebab
 		rel.Solusi = p.Solusi
-		rel.HasilPerbaikan = p.HasilPerbaikan
+		rel.SyaratHasil = p.SyaratHasil
 
 		err = tx.Create(&rel).Error
 		if err != nil {
 			return err
 		}
-	} else if jenis.Nama.String == "Kapitalisasi" || jenis.Nama.String == "kapitalisasi" {
+	} else if jenis.ID.Int64 == 3 {
 		rel := tpengetahuanrelation.TPengetahuanKapitalisasi{}
 		rel.PengetahuanID.Set(p.ID.Int64)
 		rel.LatarBelakang = p.LatarBelakang
@@ -370,6 +408,43 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		err = tx.Create(&rel).Error
 		if err != nil {
 			return err
+		}
+	} else if jenis.ID.Int64 == 4 {
+		rel := tpengetahuanrelation.TPengetahuanResensi{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.JumlahHalaman = p.JumlahHalaman
+		rel.TahunTerbit = p.TahunTerbit
+		rel.LatarBelakang = p.LatarBelakang
+		rel.PenelitianTerdahulu = p.PenelitianTerdahulu
+		rel.LessonLearned = p.LessonLearned
+
+		err = tx.Create(&rel).Error
+		if err != nil {
+			return err
+		}
+
+		if len(p.Penerbit) > 0 {
+			for i, _ := range p.Penerbit {
+				//validasi
+				p.Penerbit[i].PengetahuanID.Set(p.ID.Int64)
+			}
+
+			err = tx.Create(&p.Penerbit).Error
+			if err != nil {
+				return err
+			}
+		}
+
+		if len(p.Narasumber) > 0 {
+			for i, _ := range p.Narasumber {
+				//validasi
+				p.Narasumber[i].PengetahuanID.Set(p.ID.Int64)
+			}
+
+			err = tx.Create(&p.Narasumber).Error
+			if err != nil {
+				return err
+			}
 		}
 	}
 
