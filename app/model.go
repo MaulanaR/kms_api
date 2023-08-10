@@ -113,6 +113,6 @@ func (Setting) MigrationKey() string {
 	return "table_versions"
 }
 
-func (Setting) SeedKey() string {
+func (Setting) SeederKey() string {
 	return "executed_seeds"
 }

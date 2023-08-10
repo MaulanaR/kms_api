@@ -1,6 +1,9 @@
 package src
 
-import "github.com/maulanar/kms/app"
+import (
+	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/jenispengetahuan"
+)
 
 func Seeder() *seederUtil {
 	if seeder == nil {
@@ -21,9 +24,17 @@ type seederUtil struct {
 }
 
 func (s *seederUtil) Configure() {
-
+	app.DB().RegisterSeeder("main", "jenis_pengetahuan", jenispengetahuan.SeederData)
 }
 
 func (s *seederUtil) Run() {
-
+	tx, err := app.DB().Conn("main")
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	} else {
+		err = app.DB().RunSeeder(tx, "main", app.Setting{})
+	}
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	}
 }

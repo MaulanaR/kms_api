@@ -8,7 +8,9 @@ import (
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
+	"github.com/maulanar/kms/src/narasumber"
 	"github.com/maulanar/kms/src/orang"
+	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
@@ -48,6 +50,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", subjenispengetahuan.SubjenisPengetahuan{})
 	app.DB().RegisterTable("main", tag.Tag{})
 	app.DB().RegisterTable("main", pengetahuan.Pengetahuan{})
+
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanAkademi{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanKapitalisasi{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanPenulisExternal{})
@@ -57,9 +60,17 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanDokumen{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanKompetensi{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanKiat{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTenagaAhli{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanPedoman{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanResensi{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanNarsum{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanPenerbit{})
+
 	app.DB().RegisterTable("main", referensi.Referensi{})
 	app.DB().RegisterTable("main", accesstoken.AccessToken{})
 	app.DB().RegisterTable("main", attachment.Attachment{})
+	app.DB().RegisterTable("main", narasumber.Narasumber{})
+	app.DB().RegisterTable("main", penerbit.Penerbit{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
@@ -68,6 +79,7 @@ func (*migratorUtil) Run() {
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	} else {
+		err = app.DB().MigrateTable(tx, "main", app.Setting{})
 		err = app.DB().MigrateTable(tx, "main", app.Setting{})
 	}
 	if err != nil {

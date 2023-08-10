@@ -73,6 +73,53 @@ func (m *JenisPengetahuan) GetOpenAPISchema() map[string]any {
 	return m.SetOpenAPISchema(m)
 }
 
+func SeederData() error {
+	dataSeeder := []JenisPengetahuan{
+		{
+			ID:   app.NewNullInt64(1),
+			Nama: app.NewNullText("Tugas (Panduan Penugasan)"),
+		},
+		{
+			ID:   app.NewNullInt64(2),
+			Nama: app.NewNullText("KIAT"),
+		},
+		{
+			ID:   app.NewNullInt64(3),
+			Nama: app.NewNullText("Kapitalisasi / Analytic Today"),
+		},
+		{
+			ID:   app.NewNullInt64(4),
+			Nama: app.NewNullText("Resensi"),
+		},
+		{
+			ID:   app.NewNullInt64(5),
+			Nama: app.NewNullText("Aksi Perubahan"),
+		},
+		{
+			ID:   app.NewNullInt64(6),
+			Nama: app.NewNullText("PKS (Pelatihan Kantor Sendiri)"),
+		},
+		{
+			ID:   app.NewNullInt64(7),
+			Nama: app.NewNullText("Karya Tulis"),
+		},
+		{
+			ID:   app.NewNullInt64(8),
+			Nama: app.NewNullText("Newsletter LC"),
+		},
+	}
+	tx, err := app.DB().Conn("main")
+	if err != nil {
+		return err
+	}
+	err = tx.Create(&dataSeeder).Error
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type JenisPengetahuanList struct {
 	app.ListModel
 }

@@ -157,13 +157,13 @@ func (p *TPengetahuanKapitalisasiList) GetOpenAPISchema() map[string]any {
 // poengetahuan kiat
 type TPengetahuanKiat struct {
 	app.Model
-	ID             app.NullInt64 `json:"-"               db:"tpkiat.id_kiat"             gorm:"column:id_kiat;primaryKey"`
-	PengetahuanID  app.NullInt64 `json:"pengetahuan.id"  db:"tpkiat.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	Masalah        app.NullText  `json:"masalah"         db:"tpkiat.masalah"             gorm:"column:masalah"`
-	Dampak         app.NullText  `json:"dampak"          db:"tpkiat.dampak"              gorm:"column:dampak"`
-	Penyebab       app.NullText  `json:"penyebab"        db:"tpkiat.penyebab"            gorm:"column:penyebab"`
-	Solusi         app.NullText  `json:"solusi"          db:"tpkiat.solusi"              gorm:"column:solusi"`
-	HasilPerbaikan app.NullText  `json:"hasil_perbaikan" db:"tpkiat.hasil_perbaikan"     gorm:"column:hasil_perbaikan"`
+	ID            app.NullInt64 `json:"-"              db:"tpkiat.id_kiat"             gorm:"column:id_kiat;primaryKey"`
+	PengetahuanID app.NullInt64 `json:"pengetahuan.id" db:"tpkiat.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
+	Masalah       app.NullText  `json:"masalah"        db:"tpkiat.masalah"             gorm:"column:masalah"`
+	Dampak        app.NullText  `json:"dampak"         db:"tpkiat.dampak"              gorm:"column:dampak"`
+	Penyebab      app.NullText  `json:"penyebab"       db:"tpkiat.penyebab"            gorm:"column:penyebab"`
+	Solusi        app.NullText  `json:"solusi"         db:"tpkiat.solusi"              gorm:"column:solusi"`
+	SyaratHasil   app.NullText  `json:"syarat_hasil"   db:"tpkiat.syarat_hasil"        gorm:"column:syarat_hasil"`
 }
 
 func (TPengetahuanKiat) EndPoint() string {
@@ -171,7 +171,7 @@ func (TPengetahuanKiat) EndPoint() string {
 }
 
 func (TPengetahuanKiat) TableVersion() string {
-	return "28.06.291152"
+	return "28.07.291152"
 }
 
 func (TPengetahuanKiat) TableName() string {
@@ -442,8 +442,6 @@ type TPengetahuanTugas struct {
 	TemuanMaterial        app.NullText  `json:"temuan_material"         db:"tptugas.temuan_material"         gorm:"column:temuan_material"`
 	KeahlianDibutuhkan    app.NullText  `json:"keahlian_dibutuhkan"     db:"tptugas.keahlian_dibutuhkan"     gorm:"column:keahlian_dibutuhkan"`
 	DataDigunakan         app.NullText  `json:"data_digunakan"          db:"tptugas.data_digunakan"          gorm:"column:data_digunakan"`
-	TenagaAhli            app.NullText  `json:"tenaga_ahli"             db:"tptugas.tenaga_ahli"             gorm:"column:tenaga_ahli"`
-	Pedoman               app.NullText  `json:"pedoman"                 db:"tptugas.pedoman"                 gorm:"column:pedoman"`
 }
 
 func (TPengetahuanTugas) EndPoint() string {
@@ -451,7 +449,7 @@ func (TPengetahuanTugas) EndPoint() string {
 }
 
 func (TPengetahuanTugas) TableVersion() string {
-	return "28.07.291152"
+	return "28.07.301152"
 }
 
 func (TPengetahuanTugas) TableName() string {
@@ -463,7 +461,7 @@ func (TPengetahuanTugas) TableAliasName() string {
 }
 
 func (m *TPengetahuanTugas) GetRelations() map[string]map[string]any {
-
+	m.AddRelation("left", "m_orang", "tno", []map[string]any{{"column1": "tno.id_orang", "column2": "tptugas.tenaga_ahli_id"}})
 	return m.Relations
 }
 
@@ -639,4 +637,346 @@ func (TPengetahuanDokumenList) OpenAPISchemaName() string {
 
 func (p *TPengetahuanDokumenList) GetOpenAPISchema() map[string]any {
 	return p.SetOpenAPISchema(&TPengetahuanDokumen{})
+}
+
+// pengetahuan tenaga ahli
+type TPengetahuanTenagaAhli struct {
+	app.Model
+	ID                app.NullInt64  `json:"-"              db:"tptenagaahli.id_pengetahuan_ta"   gorm:"column:id_pengetahuan_ta;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID     app.NullInt64  `json:"pengetahuan.id" db:"tptenagaahli.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
+	TenagaAhliID      app.NullInt64  `json:"id"             db:"tptenagaahli.tenaga_ahli_id"      gorm:"column:tenaga_ahli_id"`
+	TenagaAhliNip     app.NullString `json:"nip"            db:"tno.nip"                          gorm:"-"`
+	TenagaAhliNama    app.NullString `json:"nama_lengkap"   db:"tno.nama"                         gorm:"-"`
+	TenagaAhliJabatan app.NullString `json:"jabatan"        db:"tno.jabatan"                      gorm:"-"`
+	TenagaAhliEmail   app.NullString `json:"email"          db:"tno.email"                        gorm:"-"`
+}
+
+func (TPengetahuanTenagaAhli) EndPoint() string {
+	return "t_pengetahuan_tenaga_ahli"
+}
+
+func (TPengetahuanTenagaAhli) TableVersion() string {
+	return "28.07.301152"
+}
+
+func (TPengetahuanTenagaAhli) TableName() string {
+	return "t_pengetahuan_tenaga_ahli"
+}
+
+func (TPengetahuanTenagaAhli) TableAliasName() string {
+	return "tptenagaahli"
+}
+
+func (m *TPengetahuanTenagaAhli) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_orang", "tno", []map[string]any{{"column1": "tno.id_orang", "column2": "tptenagaahli.tenaga_ahli_id"}})
+	return m.Relations
+}
+
+func (m *TPengetahuanTenagaAhli) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanTenagaAhli) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanTenagaAhli) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanTenagaAhli) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanTenagaAhli) OpenAPISchemaName() string {
+	return "TPengetahuanTenagaAhli"
+}
+
+func (m *TPengetahuanTenagaAhli) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type TPengetahuanTenagaAhliList struct {
+	app.ListModel
+}
+
+func (TPengetahuanTenagaAhliList) OpenAPISchemaName() string {
+	return "TPengetahuanTenagaAhliList"
+}
+
+func (p *TPengetahuanTenagaAhliList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&TPengetahuanTenagaAhli{})
+}
+
+// pengetahuan pedoman
+type TPengetahuanPedoman struct {
+	app.Model
+	ID            app.NullInt64  `json:"-"              db:"tp_pedoman.id_pengetahuan_ta"   gorm:"column:id_pengetahuan_ta;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID app.NullInt64  `json:"pengetahuan.id" db:"tp_pedoman.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
+	PedomanID     app.NullText   `json:"id"             db:"tp_pedoman.pedoman_id"          gorm:"column:pedoman_id"`
+	PedmoanNama   app.NullString `json:"nama"           db:"-"                              gorm:"-"`
+	PedmoanData   app.NullString `json:"data"           db:"-"                              gorm:"-"`
+}
+
+func (TPengetahuanPedoman) EndPoint() string {
+	return "t_pengetahuan_pedoman"
+}
+
+func (TPengetahuanPedoman) TableVersion() string {
+	return "28.07.301152"
+}
+
+func (TPengetahuanPedoman) TableName() string {
+	return "t_pengetahuan_pedoman"
+}
+
+func (TPengetahuanPedoman) TableAliasName() string {
+	return "tp_pedoman"
+}
+
+func (m *TPengetahuanPedoman) GetRelations() map[string]map[string]any {
+	return m.Relations
+}
+
+func (m *TPengetahuanPedoman) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanPedoman) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanPedoman) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanPedoman) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanPedoman) OpenAPISchemaName() string {
+	return "TPengetahuanPedoman"
+}
+
+func (m *TPengetahuanPedoman) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type TPengetahuanPedomanList struct {
+	app.ListModel
+}
+
+func (TPengetahuanPedomanList) OpenAPISchemaName() string {
+	return "TPengetahuanPedomanList"
+}
+
+func (p *TPengetahuanPedomanList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&TPengetahuanPedoman{})
+}
+
+// pengetahuan Narasumber
+type TPengetahuanNarsum struct {
+	app.Model
+	ID             app.NullInt64  `json:"-"              db:"tp_narsum.id_pengetahuan_narsum"   gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID  app.NullInt64  `json:"pengetahuan.id" db:"tp_narsum.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
+	NarasumberID   app.NullText   `json:"id"             db:"tp_narsum.id_narasumber"          gorm:"column:id_narasumber"`
+	NarasumberNama app.NullString `json:"nama"           db:"narsum.nama"                              gorm:"-"`
+}
+
+func (TPengetahuanNarsum) EndPoint() string {
+	return "t_pengetahuan_narsum"
+}
+
+func (TPengetahuanNarsum) TableVersion() string {
+	return "28.07.301152"
+}
+
+func (TPengetahuanNarsum) TableName() string {
+	return "t_pengetahuan_narsum"
+}
+
+func (TPengetahuanNarsum) TableAliasName() string {
+	return "tp_narsum"
+}
+
+func (m *TPengetahuanNarsum) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_narasumber", "narsum", []map[string]any{{"column1": "narsum.id", "column2": "tp_narsum.id_narasumber"}})
+	return m.Relations
+}
+
+func (m *TPengetahuanNarsum) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanNarsum) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanNarsum) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanNarsum) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanNarsum) OpenAPISchemaName() string {
+	return "TPengetahuanNarsum"
+}
+
+func (m *TPengetahuanNarsum) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type TPengetahuanNarsumList struct {
+	app.ListModel
+}
+
+func (TPengetahuanNarsumList) OpenAPISchemaName() string {
+	return "TPengetahuanNarsumList"
+}
+
+func (p *TPengetahuanNarsumList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&TPengetahuanNarsum{})
+}
+
+// pengetahuan Penerbit
+type TPengetahuanPenerbit struct {
+	app.Model
+	ID            app.NullInt64  `json:"-"              db:"tp_penerbit.id_pengetahuan_penerbit"   gorm:"column:id_pengetahuan_penerbit;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID app.NullInt64  `json:"pengetahuan.id" db:"tp_penerbit.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
+	PenerbitID    app.NullText   `json:"id"             db:"tp_penerbit.id_penerbit"          gorm:"column:id_penerbit"`
+	PenerbitNama  app.NullString `json:"nama"           db:"penerbit.nama"                              gorm:"-"`
+}
+
+func (TPengetahuanPenerbit) EndPoint() string {
+	return "t_pengetahuan_penerbit"
+}
+
+func (TPengetahuanPenerbit) TableVersion() string {
+	return "28.07.301152"
+}
+
+func (TPengetahuanPenerbit) TableName() string {
+	return "t_pengetahuan_penerbit"
+}
+
+func (TPengetahuanPenerbit) TableAliasName() string {
+	return "tp_penerbit"
+}
+
+func (m *TPengetahuanPenerbit) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_penerbit", "penerbit", []map[string]any{{"column1": "penerbit.id", "column2": "tp_penerbit.id_penerbit"}})
+	return m.Relations
+}
+
+func (m *TPengetahuanPenerbit) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanPenerbit) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanPenerbit) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanPenerbit) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanPenerbit) OpenAPISchemaName() string {
+	return "TPengetahuanPenerbit"
+}
+
+func (m *TPengetahuanPenerbit) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type TPengetahuanPenerbitList struct {
+	app.ListModel
+}
+
+func (TPengetahuanPenerbitList) OpenAPISchemaName() string {
+	return "TPengetahuanPenerbitList"
+}
+
+func (p *TPengetahuanPenerbitList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&TPengetahuanPenerbit{})
+}
+
+// pengetahuan resensi
+type TPengetahuanResensi struct {
+	app.Model
+	ID                  app.NullInt64          `json:"-"              db:"tp_resensi.id_pengetahuan_narsum"   gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID       app.NullInt64          `json:"pengetahuan.id" db:"tp_resensi.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
+	Narasumber          []TPengetahuanNarsum   `json:"narasumber"                   db:"pengetahuan.id={pengetahuan.id}"             gorm:"-"`
+	JumlahHalaman       app.NullInt64          `json:"jumlah_halaman" db:"tp_resensi.jumlah_halaman" gorm:"column:jumlah_halaman"`
+	Penerbit            []TPengetahuanPenerbit `json:"penerbit"                   db:"pengetahuan.id={pengetahuan.id}"             gorm:"-"`
+	TahunTerbit         app.NullInt64          `json:"tahun_terbit" db:"tp_resensi.tahun_terbit" gorm:"column:tahun_terbit"`
+	LatarBelakang       app.NullText           `json:"latar_belakang" db:"tp_resensi.latar_belakang" gorm:"column:latar_belakang"`
+	PenelitianTerdahulu app.NullText           `json:"penelitian_terdahulu" db:"tp_resensi.penelitian_terdahulu" gorm:"column:penelitian_terdahulu"`
+	LessonLearned       app.NullText           `json:"lesson_learned" db:"tp_resensi.lesson_learned" gorm:"column:lesson_learned"`
+}
+
+func (TPengetahuanResensi) EndPoint() string {
+	return "t_pengetahuan_resensi"
+}
+
+func (TPengetahuanResensi) TableVersion() string {
+	return "28.07.301152"
+}
+
+func (TPengetahuanResensi) TableName() string {
+	return "t_pengetahuan_resensi"
+}
+
+func (TPengetahuanResensi) TableAliasName() string {
+	return "tp_resensi"
+}
+
+func (m *TPengetahuanResensi) GetRelations() map[string]map[string]any {
+	return m.Relations
+}
+
+func (m *TPengetahuanResensi) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanResensi) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanResensi) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanResensi) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanResensi) OpenAPISchemaName() string {
+	return "TPengetahuanResensi"
+}
+
+func (m *TPengetahuanResensi) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type TPengetahuanResensiList struct {
+	app.ListModel
+}
+
+func (TPengetahuanResensiList) OpenAPISchemaName() string {
+	return "TPengetahuanResensiList"
+}
+
+func (p *TPengetahuanResensiList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&TPengetahuanResensi{})
 }
