@@ -779,10 +779,10 @@ func (p *TPengetahuanPedomanList) GetOpenAPISchema() map[string]any {
 // pengetahuan Narasumber
 type TPengetahuanNarsum struct {
 	app.Model
-	ID             app.NullInt64  `json:"-"              db:"tp_narsum.id_pengetahuan_narsum"   gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
-	PengetahuanID  app.NullInt64  `json:"pengetahuan.id" db:"tp_narsum.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	NarasumberID   app.NullText   `json:"id"             db:"tp_narsum.id_narasumber"          gorm:"column:id_narasumber"`
-	NarasumberNama app.NullString `json:"nama"           db:"narsum.nama"                              gorm:"-"`
+	ID             app.NullInt64  `json:"-"              db:"tp_narsum.id_pengetahuan_narsum" gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID  app.NullInt64  `json:"pengetahuan.id" db:"tp_narsum.id_pengetahuan,hide"   gorm:"column:id_pengetahuan"`
+	NarasumberID   app.NullText   `json:"id"             db:"tp_narsum.id_narasumber"         gorm:"column:id_narasumber"`
+	NarasumberNama app.NullString `json:"nama"           db:"narsum.nama"                     gorm:"-"`
 }
 
 func (TPengetahuanNarsum) EndPoint() string {
@@ -846,10 +846,10 @@ func (p *TPengetahuanNarsumList) GetOpenAPISchema() map[string]any {
 // pengetahuan Penerbit
 type TPengetahuanPenerbit struct {
 	app.Model
-	ID            app.NullInt64  `json:"-"              db:"tp_penerbit.id_pengetahuan_penerbit"   gorm:"column:id_pengetahuan_penerbit;primaryKey;auto_increment;AutoIncrement;"`
-	PengetahuanID app.NullInt64  `json:"pengetahuan.id" db:"tp_penerbit.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	PenerbitID    app.NullText   `json:"id"             db:"tp_penerbit.id_penerbit"          gorm:"column:id_penerbit"`
-	PenerbitNama  app.NullString `json:"nama"           db:"penerbit.nama"                              gorm:"-"`
+	ID            app.NullInt64  `json:"-"              db:"tp_penerbit.id_pengetahuan_penerbit" gorm:"column:id_pengetahuan_penerbit;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID app.NullInt64  `json:"pengetahuan.id" db:"tp_penerbit.id_pengetahuan,hide"     gorm:"column:id_pengetahuan"`
+	PenerbitID    app.NullText   `json:"id"             db:"tp_penerbit.id_penerbit"             gorm:"column:id_penerbit"`
+	PenerbitNama  app.NullString `json:"nama"           db:"penerbit.nama"                       gorm:"-"`
 }
 
 func (TPengetahuanPenerbit) EndPoint() string {
@@ -913,15 +913,15 @@ func (p *TPengetahuanPenerbitList) GetOpenAPISchema() map[string]any {
 // pengetahuan resensi
 type TPengetahuanResensi struct {
 	app.Model
-	ID                  app.NullInt64          `json:"-"              db:"tp_resensi.id_pengetahuan_narsum"   gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
-	PengetahuanID       app.NullInt64          `json:"pengetahuan.id" db:"tp_resensi.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	Narasumber          []TPengetahuanNarsum   `json:"narasumber"                   db:"pengetahuan.id={pengetahuan.id}"             gorm:"-"`
-	JumlahHalaman       app.NullInt64          `json:"jumlah_halaman" db:"tp_resensi.jumlah_halaman" gorm:"column:jumlah_halaman"`
-	Penerbit            []TPengetahuanPenerbit `json:"penerbit"                   db:"pengetahuan.id={pengetahuan.id}"             gorm:"-"`
-	TahunTerbit         app.NullInt64          `json:"tahun_terbit" db:"tp_resensi.tahun_terbit" gorm:"column:tahun_terbit"`
-	LatarBelakang       app.NullText           `json:"latar_belakang" db:"tp_resensi.latar_belakang" gorm:"column:latar_belakang"`
-	PenelitianTerdahulu app.NullText           `json:"penelitian_terdahulu" db:"tp_resensi.penelitian_terdahulu" gorm:"column:penelitian_terdahulu"`
-	LessonLearned       app.NullText           `json:"lesson_learned" db:"tp_resensi.lesson_learned" gorm:"column:lesson_learned"`
+	ID                  app.NullInt64          `json:"-"                    db:"tp_resensi.id_pengetahuan_narsum" gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID       app.NullInt64          `json:"pengetahuan.id"       db:"tp_resensi.id_pengetahuan,hide"   gorm:"column:id_pengetahuan"`
+	Narasumber          []TPengetahuanNarsum   `json:"narasumber"           db:"pengetahuan.id={pengetahuan.id}"  gorm:"-"`
+	JumlahHalaman       app.NullInt64          `json:"jumlah_halaman"       db:"tp_resensi.jumlah_halaman"        gorm:"column:jumlah_halaman"`
+	Penerbit            []TPengetahuanPenerbit `json:"penerbit"             db:"pengetahuan.id={pengetahuan.id}"  gorm:"-"`
+	TahunTerbit         app.NullInt64          `json:"tahun_terbit"         db:"tp_resensi.tahun_terbit"          gorm:"column:tahun_terbit"`
+	LatarBelakang       app.NullText           `json:"latar_belakang"       db:"tp_resensi.latar_belakang"        gorm:"column:latar_belakang"`
+	PenelitianTerdahulu app.NullText           `json:"penelitian_terdahulu" db:"tp_resensi.penelitian_terdahulu"  gorm:"column:penelitian_terdahulu"`
+	LessonLearned       app.NullText           `json:"lesson_learned"       db:"tp_resensi.lesson_learned"        gorm:"column:lesson_learned"`
 }
 
 func (TPengetahuanResensi) EndPoint() string {
