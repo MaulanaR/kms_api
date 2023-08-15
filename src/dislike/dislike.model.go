@@ -5,7 +5,7 @@ import "github.com/maulanar/kms/app"
 type Dislike struct {
 	app.Model
 	ID                     app.NullInt64    `json:"id"                  db:"m.id"              gorm:"column:id;primaryKey"`
-	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"      db:"m.id_pengetahuan"  gorm:"column:id_pengetahuan"`
+	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"      db:"m.id_pengetahuan"  gorm:"column:id_pengetahuan" validate:"required"`
 	UserID                 app.NullInt64    `json:"user.id"             db:"m.id_user"         gorm:"column:id_user"`
 	UserOrangId            app.NullInt64    `json:"user.orang.id"       db:"u.id_orang,hide"   gorm:"-"`
 	UserOrangNama          app.NullString   `json:"user.nama_lengkap"   db:"o.nama"            gorm:"-"`
@@ -44,7 +44,7 @@ func (Dislike) TableAliasName() string {
 func (m *Dislike) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.id_user"}})
 	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "u.id_orang"}})
-	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "u.foto"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "o.foto"}})
 	return m.Relations
 }
 

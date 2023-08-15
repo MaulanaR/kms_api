@@ -166,7 +166,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	if err != nil {
 		return err
 	}
-	p.Url.Set(app.APP_URL + "/" + storageDir + "/" + fileName)
+	p.Url.Set(app.APP_URL + "/api/" + storageDir + "/" + fileName)
 	p.Filename.Set(fileName)
 	p.Size.Set(file.Size)
 	p.Extension.Set(extension)

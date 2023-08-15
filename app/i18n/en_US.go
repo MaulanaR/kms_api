@@ -13,5 +13,6 @@ func EnUS() map[string]string {
 		"password_wrong":               "Username/Password not valid.",
 		"extension_not_in":             "The file extension must be one of the following types: (:value).",
 		"not_found":                    ":entity data with :key = :value cannot be found.",
+		"success":                      "The action was successful.",
 	}
 }

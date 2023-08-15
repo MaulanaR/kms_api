@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/pengetahuan"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -252,5 +253,58 @@ func (u *UseCaseHandler) setDefaultValue(old Dislike) error {
 		u.ID = old.ID
 	}
 
+	if old.UserID.Valid {
+		u.UserID = old.UserID
+	}
+
+	if !u.UserID.Valid {
+		u.UserID.Set(u.Ctx.User.ID)
+	}
+
+	//validasi
+	if u.PengetahuanID.Valid {
+		_, err := pengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.PengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (u UseCaseHandler) UpdateByPengetahuanID(id string, p *ParamUpdate) error {
+	//validasi
+	pgth, err := pengetahuan.UseCase(*u.Ctx).GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//make sure that person havent doing this action before
+	var exist int64
+	tx.Model(&Dislike{}).
+		Where("id_pengetahuan = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&exist)
+
+	if exist < 1 {
+		//Set param
+		p.PengetahuanID.Set(pgth.ID.Int64)
+		p.UserID.Set(u.Ctx.User.ID)
+		p.CreatedAt.Set(time.Now())
+
+		err = tx.Model(&p).Create(&p).Error
+		if err != nil {
+			return app.Error().New(http.StatusInternalServerError, err.Error())
+		}
+	}
+
+	app.Cache().Invalidate(u.EndPoint())
+
+	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
 	return nil
 }

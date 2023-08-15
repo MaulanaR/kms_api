@@ -167,23 +167,13 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	p.StatistikView.Set(0)
 
 	//cek by jenis
-	jp := jenispengetahuan.UseCaseHandler{
-		Ctx:   u.Ctx,
-		Query: url.Values{},
-	}
-
-	jenis, err := jp.GetByID(strconv.Itoa(int(p.JenisPengetahuanID.Int64)))
+	jenis, err := jenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.JenisPengetahuanID.Int64)))
 	if err != nil {
 		return err
 	}
 
 	//validasi LingkupPengetahuan
-	lp := lingkuppengetahuan.UseCaseHandler{
-		Ctx:   u.Ctx,
-		Query: url.Values{},
-	}
-
-	_, err = lp.GetByID(strconv.Itoa(int(p.LingkupPengetahuanID.Int64)))
+	_, err = lingkuppengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.LingkupPengetahuanID.Int64)))
 	if err != nil {
 		return err
 	}
@@ -192,45 +182,29 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	if !p.StatusPengetahuanID.Valid {
 		p.StatusPengetahuanID.Set(1)
 	}
-	sp := statuspengetahuan.UseCaseHandler{
-		Ctx:   u.Ctx,
-		Query: url.Values{},
-	}
 
-	_, err = sp.GetByID(strconv.Itoa(int(p.StatusPengetahuanID.Int64)))
+	_, err = statuspengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.StatusPengetahuanID.Int64)))
 	if err != nil {
 		return err
 	}
 
 	//validasi penulis (orang)
 	if p.Penulis1ID.Valid {
-		org := orang.UseCaseHandler{
-			Ctx:   u.Ctx,
-			Query: url.Values{},
-		}
-		_, err = org.GetByID(strconv.Itoa(int(p.Penulis1ID.Int64)))
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis1ID.Int64)))
 		if err != nil {
 			return err
 		}
 	}
 
 	if p.Penulis2ID.Valid {
-		org := orang.UseCaseHandler{
-			Ctx:   u.Ctx,
-			Query: url.Values{},
-		}
-		_, err = org.GetByID(strconv.Itoa(int(p.Penulis2ID.Int64)))
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis2ID.Int64)))
 		if err != nil {
 			return err
 		}
 	}
 
 	if p.Penulis3ID.Valid {
-		org := orang.UseCaseHandler{
-			Ctx:   u.Ctx,
-			Query: url.Values{},
-		}
-		_, err = org.GetByID(strconv.Itoa(int(p.Penulis3ID.Int64)))
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis3ID.Int64)))
 		if err != nil {
 			return err
 		}
@@ -247,12 +221,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	//validasi referensi
 	if len(p.Referensi) > 0 {
 		for i, ref := range p.Referensi {
-			rf := referensi.UseCaseHandler{
-				Ctx:   u.Ctx,
-				Query: url.Values{},
-			}
 			//validasi
-			_, err := rf.GetByID(strconv.Itoa(int(ref.ReferensiID.Int64)))
+			_, err := referensi.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.ReferensiID.Int64)))
 			if err != nil {
 				return err
 			}
@@ -280,12 +250,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	//validasi hastag
 	if len(p.Tag) > 0 {
 		for i, ref := range p.Tag {
-			tg := tag.UseCaseHandler{
-				Ctx:   u.Ctx,
-				Query: url.Values{},
-			}
 			//validasi
-			_, err := tg.GetByID(strconv.Itoa(int(ref.TagID.Int64)))
+			_, err := tag.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.TagID.Int64)))
 			if err != nil {
 				return err
 			}
@@ -301,12 +267,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	//validasi kompetensi
 	if len(p.Kompetensi) > 0 {
 		for i, ref := range p.Kompetensi {
-			kpt := kompetensi.UseCaseHandler{
-				Ctx:   u.Ctx,
-				Query: url.Values{},
-			}
 			//validasi
-			_, err := kpt.GetByID(strconv.Itoa(int(ref.KompetensiID.Int64)))
+			_, err := kompetensi.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.KompetensiID.Int64)))
 			if err != nil {
 				return err
 			}
@@ -322,12 +284,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	//validasi dokumen
 	if len(p.Dokumen) > 0 {
 		for i, ref := range p.Dokumen {
-			doku := attachment.UseCaseHandler{
-				Ctx:   u.Ctx,
-				Query: url.Values{},
-			}
 			//validasi
-			_, err := doku.GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
 			if err != nil {
 				return err
 			}
@@ -343,12 +301,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	//validasi tenaga ahli
 	if len(p.TenagaAhli) > 0 {
 		for i, ref := range p.TenagaAhli {
-			org := orang.UseCaseHandler{
-				Ctx:   u.Ctx,
-				Query: url.Values{},
-			}
 			//validasi
-			_, err := org.GetByID(strconv.Itoa(int(ref.TenagaAhliID.Int64)))
+			_, err := orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.TenagaAhliID.Int64)))
 			if err != nil {
 				return err
 			}

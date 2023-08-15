@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/pengetahuan"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -127,6 +128,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	p.CreatedAt.Set(time.Now())
+
 	err = tx.Model(&p).Create(&p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
@@ -149,6 +152,8 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	if err != nil {
 		return err
 	}
+
+	p.UpdatedAt.Set(time.Now())
 
 	old, err := u.GetByID(id)
 	if err != nil {
@@ -187,6 +192,8 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	if err != nil {
 		return err
 	}
+
+	p.UpdatedAt.Set(time.Now())
 
 	old, err := u.GetByID(id)
 	if err != nil {
@@ -250,6 +257,22 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
 	if old.ID.Valid {
 		u.ID = old.ID
+	}
+
+	if old.UserID.Valid {
+		u.UserID = old.UserID
+	}
+
+	if !u.UserID.Valid {
+		u.UserID.Set(u.Ctx.User.ID)
+	}
+
+	//validasi
+	if u.PengetahuanID.Valid {
+		_, err := pengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.PengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

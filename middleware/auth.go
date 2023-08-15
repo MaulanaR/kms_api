@@ -85,7 +85,7 @@ func (auth *authHandler) IsNeedValidate() bool {
 	segments := strings.Split(cleanedPath, "/")
 
 	if len(segments) >= 3 {
-		if segments[1] != "api" || segments[2] == "docs" {
+		if segments[1] != "api" || segments[2] == "docs" || segments[2] == "storages" {
 			return false
 		}
 		if len(segments) >= 4 {

@@ -5,7 +5,7 @@ import "github.com/maulanar/kms/app"
 type Komentar struct {
 	app.Model
 	ID                     app.NullInt64    `json:"id"                       db:"m.id"                 gorm:"column:id;primaryKey"`
-	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"           db:"m.id_pengetahuan"     gorm:"column:id_pengetahuan"`
+	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"           db:"m.id_pengetahuan"     gorm:"column:id_pengetahuan" validate:"required"`
 	UserID                 app.NullInt64    `json:"user.id"                  db:"m.id_user"            gorm:"column:id_user"`
 	UserOrangId            app.NullInt64    `json:"user.orang.id"            db:"u.id_orang,hide"      gorm:"-"`
 	UserOrangNama          app.NullString   `json:"user.nama_lengkap"        db:"o.nama"               gorm:"-"`
@@ -23,7 +23,7 @@ type Komentar struct {
 	ParentKomentarID       app.NullInt64    `json:"parent_komentar.id"       db:"m.id_parent_komentar" gorm:"column:id_parent_komentar"`
 	ParentKomentarKomentar app.NullText     `json:"parent_komentar.komentar" db:"pkom.komentar"        gorm:"-"`
 	ParentKomentarStatus   app.NullString   `json:"parent_komentar.status"   db:"pkom.status"          gorm:"-"`
-	Komentar               app.NullText     `json:"komentar"                 db:"m.komentar"           gorm:"column:komentar"`
+	Komentar               app.NullText     `json:"komentar"                 db:"m.komentar"           gorm:"column:komentar" validate:"required"`
 	Status                 app.NullString   `json:"status"                   db:"m.status"             gorm:"column:status"`
 	CreatedAt              app.NullDateTime `json:"created_at"               db:"m.created_at"         gorm:"column:created_at"`
 	UpdatedAt              app.NullDateTime `json:"updated_at"               db:"m.updated_at"         gorm:"column:updated_at"`
@@ -50,7 +50,7 @@ func (m *Komentar) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "t_komentar", "pkom", []map[string]any{{"column1": "pkom.id", "column2": "m.id_parent_komentar"}})
 	m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.id_user"}})
 	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "u.id_orang"}})
-	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "u.foto"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "o.foto"}})
 
 	return m.Relations
 }

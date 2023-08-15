@@ -41,7 +41,7 @@ type routerUtil struct {
 
 func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/version", "GET", app.VersionHandler, nil)
-	app.Server().AddStatic("/storages", "./storages", fiber.Static{
+	app.Server().AddStatic("/api/storages", "./storages", fiber.Static{
 		Compress:      true,
 		ByteRange:     true,
 		Browse:        true,
@@ -119,6 +119,10 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}", "PUT", pengetahuan.REST().UpdateByID, pengetahuan.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}", "PATCH", pengetahuan.REST().PartiallyUpdateByID, pengetahuan.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}", "DELETE", pengetahuan.REST().DeleteByID, pengetahuan.OpenAPI().DeleteByID())
+
+	//like & dislike
+	app.Server().AddRoute("/api/v1/pengetahuan/{id}/like", "POST", like.REST().UpdateByPengetahuanID, like.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/pengetahuan/{id}/dislike", "POST", dislike.REST().UpdateByPengetahuanID, dislike.OpenAPI().PartiallyUpdateByID())
 
 	app.Server().AddRoute("/api/v1/referensi", "POST", referensi.REST().Create, referensi.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/referensi", "GET", referensi.REST().Get, referensi.OpenAPI().Get())
