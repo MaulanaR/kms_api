@@ -35,7 +35,7 @@ type objectRetention struct {
 	XMLNS           string        `xml:"xmlns,attr,omitempty"`
 	XMLName         xml.Name      `xml:"Retention"`
 	Mode            RetentionMode `xml:"Mode,omitempty"`
-	RetainUntilDate *time.Time    `xml:"RetainUntilDate,omitempty" timestampFormat:"iso8601" type:"timestamp"`
+	RetainUntilDate *time.Time    `type:"timestamp" timestampFormat:"iso8601" xml:"RetainUntilDate,omitempty"`
 }
 
 func newObjectRetention(mode *RetentionMode, date *time.Time) (*objectRetention, error) {

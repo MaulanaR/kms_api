@@ -119,9 +119,9 @@ func stringsCut(s, sep string) (before, after string, found bool) {
 
 // Owner name.
 type Owner struct {
-	XMLName     xml.Name `json:"owner" xml:"Owner"`
-	DisplayName string   `json:"name"  xml:"ID"`
-	ID          string   `json:"id"    xml:"DisplayName"`
+	XMLName     xml.Name `xml:"Owner" json:"owner"`
+	DisplayName string   `xml:"ID" json:"name"`
+	ID          string   `xml:"DisplayName" json:"id"`
 }
 
 // UploadInfo contains information about the
@@ -172,7 +172,7 @@ type ObjectInfo struct {
 
 	// Collection of additional metadata on the object.
 	// eg: x-amz-meta-*, content-encoding etc.
-	Metadata http.Header `json:"metadata"               xml:"-"`
+	Metadata http.Header `json:"metadata" xml:"-"`
 
 	// x-amz-meta-* headers stripped "x-amz-meta-" prefix containing the first value.
 	// Only returned by MinIO servers.
@@ -180,7 +180,7 @@ type ObjectInfo struct {
 
 	// x-amz-tagging values in their k/v values.
 	// Only returned by MinIO servers.
-	UserTags URLMap `json:"userTags,omitempty"     xml:"UserTags"`
+	UserTags URLMap `json:"userTags,omitempty" xml:"UserTags"`
 
 	// x-amz-tagging-count value
 	UserTagCount int
@@ -227,7 +227,7 @@ type ObjectInfo struct {
 // ObjectMultipartInfo container for multipart object metadata.
 type ObjectMultipartInfo struct {
 	// Date and time at which the multipart upload was initiated.
-	Initiated time.Time `timestampFormat:"iso8601" type:"timestamp"`
+	Initiated time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	Initiator initiator
 	Owner     owner

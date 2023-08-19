@@ -8,6 +8,11 @@ import (
 // Pengetahuan is the main model of Pengetahuan data. It provides a convenient interface for app.ModelInterface
 type Pengetahuan struct {
 	app.Model
+	//for leveinsthein method
+	LevenshteinKeyword    app.NullString  `json:"levenshtein.keyword"       db:"-"  gorm:"-"`
+	LevenshteinDistance   app.NullInt64   `json:"levenshtein.distance"      db:"-"  gorm:"-"`
+	LevenshteinPercentage app.NullFloat64 `json:"levenshtein.percentage"    db:"-"  gorm:"-"`
+	//common data
 	ID                     app.NullInt64    `json:"id"                        db:"m.id_pengetahuan"                                                   gorm:"column:id_pengetahuan;primaryKey"`
 	JenisPengetahuanID     app.NullInt64    `json:"jenis_pengetahuan.id"      db:"m.id_jenis_pengetahuan"                                             gorm:"column:id_jenis_pengetahuan"`
 	JenisPengtahuanNama    app.NullText     `json:"jenis_pengetahuan.nama"    db:"jp.nama_jenis_pengetahuan"                                          gorm:"-"`

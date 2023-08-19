@@ -161,5 +161,7 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/dislike/{id}", "PATCH", dislike.REST().PartiallyUpdateByID, dislike.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/dislike/{id}", "DELETE", dislike.REST().DeleteByID, dislike.OpenAPI().DeleteByID())
 
+	app.Server().AddRoute("/api/v1/search_pengetahuan", "GET", pengetahuan.REST().GetSearch, pengetahuan.OpenAPI().Get())
+
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

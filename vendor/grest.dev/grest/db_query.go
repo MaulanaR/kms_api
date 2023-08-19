@@ -411,7 +411,7 @@ func (q *DBQuery) SetWhere(db *gorm.DB, schema map[string]any, query url.Values)
 	arrayFields, _ := schema["arrayFields"].(map[string]map[string]any)
 	for key, val := range query {
 		cond := q.qsToCond(key, val[0], fields, arrayFields)
-		if cond["column1"] != nil {
+		if cond["column1"] != nil && cond["column1"] != "-" {
 			whereSQL, arg := q.condToWhereSQL(cond)
 			if strings.Contains(whereSQL, "?") {
 				db = db.Where(whereSQL, arg)

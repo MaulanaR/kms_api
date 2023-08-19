@@ -88,9 +88,9 @@ func (opts Options) Tags() ([]Tag, error) {
 // Config - replication configuration specified in
 // https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html
 type Config struct {
-	XMLName xml.Name `json:"-"     xml:"ReplicationConfiguration"`
-	Rules   []Rule   `json:"Rules" xml:"Rule"`
-	Role    string   `json:"Role"  xml:"Role"`
+	XMLName xml.Name `xml:"ReplicationConfiguration" json:"-"`
+	Rules   []Rule   `xml:"Rule" json:"Rules"`
+	Role    string   `xml:"Role" json:"Role"`
 }
 
 // Empty returns true if config is not set
@@ -437,16 +437,16 @@ func (c *Config) RemoveRule(opts Options) error {
 
 // Rule - a rule for replication configuration.
 type Rule struct {
-	XMLName                   xml.Name                  `json:"-"                                   xml:"Rule"`
+	XMLName                   xml.Name                  `xml:"Rule" json:"-"`
 	ID                        string                    `xml:"ID,omitempty"`
 	Status                    Status                    `xml:"Status"`
 	Priority                  int                       `xml:"Priority"`
 	DeleteMarkerReplication   DeleteMarkerReplication   `xml:"DeleteMarkerReplication"`
 	DeleteReplication         DeleteReplication         `xml:"DeleteReplication"`
 	Destination               Destination               `xml:"Destination"`
-	Filter                    Filter                    `json:"Filter"                              xml:"Filter"`
-	SourceSelectionCriteria   SourceSelectionCriteria   `json:"SourceSelectionCriteria"             xml:"SourceSelectionCriteria"`
-	ExistingObjectReplication ExistingObjectReplication `json:"ExistingObjectReplication,omitempty" xml:"ExistingObjectReplication,omitempty"`
+	Filter                    Filter                    `xml:"Filter" json:"Filter"`
+	SourceSelectionCriteria   SourceSelectionCriteria   `xml:"SourceSelectionCriteria" json:"SourceSelectionCriteria"`
+	ExistingObjectReplication ExistingObjectReplication `xml:"ExistingObjectReplication,omitempty" json:"ExistingObjectReplication,omitempty"`
 }
 
 // Validate validates the rule for correctness
@@ -529,10 +529,10 @@ func (r Rule) Tags() string {
 
 // Filter - a filter for a replication configuration Rule.
 type Filter struct {
-	XMLName xml.Name `json:"-"                xml:"Filter"`
+	XMLName xml.Name `xml:"Filter" json:"-"`
 	Prefix  string   `json:"Prefix,omitempty"`
-	And     And      `json:"And,omitempty"    xml:"And,omitempty"`
-	Tag     Tag      `json:"Tag,omitempty"    xml:"Tag,omitempty"`
+	And     And      `xml:"And,omitempty" json:"And,omitempty"`
+	Tag     Tag      `xml:"Tag,omitempty" json:"Tag,omitempty"`
 }
 
 // Validate - validates the filter element
@@ -562,8 +562,8 @@ func (f Filter) Validate() error {
 // Tag - a tag for a replication configuration Rule filter.
 type Tag struct {
 	XMLName xml.Name `json:"-"`
-	Key     string   `json:"Key,omitempty"   xml:"Key,omitempty"`
-	Value   string   `json:"Value,omitempty" xml:"Value,omitempty"`
+	Key     string   `xml:"Key,omitempty" json:"Key,omitempty"`
+	Value   string   `xml:"Value,omitempty" json:"Value,omitempty"`
 }
 
 func (tag Tag) String() string {
@@ -592,16 +592,16 @@ func (tag Tag) Validate() error {
 
 // Destination - destination in ReplicationConfiguration.
 type Destination struct {
-	XMLName      xml.Name `json:"-"                      xml:"Destination"`
-	Bucket       string   `json:"Bucket"                 xml:"Bucket"`
-	StorageClass string   `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
+	XMLName      xml.Name `xml:"Destination" json:"-"`
+	Bucket       string   `xml:"Bucket" json:"Bucket"`
+	StorageClass string   `xml:"StorageClass,omitempty" json:"StorageClass,omitempty"`
 }
 
 // And - a tag to combine a prefix and multiple tags for replication configuration rule.
 type And struct {
-	XMLName xml.Name `json:"-"                xml:"And,omitempty"`
-	Prefix  string   `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
-	Tags    []Tag    `json:"Tag,omitempty"    xml:"Tag,omitempty"`
+	XMLName xml.Name `xml:"And,omitempty" json:"-"`
+	Prefix  string   `xml:"Prefix,omitempty" json:"Prefix,omitempty"`
+	Tags    []Tag    `xml:"Tag,omitempty" json:"Tag,omitempty"`
 }
 
 // isEmpty returns true if Tags field is null
@@ -620,7 +620,7 @@ const (
 
 // DeleteMarkerReplication - whether delete markers are replicated - https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html
 type DeleteMarkerReplication struct {
-	Status Status `json:"Status" xml:"Status"` // should be set to "Disabled" by default
+	Status Status `xml:"Status" json:"Status"` // should be set to "Disabled" by default
 }
 
 // IsEmpty returns true if DeleteMarkerReplication is not set
@@ -631,7 +631,7 @@ func (d DeleteMarkerReplication) IsEmpty() bool {
 // DeleteReplication - whether versioned deletes are replicated - this
 // is a MinIO specific extension
 type DeleteReplication struct {
-	Status Status `json:"Status" xml:"Status"` // should be set to "Disabled" by default
+	Status Status `xml:"Status" json:"Status"` // should be set to "Disabled" by default
 }
 
 // IsEmpty returns true if DeleteReplication is not set
@@ -641,12 +641,12 @@ func (d DeleteReplication) IsEmpty() bool {
 
 // ReplicaModifications specifies if replica modification sync is enabled
 type ReplicaModifications struct {
-	Status Status `json:"Status" xml:"Status"` // should be set to "Enabled" by default
+	Status Status `xml:"Status" json:"Status"` // should be set to "Enabled" by default
 }
 
 // SourceSelectionCriteria - specifies additional source selection criteria in ReplicationConfiguration.
 type SourceSelectionCriteria struct {
-	ReplicaModifications ReplicaModifications `json:"ReplicaModifications" xml:"ReplicaModifications"`
+	ReplicaModifications ReplicaModifications `xml:"ReplicaModifications" json:"ReplicaModifications"`
 }
 
 // IsValid - checks whether SourceSelectionCriteria is valid or not.

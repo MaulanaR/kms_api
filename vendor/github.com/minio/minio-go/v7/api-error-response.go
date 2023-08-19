@@ -42,7 +42,7 @@ import (
 // ErrorResponse struct should be comparable since it is compared inside
 // golang http API (https://github.com/golang/go/issues/29768)
 type ErrorResponse struct {
-	XMLName    xml.Name `json:"-" xml:"Error"`
+	XMLName    xml.Name `xml:"Error" json:"-"`
 	Code       string
 	Message    string
 	BucketName string
@@ -59,7 +59,7 @@ type ErrorResponse struct {
 	Server string
 
 	// Underlying HTTP status code for the returned error
-	StatusCode int `json:"-" xml:"-"`
+	StatusCode int `xml:"-" json:"-"`
 }
 
 // ToErrorResponse - Returns parsed ErrorResponse struct from body and

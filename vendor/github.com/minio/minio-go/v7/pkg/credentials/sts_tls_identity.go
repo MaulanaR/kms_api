@@ -196,7 +196,7 @@ func (i *STSCertificateIdentity) Retrieve() (Value, error) {
 func (i *STSCertificateIdentity) Expiration() time.Time { return i.expiration }
 
 type assumeRoleWithCertificateResponse struct {
-	XMLName xml.Name `json:"-" xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithCertificateResponse"`
+	XMLName xml.Name `xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithCertificateResponse" json:"-"`
 	Result  struct {
 		Credentials struct {
 			AccessKey    string    `xml:"AccessKeyId" json:"accessKey,omitempty"`

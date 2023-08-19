@@ -175,3 +175,15 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	}
 	return c.JSON(res)
 }
+
+func (r *RESTAPIHandler) GetSearch(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res, err := r.UseCase.GetSearch()
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+}

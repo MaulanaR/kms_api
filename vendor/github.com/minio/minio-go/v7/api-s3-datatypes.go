@@ -91,7 +91,7 @@ type Version struct {
 
 	// x-amz-tagging values in their k/v values.
 	// Only returned by MinIO servers.
-	UserTags URLMap `json:"userTags,omitempty"     xml:"UserTags"`
+	UserTags URLMap `json:"userTags,omitempty" xml:"UserTags"`
 
 	isDeleteMarker bool
 }
@@ -337,13 +337,13 @@ type CompletePart struct {
 
 // completeMultipartUpload container for completing multipart upload.
 type completeMultipartUpload struct {
-	XMLName xml.Name       `json:"-" xml:"http://s3.amazonaws.com/doc/2006-03-01/ CompleteMultipartUpload"`
+	XMLName xml.Name       `xml:"http://s3.amazonaws.com/doc/2006-03-01/ CompleteMultipartUpload" json:"-"`
 	Parts   []CompletePart `xml:"Part"`
 }
 
 // createBucketConfiguration container for bucket configuration.
 type createBucketConfiguration struct {
-	XMLName  xml.Name `json:"-" xml:"http://s3.amazonaws.com/doc/2006-03-01/ CreateBucketConfiguration"`
+	XMLName  xml.Name `xml:"http://s3.amazonaws.com/doc/2006-03-01/ CreateBucketConfiguration" json:"-"`
 	Location string   `xml:"LocationConstraint"`
 }
 

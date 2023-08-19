@@ -28,7 +28,7 @@ import (
 // ErrorResponse struct should be comparable since it is compared inside
 // golang http API (https://github.com/golang/go/issues/29768)
 type ErrorResponse struct {
-	XMLName  xml.Name `json:"-" xml:"https://sts.amazonaws.com/doc/2011-06-15/ ErrorResponse"`
+	XMLName  xml.Name `xml:"https://sts.amazonaws.com/doc/2011-06-15/ ErrorResponse" json:"-"`
 	STSError struct {
 		Type    string `xml:"Type"`
 		Code    string `xml:"Code"`
@@ -39,7 +39,7 @@ type ErrorResponse struct {
 
 // Error - Is the typed error returned by all API operations.
 type Error struct {
-	XMLName    xml.Name `json:"-" xml:"Error"`
+	XMLName    xml.Name `xml:"Error" json:"-"`
 	Code       string
 	Message    string
 	BucketName string
@@ -56,7 +56,7 @@ type Error struct {
 	Server string
 
 	// Underlying HTTP status code for the returned error
-	StatusCode int `json:"-" xml:"-"`
+	StatusCode int `xml:"-" json:"-"`
 }
 
 // Error - Returns S3 error string.

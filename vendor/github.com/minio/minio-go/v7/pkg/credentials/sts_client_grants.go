@@ -38,7 +38,7 @@ type AssumedRoleUser struct {
 
 // AssumeRoleWithClientGrantsResponse contains the result of successful AssumeRoleWithClientGrants request.
 type AssumeRoleWithClientGrantsResponse struct {
-	XMLName          xml.Name           `json:"-" xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithClientGrantsResponse"`
+	XMLName          xml.Name           `xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithClientGrantsResponse" json:"-"`
 	Result           ClientGrantsResult `xml:"AssumeRoleWithClientGrantsResult"`
 	ResponseMetadata struct {
 		RequestID string `xml:"RequestId,omitempty"`

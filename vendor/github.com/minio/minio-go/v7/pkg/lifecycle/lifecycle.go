@@ -29,8 +29,8 @@ var errMissingStorageClass = errors.New("storage-class cannot be empty")
 
 // AbortIncompleteMultipartUpload structure, not supported yet on MinIO
 type AbortIncompleteMultipartUpload struct {
-	XMLName             xml.Name       `json:"-"                             xml:"AbortIncompleteMultipartUpload,omitempty"`
-	DaysAfterInitiation ExpirationDays `json:"DaysAfterInitiation,omitempty" xml:"DaysAfterInitiation,omitempty"`
+	XMLName             xml.Name       `xml:"AbortIncompleteMultipartUpload,omitempty"  json:"-"`
+	DaysAfterInitiation ExpirationDays `xml:"DaysAfterInitiation,omitempty" json:"DaysAfterInitiation,omitempty"`
 }
 
 // IsDaysNull returns true if days field is null
@@ -53,9 +53,9 @@ func (n AbortIncompleteMultipartUpload) MarshalXML(e *xml.Encoder, start xml.Sta
 // (or suspended) to request server delete noncurrent object versions at a
 // specific period in the object's lifetime.
 type NoncurrentVersionExpiration struct {
-	XMLName                 xml.Name       `json:"-"                                 xml:"NoncurrentVersionExpiration"`
-	NoncurrentDays          ExpirationDays `json:"NoncurrentDays,omitempty"          xml:"NoncurrentDays,omitempty"`
-	NewerNoncurrentVersions int            `json:"NewerNoncurrentVersions,omitempty" xml:"NewerNoncurrentVersions,omitempty"`
+	XMLName                 xml.Name       `xml:"NoncurrentVersionExpiration" json:"-"`
+	NoncurrentDays          ExpirationDays `xml:"NoncurrentDays,omitempty" json:"NoncurrentDays,omitempty"`
+	NewerNoncurrentVersions int            `xml:"NewerNoncurrentVersions,omitempty" json:"NewerNoncurrentVersions,omitempty"`
 }
 
 // MarshalXML if n is non-empty, i.e has a non-zero NoncurrentDays or NewerNoncurrentVersions.
@@ -80,10 +80,10 @@ func (n NoncurrentVersionExpiration) isNull() bool {
 // transition noncurrent object versions to different set storage classes
 // at a specific period in the object's lifetime.
 type NoncurrentVersionTransition struct {
-	XMLName                 xml.Name       `json:"-"                                 xml:"NoncurrentVersionTransition,omitempty"`
-	StorageClass            string         `json:"StorageClass,omitempty"            xml:"StorageClass,omitempty"`
-	NoncurrentDays          ExpirationDays `json:"NoncurrentDays"                    xml:"NoncurrentDays"`
-	NewerNoncurrentVersions int            `json:"NewerNoncurrentVersions,omitempty" xml:"NewerNoncurrentVersions,omitempty"`
+	XMLName                 xml.Name       `xml:"NoncurrentVersionTransition,omitempty"  json:"-"`
+	StorageClass            string         `xml:"StorageClass,omitempty" json:"StorageClass,omitempty"`
+	NoncurrentDays          ExpirationDays `xml:"NoncurrentDays" json:"NoncurrentDays"`
+	NewerNoncurrentVersions int            `xml:"NewerNoncurrentVersions,omitempty" json:"NewerNoncurrentVersions,omitempty"`
 }
 
 // IsDaysNull returns true if days field is null
@@ -128,9 +128,9 @@ func (n NoncurrentVersionTransition) MarshalXML(e *xml.Encoder, start xml.StartE
 
 // Tag structure key/value pair representing an object tag to apply lifecycle configuration
 type Tag struct {
-	XMLName xml.Name `json:"-"               xml:"Tag,omitempty"`
-	Key     string   `json:"Key,omitempty"   xml:"Key,omitempty"`
-	Value   string   `json:"Value,omitempty" xml:"Value,omitempty"`
+	XMLName xml.Name `xml:"Tag,omitempty" json:"-"`
+	Key     string   `xml:"Key,omitempty" json:"Key,omitempty"`
+	Value   string   `xml:"Value,omitempty" json:"Value,omitempty"`
 }
 
 // IsEmpty returns whether this tag is empty or not.
@@ -140,10 +140,10 @@ func (tag Tag) IsEmpty() bool {
 
 // Transition structure - transition details of lifecycle configuration
 type Transition struct {
-	XMLName      xml.Name       `json:"-"                      xml:"Transition"`
-	Date         ExpirationDate `json:"Date,omitempty"         xml:"Date,omitempty"`
-	StorageClass string         `json:"StorageClass,omitempty" xml:"StorageClass,omitempty"`
-	Days         ExpirationDays `json:"Days"                   xml:"Days"`
+	XMLName      xml.Name       `xml:"Transition" json:"-"`
+	Date         ExpirationDate `xml:"Date,omitempty" json:"Date,omitempty"`
+	StorageClass string         `xml:"StorageClass,omitempty" json:"StorageClass,omitempty"`
+	Days         ExpirationDays `xml:"Days" json:"Days"`
 }
 
 // UnmarshalJSON returns an error if storage-class is empty.
@@ -211,9 +211,9 @@ func (t Transition) MarshalXML(en *xml.Encoder, startElement xml.StartElement) e
 
 // And And Rule for LifecycleTag, to be used in LifecycleRuleFilter
 type And struct {
-	XMLName xml.Name `json:"-"                xml:"And"`
-	Prefix  string   `json:"Prefix,omitempty" xml:"Prefix"`
-	Tags    []Tag    `json:"Tags,omitempty"   xml:"Tag"`
+	XMLName xml.Name `xml:"And" json:"-"`
+	Prefix  string   `xml:"Prefix" json:"Prefix,omitempty"`
+	Tags    []Tag    `xml:"Tag" json:"Tags,omitempty"`
 }
 
 // IsEmpty returns true if Tags field is null
@@ -223,10 +223,10 @@ func (a And) IsEmpty() bool {
 
 // Filter will be used in selecting rule(s) for lifecycle configuration
 type Filter struct {
-	XMLName xml.Name `json:"-"                xml:"Filter"`
-	And     And      `json:"And,omitempty"    xml:"And,omitempty"`
-	Prefix  string   `json:"Prefix,omitempty" xml:"Prefix,omitempty"`
-	Tag     Tag      `json:"Tag,omitempty"    xml:"Tag,omitempty"`
+	XMLName xml.Name `xml:"Filter" json:"-"`
+	And     And      `xml:"And,omitempty" json:"And,omitempty"`
+	Prefix  string   `xml:"Prefix,omitempty" json:"Prefix,omitempty"`
+	Tag     Tag      `xml:"Tag,omitempty" json:"Tag,omitempty"`
 }
 
 // IsNull returns true if all Filter fields are empty.
@@ -326,10 +326,10 @@ func (b ExpireDeleteMarker) IsEnabled() bool {
 
 // Expiration structure - expiration details of lifecycle configuration
 type Expiration struct {
-	XMLName      xml.Name           `json:"-"                                   xml:"Expiration,omitempty"`
-	Date         ExpirationDate     `json:"Date,omitempty"                      xml:"Date,omitempty"`
-	Days         ExpirationDays     `json:"Days,omitempty"                      xml:"Days,omitempty"`
-	DeleteMarker ExpireDeleteMarker `json:"ExpiredObjectDeleteMarker,omitempty" xml:"ExpiredObjectDeleteMarker,omitempty"`
+	XMLName      xml.Name           `xml:"Expiration,omitempty" json:"-"`
+	Date         ExpirationDate     `xml:"Date,omitempty" json:"Date,omitempty"`
+	Days         ExpirationDays     `xml:"Days,omitempty" json:"Days,omitempty"`
+	DeleteMarker ExpireDeleteMarker `xml:"ExpiredObjectDeleteMarker,omitempty" json:"ExpiredObjectDeleteMarker,omitempty"`
 }
 
 // MarshalJSON customizes json encoding by removing empty day/date specification.
@@ -424,21 +424,21 @@ func (r Rule) MarshalJSON() ([]byte, error) {
 
 // Rule represents a single rule in lifecycle configuration
 type Rule struct {
-	XMLName                        xml.Name                       `json:"-"                                        xml:"Rule,omitempty"`
-	AbortIncompleteMultipartUpload AbortIncompleteMultipartUpload `json:"AbortIncompleteMultipartUpload,omitempty" xml:"AbortIncompleteMultipartUpload,omitempty"`
-	Expiration                     Expiration                     `json:"Expiration,omitempty"                     xml:"Expiration,omitempty"`
-	ID                             string                         `json:"ID"                                       xml:"ID"`
-	RuleFilter                     Filter                         `json:"Filter,omitempty"                         xml:"Filter,omitempty"`
-	NoncurrentVersionExpiration    NoncurrentVersionExpiration    `json:"NoncurrentVersionExpiration,omitempty"    xml:"NoncurrentVersionExpiration,omitempty"`
-	NoncurrentVersionTransition    NoncurrentVersionTransition    `json:"NoncurrentVersionTransition,omitempty"    xml:"NoncurrentVersionTransition,omitempty"`
-	Prefix                         string                         `json:"Prefix,omitempty"                         xml:"Prefix,omitempty"`
-	Status                         string                         `json:"Status"                                   xml:"Status"`
-	Transition                     Transition                     `json:"Transition,omitempty"                     xml:"Transition,omitempty"`
+	XMLName                        xml.Name                       `xml:"Rule,omitempty" json:"-"`
+	AbortIncompleteMultipartUpload AbortIncompleteMultipartUpload `xml:"AbortIncompleteMultipartUpload,omitempty" json:"AbortIncompleteMultipartUpload,omitempty"`
+	Expiration                     Expiration                     `xml:"Expiration,omitempty" json:"Expiration,omitempty"`
+	ID                             string                         `xml:"ID" json:"ID"`
+	RuleFilter                     Filter                         `xml:"Filter,omitempty" json:"Filter,omitempty"`
+	NoncurrentVersionExpiration    NoncurrentVersionExpiration    `xml:"NoncurrentVersionExpiration,omitempty"  json:"NoncurrentVersionExpiration,omitempty"`
+	NoncurrentVersionTransition    NoncurrentVersionTransition    `xml:"NoncurrentVersionTransition,omitempty" json:"NoncurrentVersionTransition,omitempty"`
+	Prefix                         string                         `xml:"Prefix,omitempty" json:"Prefix,omitempty"`
+	Status                         string                         `xml:"Status" json:"Status"`
+	Transition                     Transition                     `xml:"Transition,omitempty" json:"Transition,omitempty"`
 }
 
 // Configuration is a collection of Rule objects.
 type Configuration struct {
-	XMLName xml.Name `json:"-" xml:"LifecycleConfiguration,omitempty"`
+	XMLName xml.Name `xml:"LifecycleConfiguration,omitempty" json:"-"`
 	Rules   []Rule   `xml:"Rule"`
 }
 

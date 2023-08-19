@@ -41,7 +41,7 @@ type CustomTokenResult struct {
 // AssumeRoleWithCustomTokenResponse contains the result of a successful
 // AssumeRoleWithCustomToken request.
 type AssumeRoleWithCustomTokenResponse struct {
-	XMLName  xml.Name          `json:"-" xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithCustomTokenResponse"`
+	XMLName  xml.Name          `xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithCustomTokenResponse" json:"-"`
 	Result   CustomTokenResult `xml:"AssumeRoleWithCustomTokenResult"`
 	Metadata struct {
 		RequestID string `xml:"RequestId,omitempty"`

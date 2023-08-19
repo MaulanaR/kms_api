@@ -16,6 +16,8 @@ import (
 	"github.com/maulanar/kms/src/statuspengetahuan"
 	"github.com/maulanar/kms/src/tag"
 	"github.com/maulanar/kms/src/tpengetahuanrelation"
+
+	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -571,4 +573,66 @@ func (u *UseCaseHandler) setDefaultValue(old Pengetahuan) error {
 	}
 
 	return nil
+}
+
+// Get returns the list of Pengetahuan data.
+func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
+	res := app.ListModel{}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	u.Query.Add("$is_disable_pagination", "true")
+	// set pagination info
+	res.Count,
+		res.PageContext.Page,
+		res.PageContext.PerPage,
+		res.PageContext.PageCount,
+		err = app.Query().PaginationInfo(tx, &Pengetahuan{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	// return data count if $per_page set to 0
+	if res.PageContext.PerPage == 0 {
+		return res, err
+	}
+
+	// find data
+	data, err := app.Query().Find(tx, &Pengetahuan{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	res.SetData(data, u.Query)
+	res.Count = int64(len(data))
+	if u.Query.Has("levenshtein.keyword.$eq") {
+		newData := []map[string]any{}
+		keyword := u.Query.Get("levenshtein.keyword.$eq")
+		// do for levenshtein
+		listJudul := []string{}
+		for _, v := range data {
+			_, ok := v["judul"].(string)
+			if ok {
+				listJudul = append(listJudul, v["judul"].(string))
+			} else {
+				listJudul = append(listJudul, "")
+			}
+		}
+		rnk := fuzzy.RankFindFold(keyword, listJudul)
+		for _, v := range rnk {
+			var pr float64 = 0
+			pr = float64(v.Distance) / float64(len(v.Target)) * 100
+			data[v.OriginalIndex]["levenshtein.keyword"] = keyword
+			data[v.OriginalIndex]["levenshtein.distance"] = v.Distance
+			data[v.OriginalIndex]["levenshtein.percentage"] = int64(pr)
+
+			newData = append(newData, data[v.OriginalIndex])
+		}
+		res.SetData(newData, u.Query)
+		res.Count = int64(len(newData))
+	}
+
+	return res, err
 }

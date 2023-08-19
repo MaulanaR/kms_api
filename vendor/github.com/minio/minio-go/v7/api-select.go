@@ -351,7 +351,7 @@ type SelectObjectOutputSerialization struct {
 
 // SelectObjectOptions - represents the input select body
 type SelectObjectOptions struct {
-	XMLName              xml.Name           `json:"-" xml:"SelectObjectContentRequest"`
+	XMLName              xml.Name           `xml:"SelectObjectContentRequest" json:"-"`
 	ServerSideEncryption encrypt.ServerSide `xml:"-"`
 	Expression           string
 	ExpressionType       QueryExpressionType
@@ -399,13 +399,13 @@ type SelectResults struct {
 
 // ProgressMessage is a struct for progress xml message.
 type ProgressMessage struct {
-	XMLName xml.Name `json:"-" xml:"Progress"`
+	XMLName xml.Name `xml:"Progress" json:"-"`
 	StatsMessage
 }
 
 // StatsMessage is a struct for stat xml message.
 type StatsMessage struct {
-	XMLName        xml.Name `json:"-" xml:"Stats"`
+	XMLName        xml.Name `xml:"Stats" json:"-"`
 	BytesScanned   int64
 	BytesProcessed int64
 	BytesReturned  int64

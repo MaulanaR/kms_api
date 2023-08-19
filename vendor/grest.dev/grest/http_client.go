@@ -6,6 +6,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -13,6 +14,20 @@ import (
 	"reflect"
 	"time"
 )
+
+type HttpClientInterface interface {
+	Debug()
+	AddHeader(key, value string)
+	AddMultipartBody(body any) error
+	AddUrlEncodedBody(body any) error
+	AddJsonBody(body any) error
+	AddXmlBody(body any) error
+	SetTimeout(timeout time.Duration)
+	Send() (*http.Response, error)
+	BodyResponseStr() string
+	UnmarshalJson(v any) error
+	UnmarshalXml(v any) error
+}
 
 type HttpClient struct {
 	IsDebug      bool
@@ -25,7 +40,7 @@ type HttpClient struct {
 	BodyResponse []byte
 }
 
-func NewHttpClient(method, url string) *HttpClient {
+func NewHttpClient(method, url string) HttpClientInterface {
 	return &HttpClient{Method: method, Url: url}
 }
 
@@ -202,7 +217,7 @@ func (c *HttpClient) Send() (*http.Response, error) {
 	}
 	defer res.Body.Close()
 
-	b, err := io.ReadAll(res.Body)
+	b, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return res, err
 	}

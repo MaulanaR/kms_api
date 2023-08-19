@@ -35,7 +35,7 @@ import (
 
 // AssumeRoleResponse contains the result of successful AssumeRole request.
 type AssumeRoleResponse struct {
-	XMLName xml.Name `json:"-" xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleResponse"`
+	XMLName xml.Name `xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleResponse" json:"-"`
 
 	Result           AssumeRoleResult `xml:"AssumeRoleResult"`
 	ResponseMetadata struct {

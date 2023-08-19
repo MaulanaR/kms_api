@@ -31,7 +31,7 @@ import (
 // AssumeRoleWithLDAPResponse contains the result of successful
 // AssumeRoleWithLDAPIdentity request
 type AssumeRoleWithLDAPResponse struct {
-	XMLName          xml.Name           `json:"-" xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithLDAPIdentityResponse"`
+	XMLName          xml.Name           `xml:"https://sts.amazonaws.com/doc/2011-06-15/ AssumeRoleWithLDAPIdentityResponse" json:"-"`
 	Result           LDAPIdentityResult `xml:"AssumeRoleWithLDAPIdentityResult"`
 	ResponseMetadata struct {
 		RequestID string `xml:"RequestId,omitempty"`
