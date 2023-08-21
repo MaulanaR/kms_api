@@ -1091,6 +1091,764 @@
         ]
       }
     },
+    "/api/v1/event_materi": {
+      "post": {
+        "description": "Use this method to create EventMateri",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventMateri"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMateri"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create EventMateri",
+        "tags": [
+          "EventMateri"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of EventMateri",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMateriList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get EventMateri",
+        "tags": [
+          "EventMateri"
+        ]
+      }
+    },
+    "/api/v1/event_materi/{id}": {
+      "get": {
+        "description": "Use this method to get EventMateri by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMateri"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get EventMateri By ID",
+        "tags": [
+          "EventMateri"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update EventMateri by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventMateri"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMateri"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update EventMateri By ID",
+        "tags": [
+          "EventMateri"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update EventMateri by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventMateri"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMateri"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update EventMateri By ID",
+        "tags": [
+          "EventMateri"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete EventMateri by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventMateri"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventMateri"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete EventMateri By ID",
+        "tags": [
+          "EventMateri"
+        ]
+      }
+    },
+    "/api/v1/events": {
+      "post": {
+        "description": "Use this method to create Event",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Event",
+        "tags": [
+          "Event"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of Event",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Event",
+        "tags": [
+          "Event"
+        ]
+      }
+    },
+    "/api/v1/events/{id}": {
+      "get": {
+        "description": "Use this method to get Event by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Event By ID",
+        "tags": [
+          "Event"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update Event by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update Event By ID",
+        "tags": [
+          "Event"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update Event by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Event By ID",
+        "tags": [
+          "Event"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete Event by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete Event By ID",
+        "tags": [
+          "Event"
+        ]
+      }
+    },
     "/api/v1/jenis_pengetahuan": {
       "post": {
         "description": "Use this method to create JenisPengetahuan",
@@ -3809,6 +4567,142 @@
         ]
       }
     },
+    "/api/v1/pengetahuan/{id}/dislike": {
+      "post": {
+        "description": "Use this method to partially update Dislike by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dislike"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dislike"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Dislike By ID",
+        "tags": [
+          "Dislike"
+        ]
+      }
+    },
+    "/api/v1/pengetahuan/{id}/like": {
+      "post": {
+        "description": "Use this method to partially update Like by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Like"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Like"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Like By ID",
+        "tags": [
+          "Like"
+        ]
+      }
+    },
     "/api/v1/referensi": {
       "post": {
         "description": "Use this method to create Referensi",
@@ -4185,6 +5079,65 @@
         "summary": "Delete Referensi By ID",
         "tags": [
           "Referensi"
+        ]
+      }
+    },
+    "/api/v1/search_pengetahuan": {
+      "get": {
+        "description": "Use this method to get list of Pengetahuan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PengetahuanList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Pengetahuan",
+        "tags": [
+          "Pengetahuan"
         ]
       }
     },
@@ -6003,9 +6956,63 @@
           "id": {
             "type": "integer"
           },
+          "pengetahuan": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
           "updated_at": {
             "format": "date-time",
             "type": "string"
+          },
+          "user": {
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "foto": {
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
+              },
+              "id": {
+                "type": "integer"
+              },
+              "jabatan": {
+                "type": "string"
+              },
+              "nama_lengkap": {
+                "type": "string"
+              },
+              "nama_panggilan": {
+                "type": "string"
+              },
+              "nip": {
+                "type": "string"
+              },
+              "status_level": {
+                "type": "string"
+              },
+              "unit_kerja": {
+                "type": "string"
+              },
+              "user_level": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           }
         },
         "type": "object"
@@ -6056,9 +7063,63 @@
                 "id": {
                   "type": "integer"
                 },
+                "pengetahuan": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                },
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
+                },
+                "user": {
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "foto": {
+                      "nama": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "jabatan": {
+                      "type": "string"
+                    },
+                    "nama_lengkap": {
+                      "type": "string"
+                    },
+                    "nama_panggilan": {
+                      "type": "string"
+                    },
+                    "nip": {
+                      "type": "string"
+                    },
+                    "status_level": {
+                      "type": "string"
+                    },
+                    "unit_kerja": {
+                      "type": "string"
+                    },
+                    "user_level": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 }
               },
               "type": "object"
@@ -6121,6 +7182,306 @@
               }
             },
             "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "Event": {
+        "properties": {
+          "akses_kegiatan": {
+            "type": "string"
+          },
+          "attachment": {
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "id": {
+                "type": "integer"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "lokasi": {
+            "type": "string"
+          },
+          "nama": {
+            "type": "string"
+          },
+          "tanggal_mulai": {
+            "format": "date",
+            "type": "string"
+          },
+          "tanggal_selesai": {
+            "format": "date",
+            "type": "string"
+          },
+          "unit_kerja": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "uraian": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "EventList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "akses_kegiatan": {
+                  "type": "string"
+                },
+                "attachment": {
+                  "properties": {
+                    "filename": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "lokasi": {
+                  "type": "string"
+                },
+                "nama": {
+                  "type": "string"
+                },
+                "tanggal_mulai": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "tanggal_selesai": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "unit_kerja": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "uraian": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "EventMateri": {
+        "properties": {
+          "attachment_id": {
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "isi_dokumen": {
+            "type": "string"
+          },
+          "judul_dokumen": {
+            "type": "string"
+          },
+          "kelompok_dokumen": {
+            "type": "string"
+          },
+          "kelompok_pengetahuan": {
+            "type": "string"
+          },
+          "nama_pengarang": {
+            "type": "string"
+          },
+          "nomor_dokumen": {
+            "type": "string"
+          },
+          "penerbit": {
+            "type": "string"
+          },
+          "tanggal_dokumen": {
+            "format": "date",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "EventMateriList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "attachment_id": {
+                  "type": "integer"
+                },
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "isi_dokumen": {
+                  "type": "string"
+                },
+                "judul_dokumen": {
+                  "type": "string"
+                },
+                "kelompok_dokumen": {
+                  "type": "string"
+                },
+                "kelompok_pengetahuan": {
+                  "type": "string"
+                },
+                "nama_pengarang": {
+                  "type": "string"
+                },
+                "nomor_dokumen": {
+                  "type": "string"
+                },
+                "penerbit": {
+                  "type": "string"
+                },
+                "tanggal_dokumen": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -6256,8 +7617,8 @@
                   "type": "string"
                 },
                 "properties": {
-                  "url": {
-                    "type": "string"
+                  "id": {
+                    "type": "integer"
                   }
                 },
                 "type": "object"
@@ -6641,15 +8002,15 @@
                       "type": "string"
                     },
                     "foto": {
-                      "nama": {
-                        "type": "string"
-                      },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "nama": {
+                          "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -7135,15 +8496,15 @@
           "penulis_1": {
             "properties": {
               "foto": {
-                "id": {
-                  "type": "string"
-                },
                 "properties": {
                   "nama": {
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -7164,7 +8525,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "url": {
+                  "nama": {
                     "type": "string"
                   }
                 },
@@ -7185,15 +8546,15 @@
           "penulis_3": {
             "properties": {
               "foto": {
+                "nama": {
+                  "type": "string"
+                },
                 "properties": {
-                  "nama": {
+                  "url": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -7598,31 +8959,6 @@
                 "penulis_1": {
                   "properties": {
                     "foto": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "properties": {
-                        "url": {
-                          "type": "string"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "id": {
-                      "type": "integer"
-                    },
-                    "jabatan": {
-                      "type": "string"
-                    },
-                    "nama": {
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                },
-                "penulis_2": {
-                  "properties": {
-                    "foto": {
                       "properties": {
                         "id": {
                           "type": "string"
@@ -7645,6 +8981,31 @@
                   },
                   "type": "object"
                 },
+                "penulis_2": {
+                  "properties": {
+                    "foto": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "jabatan": {
+                      "type": "string"
+                    },
+                    "nama": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
                 "penulis_3": {
                   "properties": {
                     "foto": {
@@ -7652,7 +9013,7 @@
                         "type": "string"
                       },
                       "properties": {
-                        "url": {
+                        "nama": {
                           "type": "string"
                         }
                       },
@@ -8401,6 +9762,12 @@
       "name": "Pengetahuan"
     },
     {
+      "name": "Like"
+    },
+    {
+      "name": "Dislike"
+    },
+    {
       "name": "Referensi"
     },
     {
@@ -8413,10 +9780,10 @@
       "name": "Komentar"
     },
     {
-      "name": "Like"
+      "name": "Event"
     },
     {
-      "name": "Dislike"
+      "name": "EventMateri"
     }
   ],
   "externalDocs": {

@@ -6,6 +6,8 @@ import (
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
+	"github.com/maulanar/kms/src/event"
+	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
@@ -77,6 +79,9 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", komentar.Komentar{})
 	app.DB().RegisterTable("main", like.Like{})
 	app.DB().RegisterTable("main", dislike.Dislike{})
+	app.DB().RegisterTable("main", event.Event{})
+	app.DB().RegisterTable("main", eventmateri.EventMateri{})
+	app.DB().RegisterTable("main", eventmateri.MateriAttachment{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

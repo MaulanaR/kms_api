@@ -78,7 +78,7 @@ func (auth *authHandler) ValidateAuth(c *fiber.Ctx) error {
 
 func (auth *authHandler) IsNeedValidate() bool {
 	urlPath := auth.FiberCtx.Path()
-	// method := auth.FiberCtx.Method()
+	method := auth.FiberCtx.Method()
 	cleanedPath := path.Clean(urlPath)
 
 	// Split the cleaned path into segments
@@ -88,7 +88,21 @@ func (auth *authHandler) IsNeedValidate() bool {
 		if segments[1] != "api" || segments[2] == "docs" || segments[2] == "storages" {
 			return false
 		}
+
 		if len(segments) >= 4 {
+			//get pengetahuan tanpa login
+			if segments[3] == "pengetahuan" && method == "GET" {
+				return false
+			} else if segments[3] == "komentar" && method == "GET" {
+				return false
+			} else if segments[3] == "search_pengetahuan" && method == "GET" {
+				return false
+			} else if segments[3] == "events" && method == "GET" {
+				return false
+			} else if segments[3] == "event_materi" && method == "GET" {
+				return false
+			}
+
 			switch segments[3] {
 			case "login", "version", "docs", "caches":
 				return false

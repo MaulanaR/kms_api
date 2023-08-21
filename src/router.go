@@ -9,6 +9,8 @@ import (
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
+	"github.com/maulanar/kms/src/event"
+	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
@@ -162,6 +164,20 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/dislike/{id}", "DELETE", dislike.REST().DeleteByID, dislike.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/search_pengetahuan", "GET", pengetahuan.REST().GetSearch, pengetahuan.OpenAPI().Get())
+
+	app.Server().AddRoute("/api/v1/events", "POST", event.REST().Create, event.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/events", "GET", event.REST().Get, event.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/events/{id}", "GET", event.REST().GetByID, event.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/events/{id}", "PUT", event.REST().UpdateByID, event.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/events/{id}", "PATCH", event.REST().PartiallyUpdateByID, event.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/events/{id}", "DELETE", event.REST().DeleteByID, event.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/event_materi", "POST", eventmateri.REST().Create, eventmateri.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/event_materi", "GET", eventmateri.REST().Get, eventmateri.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/event_materi/{id}", "GET", eventmateri.REST().GetByID, eventmateri.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/event_materi/{id}", "PUT", eventmateri.REST().UpdateByID, eventmateri.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/event_materi/{id}", "PATCH", eventmateri.REST().PartiallyUpdateByID, eventmateri.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/event_materi/{id}", "DELETE", eventmateri.REST().DeleteByID, eventmateri.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }
