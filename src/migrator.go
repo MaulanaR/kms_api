@@ -5,6 +5,7 @@ import (
 	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/cop"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
@@ -82,6 +83,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", event.Event{})
 	app.DB().RegisterTable("main", eventmateri.EventMateri{})
 	app.DB().RegisterTable("main", eventmateri.MateriAttachment{})
+	app.DB().RegisterTable("main", cop.Cop{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

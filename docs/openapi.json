@@ -712,6 +712,385 @@
         ]
       }
     },
+    "/api/v1/cop": {
+      "post": {
+        "description": "Use this method to create Cop",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cop"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Cop",
+        "tags": [
+          "Cop"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of Cop",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CopList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Cop",
+        "tags": [
+          "Cop"
+        ]
+      }
+    },
+    "/api/v1/cop/{id}": {
+      "get": {
+        "description": "Use this method to get Cop by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cop"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Cop By ID",
+        "tags": [
+          "Cop"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update Cop by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cop"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update Cop By ID",
+        "tags": [
+          "Cop"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update Cop by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cop"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Cop By ID",
+        "tags": [
+          "Cop"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete Cop by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cop"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cop"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete Cop By ID",
+        "tags": [
+          "Cop"
+        ]
+      }
+    },
     "/api/v1/dislike": {
       "post": {
         "description": "Use this method to create Dislike",
@@ -6947,6 +7326,104 @@
         },
         "type": "object"
       },
+      "Cop": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deskripsi": {
+            "type": "string"
+          },
+          "dokumen_id": {
+            "type": "integer"
+          },
+          "gambar_id": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "judul": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CopList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "deskripsi": {
+                  "type": "string"
+                },
+                "dokumen_id": {
+                  "type": "integer"
+                },
+                "gambar_id": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "judul": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "Dislike": {
         "properties": {
           "created_at": {
@@ -6974,15 +7451,15 @@
                 "type": "string"
               },
               "foto": {
+                "id": {
+                  "type": "integer"
+                },
                 "properties": {
                   "nama": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -7085,8 +7562,8 @@
                         "type": "string"
                       },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "url": {
+                          "type": "string"
                         }
                       },
                       "type": "object"
@@ -7226,6 +7703,76 @@
           "lokasi": {
             "type": "string"
           },
+          "materi": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "dokumen": {
+                  "items": {
+                    "properties": {},
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "event": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "isi_dokumen": {
+                  "type": "string"
+                },
+                "judul_dokumen": {
+                  "type": "string"
+                },
+                "kelompok_dokumen": {
+                  "type": "string"
+                },
+                "kelompok_pengetahuan": {
+                  "type": "string"
+                },
+                "nama_pengarang": {
+                  "type": "string"
+                },
+                "nomor_dokumen": {
+                  "type": "string"
+                },
+                "penerbit": {
+                  "type": "string"
+                },
+                "tanggal_dokumen": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
           "nama": {
             "type": "string"
           },
@@ -7327,6 +7874,76 @@
                 "lokasi": {
                   "type": "string"
                 },
+                "materi": {
+                  "items": {
+                    "properties": {
+                      "created_at": {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      "created_by": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "username": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "dokumen": {
+                        "items": {
+                          "properties": {},
+                          "type": "object"
+                        },
+                        "type": "array"
+                      },
+                      "event": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "isi_dokumen": {
+                        "type": "string"
+                      },
+                      "judul_dokumen": {
+                        "type": "string"
+                      },
+                      "kelompok_dokumen": {
+                        "type": "string"
+                      },
+                      "kelompok_pengetahuan": {
+                        "type": "string"
+                      },
+                      "nama_pengarang": {
+                        "type": "string"
+                      },
+                      "nomor_dokumen": {
+                        "type": "string"
+                      },
+                      "penerbit": {
+                        "type": "string"
+                      },
+                      "tanggal_dokumen": {
+                        "format": "date",
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "format": "date-time",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
                 "nama": {
                   "type": "string"
                 },
@@ -7358,12 +7975,35 @@
       },
       "EventMateri": {
         "properties": {
-          "attachment_id": {
-            "type": "integer"
-          },
           "created_at": {
             "format": "date-time",
             "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "dokumen": {
+            "items": {
+              "properties": {},
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "event": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
           },
           "id": {
             "type": "integer"
@@ -7439,12 +8079,35 @@
           "results": {
             "items": {
               "properties": {
-                "attachment_id": {
-                  "type": "integer"
-                },
                 "created_at": {
                   "format": "date-time",
                   "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "dokumen": {
+                  "items": {
+                    "properties": {},
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "event": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
                 },
                 "id": {
                   "type": "integer"
@@ -7613,12 +8276,12 @@
                 "type": "string"
               },
               "foto": {
-                "nama": {
-                  "type": "string"
+                "id": {
+                  "type": "integer"
                 },
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "url": {
+                    "type": "string"
                   }
                 },
                 "type": "object"
@@ -8496,15 +9159,15 @@
           "penulis_1": {
             "properties": {
               "foto": {
+                "nama": {
+                  "type": "string"
+                },
                 "properties": {
-                  "nama": {
+                  "id": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -8546,11 +9209,11 @@
           "penulis_3": {
             "properties": {
               "foto": {
-                "nama": {
+                "id": {
                   "type": "string"
                 },
                 "properties": {
-                  "url": {
+                  "nama": {
                     "type": "string"
                   }
                 },
@@ -8960,7 +9623,7 @@
                   "properties": {
                     "foto": {
                       "properties": {
-                        "id": {
+                        "nama": {
                           "type": "string"
                         }
                       },
@@ -8984,11 +9647,11 @@
                 "penulis_2": {
                   "properties": {
                     "foto": {
-                      "id": {
+                      "nama": {
                         "type": "string"
                       },
                       "properties": {
-                        "nama": {
+                        "id": {
                           "type": "string"
                         }
                       },
@@ -9784,6 +10447,9 @@
     },
     {
       "name": "EventMateri"
+    },
+    {
+      "name": "Cop"
     }
   ],
   "externalDocs": {

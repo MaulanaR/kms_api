@@ -8,13 +8,17 @@ import (
 	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/cop"
 	"github.com/maulanar/kms/src/dislike"
+	"github.com/maulanar/kms/src/dislike_cop"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/komentar"
+	"github.com/maulanar/kms/src/komentar_cop"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/like"
+	"github.com/maulanar/kms/src/like_cop"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pengetahuan"
@@ -178,6 +182,38 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/event_materi/{id}", "PUT", eventmateri.REST().UpdateByID, eventmateri.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/event_materi/{id}", "PATCH", eventmateri.REST().PartiallyUpdateByID, eventmateri.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/event_materi/{id}", "DELETE", eventmateri.REST().DeleteByID, eventmateri.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/cop", "POST", cop.REST().Create, cop.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/cop", "GET", cop.REST().Get, cop.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/cop/{id}", "GET", cop.REST().GetByID, cop.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/cop/{id}", "PUT", cop.REST().UpdateByID, cop.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/cop/{id}", "PATCH", cop.REST().PartiallyUpdateByID, cop.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/cop/{id}", "DELETE", cop.REST().DeleteByID, cop.OpenAPI().DeleteByID())
+
+	//like & dislike
+	app.Server().AddRoute("/api/v1/cop/{id}/like", "POST", like_cop.REST().UpdateByCopID, like.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/cop/{id}/dislike", "POST", dislike_cop.REST().UpdateByCopID, dislike.OpenAPI().PartiallyUpdateByID())
+
+	app.Server().AddRoute("/api/v1/like_cop", "POST", like_cop.REST().Create, like_cop.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/like_cop", "GET", like_cop.REST().Get, like_cop.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/like_cop/{id}", "GET", like_cop.REST().GetByID, like_cop.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/like_cop/{id}", "PUT", like_cop.REST().UpdateByID, like_cop.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/like_cop/{id}", "PATCH", like_cop.REST().PartiallyUpdateByID, like_cop.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/like_cop/{id}", "DELETE", like_cop.REST().DeleteByID, like_cop.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/dislike_cop", "POST", dislike_cop.REST().Create, dislike_cop.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/dislike_cop", "GET", dislike_cop.REST().Get, dislike_cop.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/dislike_cop/{id}", "GET", dislike_cop.REST().GetByID, dislike_cop.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/dislike_cop/{id}", "PUT", dislike_cop.REST().UpdateByID, dislike_cop.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/dislike_cop/{id}", "PATCH", dislike_cop.REST().PartiallyUpdateByID, dislike_cop.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/dislike_cop/{id}", "DELETE", dislike_cop.REST().DeleteByID, dislike_cop.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/komentar_cop", "POST", komentar_cop.REST().Create, komentar_cop.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/komentar_cop", "GET", komentar_cop.REST().Get, komentar_cop.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/komentar_cop/{id}", "GET", komentar_cop.REST().GetByID, komentar_cop.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/komentar_cop/{id}", "PUT", komentar_cop.REST().UpdateByID, komentar_cop.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/komentar_cop/{id}", "PATCH", komentar_cop.REST().PartiallyUpdateByID, komentar_cop.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/komentar_cop/{id}", "DELETE", komentar_cop.REST().DeleteByID, komentar_cop.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }
