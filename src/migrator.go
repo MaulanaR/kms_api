@@ -7,12 +7,15 @@ import (
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/cop"
 	"github.com/maulanar/kms/src/dislike"
+	"github.com/maulanar/kms/src/dislike_cop"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/komentar"
+	"github.com/maulanar/kms/src/komentar_cop"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/like"
+	"github.com/maulanar/kms/src/like_cop"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
 	"github.com/maulanar/kms/src/narasumber"
 	"github.com/maulanar/kms/src/orang"
@@ -84,6 +87,9 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", eventmateri.EventMateri{})
 	app.DB().RegisterTable("main", eventmateri.MateriAttachment{})
 	app.DB().RegisterTable("main", cop.Cop{})
+	app.DB().RegisterTable("main", komentar_cop.KomentarCOP{})
+	app.DB().RegisterTable("main", like_cop.LikeCOP{})
+	app.DB().RegisterTable("main", dislike_cop.DislikeCOP{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

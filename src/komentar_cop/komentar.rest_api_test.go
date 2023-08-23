@@ -17,9 +17,9 @@ import (
 func prepareTest(tb testing.TB) {
 	app.Test()
 	tx := app.Test().Tx
-	app.DB().RegisterTable("main", Komentar{})
+	app.DB().RegisterTable("main", KomentarCOP{})
 	app.DB().MigrateTable(tx, "main", app.Setting{})
-	tx.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&Komentar{})
+	tx.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&KomentarCOP{})
 
 	app.Server().AddMiddleware(app.Test().NewCtx([]string{
 		"komentar.detail",

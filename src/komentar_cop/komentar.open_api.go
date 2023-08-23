@@ -19,7 +19,7 @@ func (o *OpenAPIOperation) Base() {
 	o.Responses = map[string]map[string]any{
 		"200": {
 			"description": "Success",
-			"content":     map[string]any{"application/json": &Komentar{}}, // will auto create schema $ref: '#/components/schemas/Komentar' if not exists
+			"content":     map[string]any{"application/json": &KomentarCOP{}}, // will auto create schema $ref: '#/components/schemas/Komentar' if not exists
 		},
 		"400": app.OpenAPIError().BadRequest(),
 		"401": app.OpenAPIError().Unauthorized(),

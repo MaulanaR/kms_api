@@ -2,7 +2,7 @@ package komentar_cop
 
 import "github.com/maulanar/kms/app"
 
-type Komentar struct {
+type KomentarCOP struct {
 	app.Model
 	ID                     app.NullInt64    `json:"id"                       db:"m.id"                 gorm:"column:id;primaryKey"`
 	CopID                  app.NullInt64    `json:"cop.id"           db:"m.id_cop"     gorm:"column:id_cop" validate:"required"`
@@ -30,23 +30,23 @@ type Komentar struct {
 	DeletedAt              app.NullDateTime `json:"deleted_at"               db:"m.deleted_at,hide"    gorm:"column:deleted_at"`
 }
 
-func (Komentar) EndPoint() string {
+func (KomentarCOP) EndPoint() string {
 	return "komentar_cop"
 }
 
-func (Komentar) TableVersion() string {
+func (KomentarCOP) TableVersion() string {
 	return "28.06.291152"
 }
 
-func (Komentar) TableName() string {
+func (KomentarCOP) TableName() string {
 	return "t_komentar_cop"
 }
 
-func (Komentar) TableAliasName() string {
+func (KomentarCOP) TableAliasName() string {
 	return "m"
 }
 
-func (m *Komentar) GetRelations() map[string]map[string]any {
+func (m *KomentarCOP) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "t_komentar_cop", "pkom", []map[string]any{{"column1": "pkom.id", "column2": "m.id_parent_komentar"}})
 	m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.id_user"}})
 	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "u.id_orang"}})
@@ -55,30 +55,30 @@ func (m *Komentar) GetRelations() map[string]map[string]any {
 	return m.Relations
 }
 
-func (m *Komentar) GetFilters() []map[string]any {
+func (m *KomentarCOP) GetFilters() []map[string]any {
 	m.AddFilter(map[string]any{"column1": "m.deleted_at", "operator": "=", "value": nil})
 	return m.Filters
 }
 
-func (m *Komentar) GetSorts() []map[string]any {
+func (m *KomentarCOP) GetSorts() []map[string]any {
 	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
 	return m.Sorts
 }
 
-func (m *Komentar) GetFields() map[string]map[string]any {
+func (m *KomentarCOP) GetFields() map[string]map[string]any {
 	m.SetFields(m)
 	return m.Fields
 }
 
-func (m *Komentar) GetSchema() map[string]any {
+func (m *KomentarCOP) GetSchema() map[string]any {
 	return m.SetSchema(m)
 }
 
-func (Komentar) OpenAPISchemaName() string {
+func (KomentarCOP) OpenAPISchemaName() string {
 	return "Komentar"
 }
 
-func (m *Komentar) GetOpenAPISchema() map[string]any {
+func (m *KomentarCOP) GetOpenAPISchema() map[string]any {
 	return m.SetOpenAPISchema(m)
 }
 
@@ -91,7 +91,7 @@ func (KomentarList) OpenAPISchemaName() string {
 }
 
 func (p *KomentarList) GetOpenAPISchema() map[string]any {
-	return p.SetOpenAPISchema(&Komentar{})
+	return p.SetOpenAPISchema(&KomentarCOP{})
 }
 
 type ParamCreate struct {

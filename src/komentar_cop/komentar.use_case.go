@@ -22,7 +22,7 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 }
 
 type UseCaseHandler struct {
-	Komentar
+	KomentarCOP
 
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
 	Query url.Values `json:"-" db:"-" gorm:"-"`
@@ -33,8 +33,8 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-func (u UseCaseHandler) GetByID(id string) (Komentar, error) {
-	res := Komentar{}
+func (u UseCaseHandler) GetByID(id string) (KomentarCOP, error) {
+	res := KomentarCOP{}
 
 	err := u.Ctx.ValidatePermission("komentar.detail")
 	if err != nil {
@@ -87,7 +87,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Komentar{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &KomentarCOP{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -96,7 +96,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	data, err := app.Query().Find(tx, &Komentar{}, u.Query)
+	data, err := app.Query().Find(tx, &KomentarCOP{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -118,7 +118,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	err = p.setDefaultValue(Komentar{})
+	err = p.setDefaultValue(KomentarCOP{})
 	if err != nil {
 		return err
 	}
@@ -254,7 +254,7 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
+func (u *UseCaseHandler) setDefaultValue(old KomentarCOP) error {
 	if old.ID.Valid {
 		u.ID = old.ID
 	}
