@@ -33,7 +33,7 @@ func (auth *authHandler) ValidateAuth(c *fiber.Ctx) error {
 
 	token := app.Token{}
 	user := app.User{}
-	if auth.IsNeedValidate() {
+	if auth.IsNeedValidate(ctx) {
 		bearerToken := strings.Split(c.Get("Authorization"), " ")
 		if len(bearerToken) > 1 {
 			token.AccessToken.Set(bearerToken[1])
@@ -76,20 +76,27 @@ func (auth *authHandler) ValidateAuth(c *fiber.Ctx) error {
 	return c.Next()
 }
 
-func (auth *authHandler) IsNeedValidate() bool {
+func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 	urlPath := auth.FiberCtx.Path()
 	method := auth.FiberCtx.Method()
 	cleanedPath := path.Clean(urlPath)
+
+	ctx.Action.Method = method
 
 	// Split the cleaned path into segments
 	segments := strings.Split(cleanedPath, "/")
 
 	if len(segments) >= 3 {
 		if segments[1] != "api" || segments[2] == "docs" || segments[2] == "storages" {
+			ctx.Action.EndPoint = segments[3]
 			return false
 		}
 
 		if len(segments) >= 4 {
+			ctx.Action.EndPoint = segments[3]
+			if len(segments) >= 5 {
+				ctx.Action.DataID = segments[4]
+			}
 			//get pengetahuan tanpa login
 			if segments[3] == "pengetahuan" && method == "GET" {
 				return false

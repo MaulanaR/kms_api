@@ -63,7 +63,7 @@ func (u UseCaseHandler) GetByID(id string) (Cop, error) {
 	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike_cop WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
 
 	//update count view
-	tx.Exec("UPDATE t_cop SET count_view = count_view + 1 WHERE id_cop = ?", id)
+	tx.Exec("UPDATE t_cop SET count_view = count_view + 1 WHERE id = ?", id)
 	return res, err
 }
 
@@ -254,6 +254,10 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 func (u *UseCaseHandler) setDefaultValue(old Cop) error {
 	if old.ID.Valid {
 		u.ID = old.ID
+	}
+
+	if u.Ctx.Action.Method == "POST" {
+		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
 
 	if u.GambarID.Valid {
