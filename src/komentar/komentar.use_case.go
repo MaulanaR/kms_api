@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/cop"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
 
@@ -270,6 +271,14 @@ func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
 	//validasi
 	if u.PengetahuanID.Valid {
 		_, err := pengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.PengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi
+	if u.CopID.Valid {
+		_, err := cop.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.CopID.Int64)))
 		if err != nil {
 			return err
 		}

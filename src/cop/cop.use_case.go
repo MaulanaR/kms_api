@@ -59,8 +59,8 @@ func (u UseCaseHandler) GetByID(id string) (Cop, error) {
 	}
 
 	//get is liked & is disliked
-	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like_cop WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsLiked)
-	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike_cop WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
+	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsLiked)
+	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
 
 	//update count view
 	tx.Exec("UPDATE t_cop SET count_view = count_view + 1 WHERE id = ?", id)

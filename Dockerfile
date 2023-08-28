@@ -2,7 +2,7 @@ FROM golang:1.20-alpine AS builder
 RUN mkdir /app
 WORKDIR /app
 COPY . .
-RUN go mod tidy
+# RUN go mod tidy
 RUN go run main.go update
 RUN go build -o /app/main main.go
 

@@ -1,4 +1,4 @@
-package like_cop
+package leadertalk
 
 import (
 	"io"
@@ -17,27 +17,27 @@ import (
 func prepareTest(tb testing.TB) {
 	app.Test()
 	tx := app.Test().Tx
-	app.DB().RegisterTable("main", LikeCOP{})
+	app.DB().RegisterTable("main", LeaderTalk{})
 	app.DB().MigrateTable(tx, "main", app.Setting{})
-	tx.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&LikeCOP{})
+	tx.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&LeaderTalk{})
 
 	app.Server().AddMiddleware(app.Test().NewCtx([]string{
-		"like.detail",
-		"like.list",
-		"like.create",
-		"like.edit",
-		"like.delete",
+		"leader_talk.detail",
+		"leader_talk.list",
+		"leader_talk.create",
+		"leader_talk.edit",
+		"leader_talk.delete",
 	}))
-	app.Server().AddRoute("/like", "POST", REST().Create, nil)
-	app.Server().AddRoute("/like", "GET", REST().Get, nil)
-	app.Server().AddRoute("/like/:id", "GET", REST().GetByID, nil)
-	app.Server().AddRoute("/like/:id", "PUT", REST().UpdateByID, nil)
-	app.Server().AddRoute("/like/:id", "PATCH", REST().PartiallyUpdateByID, nil)
-	app.Server().AddRoute("/like/:id", "DELETE", REST().DeleteByID, nil)
+	app.Server().AddRoute("/leader_talk", "POST", REST().Create, nil)
+	app.Server().AddRoute("/leader_talk", "GET", REST().Get, nil)
+	app.Server().AddRoute("/leader_talk/:id", "GET", REST().GetByID, nil)
+	app.Server().AddRoute("/leader_talk/:id", "PUT", REST().UpdateByID, nil)
+	app.Server().AddRoute("/leader_talk/:id", "PATCH", REST().PartiallyUpdateByID, nil)
+	app.Server().AddRoute("/leader_talk/:id", "DELETE", REST().DeleteByID, nil)
 }
 
-// getTestLikeID returns an available Like ID.
-func getTestLikeID() string {
+// getTestLeaderTalkID returns an available LeaderTalk ID.
+func getTestLeaderTalkID() string {
 	return "todo"
 }
 
@@ -52,61 +52,61 @@ var tests = []struct {
 	expectedBody string // expected body response
 }{
 	{
-		description:  "Get empty list of Like",
+		description:  "Get empty list of LeaderTalk",
 		method:       "GET",
-		path:         "/like",
+		path:         "/leader_talk",
 		token:        app.TestFullAccessToken,
 		expectedCode: http.StatusOK,
 		expectedBody: `{"count":0,"results":[]}`,
 	},
 	{
-		description:  "Create Like with minimum payload",
+		description:  "Create LeaderTalk with minimum payload",
 		method:       "POST",
-		path:         "/like",
+		path:         "/leader_talk",
 		token:        app.TestFullAccessToken,
 		bodyRequest:  `{"name":"Kilogram"}`,
 		expectedCode: http.StatusCreated,
 		expectedBody: `{"name":"Kilogram"}`,
 	},
 	{
-		description:  "Get Like by ID",
+		description:  "Get LeaderTalk by ID",
 		method:       "GET",
-		path:         "/like/" + getTestLikeID(),
+		path:         "/leader_talk/" + getTestLeaderTalkID(),
 		token:        app.TestFullAccessToken,
 		expectedCode: http.StatusOK,
 		expectedBody: `{"name":"Kilogram"}`,
 	},
 	{
-		description:  "Update Like by ID",
+		description:  "Update LeaderTalk by ID",
 		method:       "PUT",
-		path:         "/like/" + getTestLikeID(),
+		path:         "/leader_talk/" + getTestLeaderTalkID(),
 		token:        app.TestFullAccessToken,
-		bodyRequest:  `{"reason":"Update Like by ID","name":"KG"}`,
+		bodyRequest:  `{"reason":"Update LeaderTalk by ID","name":"KG"}`,
 		expectedCode: http.StatusOK,
 		expectedBody: `{"name":"KG"}`,
 	},
 	{
-		description:  "Partially update Like by ID",
+		description:  "Partially update LeaderTalk by ID",
 		method:       "PATCH",
-		path:         "/like/" + getTestLikeID(),
+		path:         "/leader_talk/" + getTestLeaderTalkID(),
 		token:        app.TestFullAccessToken,
-		bodyRequest:  `{"reason":"Partially Update Like by ID","name":"Kilo Gram"}`,
+		bodyRequest:  `{"reason":"Partially Update LeaderTalk by ID","name":"Kilo Gram"}`,
 		expectedCode: http.StatusOK,
 		expectedBody: `{"name":"Kilo Gram"}`,
 	},
 	{
-		description:  "Delete Like by ID",
+		description:  "Delete LeaderTalk by ID",
 		method:       "DELETE",
-		path:         "/like/" + getTestLikeID(),
+		path:         "/leader_talk/" + getTestLeaderTalkID(),
 		token:        app.TestFullAccessToken,
-		bodyRequest:  `{"reason":"Delete Like by ID"}`,
+		bodyRequest:  `{"reason":"Delete LeaderTalk by ID"}`,
 		expectedCode: http.StatusOK,
 		expectedBody: `{"code":200}`,
 	},
 }
 
-// TestLikeREST tests the REST API of Like data with specified scenario.
-func TestLikeREST(t *testing.T) {
+// TestLeaderTalkREST tests the REST API of LeaderTalk data with specified scenario.
+func TestLeaderTalkREST(t *testing.T) {
 	prepareTest(t)
 
 	// Iterate through test single test cases
@@ -132,8 +132,8 @@ func TestLikeREST(t *testing.T) {
 	}
 }
 
-// BenchmarkLikeREST tests the REST API of Like data with specified scenario.
-func BenchmarkLikeREST(b *testing.B) {
+// BenchmarkLeaderTalkREST tests the REST API of LeaderTalk data with specified scenario.
+func BenchmarkLeaderTalkREST(b *testing.B) {
 	b.ReportAllocs()
 	prepareTest(b)
 	for i := 0; i < b.N; i++ {

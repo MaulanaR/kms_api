@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/cop"
+	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
 
@@ -268,6 +270,14 @@ func (u *UseCaseHandler) setDefaultValue(old Like) error {
 			return err
 		}
 	}
+
+	//validasi
+	if u.CopID.Valid {
+		_, err := cop.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.CopID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -293,6 +303,80 @@ func (u UseCaseHandler) UpdateByPengetahuanID(id string, p *ParamUpdate) error {
 	if exist < 1 {
 		//Set param
 		p.PengetahuanID.Set(pgth.ID.Int64)
+		p.UserID.Set(u.Ctx.User.ID)
+		p.CreatedAt.Set(time.Now())
+
+		err = tx.Model(&p).Create(&p).Error
+		if err != nil {
+			return app.Error().New(http.StatusInternalServerError, err.Error())
+		}
+	}
+
+	app.Cache().Invalidate(u.EndPoint())
+
+	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	return nil
+}
+
+func (u UseCaseHandler) UpdateByCopID(id string, p *ParamUpdate) error {
+	//validasi
+	pgth, err := cop.UseCase(*u.Ctx).GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//make sure that person havent doing this action before
+	var exist int64
+	tx.Model(&Like{}).
+		Where("id_cop = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&exist)
+
+	if exist < 1 {
+		//Set param
+		p.CopID.Set(pgth.ID.Int64)
+		p.UserID.Set(u.Ctx.User.ID)
+		p.CreatedAt.Set(time.Now())
+
+		err = tx.Model(&p).Create(&p).Error
+		if err != nil {
+			return app.Error().New(http.StatusInternalServerError, err.Error())
+		}
+	}
+
+	app.Cache().Invalidate(u.EndPoint())
+
+	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	return nil
+}
+
+func (u UseCaseHandler) UpdateByLeaderTalkID(id string, p *ParamUpdate) error {
+	//validasi
+	pgth, err := leadertalk.UseCase(*u.Ctx).GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//make sure that person havent doing this action before
+	var exist int64
+	tx.Model(&Like{}).
+		Where("id_leader_talk = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&exist)
+
+	if exist < 1 {
+		//Set param
+		p.LeaderTalkID.Set(pgth.ID.Int64)
 		p.UserID.Set(u.Ctx.User.ID)
 		p.CreatedAt.Set(time.Now())
 

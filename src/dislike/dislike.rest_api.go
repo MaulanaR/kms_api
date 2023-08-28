@@ -201,3 +201,55 @@ func (r *RESTAPIHandler) UpdateByPengetahuanID(c *fiber.Ctx) error {
 	}
 	return c.JSON(res)
 }
+
+func (r *RESTAPIHandler) UpdateByCopID(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	p := ParamUpdate{}
+	p.Ctx = r.UseCase.Ctx
+	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+
+	err = r.UseCase.UpdateByCopID(c.Params("id"), &p)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	if r.UseCase.Query.Get("is_skip_return") == "true" {
+		return c.JSON(map[string]any{"message": "Success"})
+	}
+	res := map[string]any{
+		"code": http.StatusOK,
+		"message": r.UseCase.Ctx.Trans("success", map[string]string{
+			"dislike": p.EndPoint(),
+			"id":      c.Params("id"),
+		}),
+	}
+	return c.JSON(res)
+}
+
+func (r *RESTAPIHandler) UpdateByLeaderTalkID(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	p := ParamUpdate{}
+	p.Ctx = r.UseCase.Ctx
+	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+
+	err = r.UseCase.UpdateByLeaderTalkID(c.Params("id"), &p)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	if r.UseCase.Query.Get("is_skip_return") == "true" {
+		return c.JSON(map[string]any{"message": "Success"})
+	}
+	res := map[string]any{
+		"code": http.StatusOK,
+		"message": r.UseCase.Ctx.Trans("success", map[string]string{
+			"dislike": p.EndPoint(),
+			"id":      c.Params("id"),
+		}),
+	}
+	return c.JSON(res)
+}

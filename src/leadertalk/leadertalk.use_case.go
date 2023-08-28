@@ -1,4 +1,4 @@
-package dislike_cop
+package leadertalk
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
-	"github.com/maulanar/kms/src/cop"
+	"github.com/maulanar/kms/src/attachment"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -22,7 +22,7 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 }
 
 type UseCaseHandler struct {
-	DislikeCOP
+	LeaderTalk
 
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
 	Query url.Values `json:"-" db:"-" gorm:"-"`
@@ -33,10 +33,10 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-func (u UseCaseHandler) GetByID(id string) (DislikeCOP, error) {
-	res := DislikeCOP{}
+func (u UseCaseHandler) GetByID(id string) (LeaderTalk, error) {
+	res := LeaderTalk{}
 
-	err := u.Ctx.ValidatePermission("dislike.detail")
+	err := u.Ctx.ValidatePermission("leader_talk.detail")
 	if err != nil {
 		return res, err
 	}
@@ -67,7 +67,7 @@ func (u UseCaseHandler) GetByID(id string) (DislikeCOP, error) {
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
-	err := u.Ctx.ValidatePermission("dislike.list")
+	err := u.Ctx.ValidatePermission("leader_talk.list")
 	if err != nil {
 		return res, err
 	}
@@ -87,7 +87,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &DislikeCOP{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &LeaderTalk{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -96,7 +96,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	data, err := app.Query().Find(tx, &DislikeCOP{}, u.Query)
+	data, err := app.Query().Find(tx, &LeaderTalk{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -108,7 +108,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
-	err := u.Ctx.ValidatePermission("dislike.create")
+	err := u.Ctx.ValidatePermission("leader_talk.create")
 	if err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	err = p.setDefaultValue(DislikeCOP{})
+	err = p.setDefaultValue(LeaderTalk{})
 	if err != nil {
 		return err
 	}
@@ -141,7 +141,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
-	err := u.Ctx.ValidatePermission("dislike.edit")
+	err := u.Ctx.ValidatePermission("leader_talk.edit")
 	if err != nil {
 		return err
 	}
@@ -179,7 +179,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
-	err := u.Ctx.ValidatePermission("dislike.edit")
+	err := u.Ctx.ValidatePermission("leader_talk.edit")
 	if err != nil {
 		return err
 	}
@@ -217,7 +217,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
-	err := u.Ctx.ValidatePermission("dislike.delete")
+	err := u.Ctx.ValidatePermission("leader_talk.delete")
 	if err != nil {
 		return err
 	}
@@ -248,63 +248,17 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-func (u *UseCaseHandler) setDefaultValue(old DislikeCOP) error {
+func (u *UseCaseHandler) setDefaultValue(old LeaderTalk) error {
 	if old.ID.Valid {
 		u.ID = old.ID
 	}
 
-	if old.UserID.Valid {
-		u.UserID = old.UserID
-	}
-
-	if !u.UserID.Valid {
-		u.UserID.Set(u.Ctx.User.ID)
-	}
-
 	//validasi
-	if u.CopID.Valid {
-		_, err := cop.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.CopID.Int64)))
+	if u.DokumenID.Valid {
+		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.DokumenID.Int64)))
 		if err != nil {
 			return err
 		}
 	}
-
-	return nil
-}
-
-func (u UseCaseHandler) UpdateByCopID(id string, p *ParamUpdate) error {
-	//validasi
-	pgth, err := cop.UseCase(*u.Ctx).GetByID(id)
-	if err != nil {
-		return err
-	}
-
-	tx, err := u.Ctx.DB()
-	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
-	}
-
-	//make sure that person havent doing this action before
-	var exist int64
-	tx.Model(&DislikeCOP{}).
-		Where("id_cop = ?", pgth.ID.Int64).
-		Where("id_user = ?", u.Ctx.User.ID).
-		Count(&exist)
-
-	if exist < 1 {
-		//Set param
-		p.CopID.Set(pgth.ID.Int64)
-		p.UserID.Set(u.Ctx.User.ID)
-		p.CreatedAt.Set(time.Now())
-
-		err = tx.Model(&p).Create(&p).Error
-		if err != nil {
-			return app.Error().New(http.StatusInternalServerError, err.Error())
-		}
-	}
-
-	app.Cache().Invalidate(u.EndPoint())
-
-	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
 	return nil
 }

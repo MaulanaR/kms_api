@@ -14,6 +14,7 @@ import (
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/komentar_cop"
 	"github.com/maulanar/kms/src/kompetensi"
+	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/like_cop"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
@@ -90,6 +91,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", komentar_cop.KomentarCOP{})
 	app.DB().RegisterTable("main", like_cop.LikeCOP{})
 	app.DB().RegisterTable("main", dislike_cop.DislikeCOP{})
+	app.DB().RegisterTable("main", leadertalk.LeaderTalk{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
