@@ -6,8 +6,8 @@ type Komentar struct {
 	app.Model
 	ID                     app.NullInt64    `json:"id"                       db:"m.id"                 gorm:"column:id;primaryKey"`
 	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"           db:"m.id_pengetahuan"     gorm:"column:id_pengetahuan"`
-	CopID                  app.NullInt64    `json:"cop.id"                   db:"m.id_cop"             gorm:"column:id_cop"`
-	LeaderTalkID           app.NullInt64    `json:"leader_talk.id"              db:"m.id_leader_talk"          gorm:"column:id_leader_talk"`
+	forumID                app.NullInt64    `json:"forum.id"                 db:"m.id_forum"             gorm:"column:id_forum"`
+	LeaderTalkID           app.NullInt64    `json:"leader_talk.id"           db:"m.id_leader_talk"          gorm:"column:id_leader_talk"`
 	UserID                 app.NullInt64    `json:"user.id"                  db:"m.id_user"            gorm:"column:id_user"`
 	UserOrangId            app.NullInt64    `json:"user.orang.id"            db:"u.id_orang,hide"      gorm:"-"`
 	UserOrangNama          app.NullString   `json:"user.nama_lengkap"        db:"o.nama"               gorm:"-"`
@@ -37,7 +37,7 @@ func (Komentar) EndPoint() string {
 }
 
 func (Komentar) TableVersion() string {
-	return "28.06.291152"
+	return "28.06.301152"
 }
 
 func (Komentar) TableName() string {

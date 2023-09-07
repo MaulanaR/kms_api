@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
-	"github.com/maulanar/kms/src/cop"
+	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
 
@@ -277,8 +277,8 @@ func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
 	}
 
 	//validasi
-	if u.CopID.Valid {
-		_, err := cop.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.CopID.Int64)))
+	if u.forumID.Valid {
+		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.forumID.Int64)))
 		if err != nil {
 			return err
 		}

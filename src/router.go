@@ -8,10 +8,10 @@ import (
 	"github.com/maulanar/kms/src/accesstoken"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
-	"github.com/maulanar/kms/src/cop"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
+	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
@@ -181,14 +181,14 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/event_materi/{id}", "PATCH", eventmateri.REST().PartiallyUpdateByID, eventmateri.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/event_materi/{id}", "DELETE", eventmateri.REST().DeleteByID, eventmateri.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/v1/cop", "POST", cop.REST().Create, cop.OpenAPI().Create())
-	app.Server().AddRoute("/api/v1/cop", "GET", cop.REST().Get, cop.OpenAPI().Get())
-	app.Server().AddRoute("/api/v1/cop/{id}", "GET", cop.REST().GetByID, cop.OpenAPI().GetByID())
-	app.Server().AddRoute("/api/v1/cop/{id}", "PUT", cop.REST().UpdateByID, cop.OpenAPI().UpdateByID())
-	app.Server().AddRoute("/api/v1/cop/{id}", "PATCH", cop.REST().PartiallyUpdateByID, cop.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/cop/{id}", "DELETE", cop.REST().DeleteByID, cop.OpenAPI().DeleteByID())
-	app.Server().AddRoute("/api/v1/cop/{id}/like", "POST", like.REST().UpdateByCopID, like.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/cop/{id}/dislike", "POST", dislike.REST().UpdateByCopID, dislike.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/forum", "POST", forum.REST().Create, forum.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/forum", "GET", forum.REST().Get, forum.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/forum/{id}", "GET", forum.REST().GetByID, forum.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/forum/{id}", "PUT", forum.REST().UpdateByID, forum.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/forum/{id}", "PATCH", forum.REST().PartiallyUpdateByID, forum.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/forum/{id}", "DELETE", forum.REST().DeleteByID, forum.OpenAPI().DeleteByID())
+	app.Server().AddRoute("/api/v1/forum/{id}/like", "POST", like.REST().UpdateByforumID, like.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/forum/{id}/dislike", "POST", dislike.REST().UpdateByforumID, dislike.OpenAPI().PartiallyUpdateByID())
 
 	app.Server().AddRoute("/api/v1/leader_talk", "POST", leadertalk.REST().Create, leadertalk.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/leader_talk", "GET", leadertalk.REST().Get, leadertalk.OpenAPI().Get())

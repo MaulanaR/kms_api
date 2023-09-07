@@ -1,10 +1,12 @@
-package cop
+package forum
 
 import "github.com/maulanar/kms/app"
 
-type Cop struct {
+type Forum struct {
 	app.Model
 	ID                app.NullInt64    `json:"id"                  db:"m.id"                                                           gorm:"column:id;primaryKey"`
+	Topik             app.NullText     `json:"topik"               db:"m.topik"                                                        gorm:"column:topik"`
+	Kategori          app.NullString   `json:"kategori"            db:"m.kategori"                                                     gorm:"column:kategori" validate:"oneof='cop' 'non-cop' 'umum'"`
 	Judul             app.NullText     `json:"judul"               db:"m.judul"                                                        gorm:"column:judul"`
 	Deskripsi         app.NullText     `json:"deskripsi"           db:"m.deskripsi"                                                    gorm:"column:deskripsi"`
 	GambarID          app.NullInt64    `json:"gambar.id"           db:"m.gambar_id"                                                    gorm:"column:gambar_id"`
@@ -25,30 +27,30 @@ type Cop struct {
 
 	//statistik View, like, dislike, komentar
 	StatistikView     app.NullInt64 `json:"statistik.view"      db:"(CASE WHEN m.count_view > 0 THEN m.count_view ELSE 0 END)"      gorm:"column:count_view;default:0"`
-	StatistikLike     app.NullInt64 `json:"statistik.like"      db:"(SELECT COUNT(*) FROM t_like WHERE t_like.id_cop=m.id)"         gorm:"-"`
-	StatistikDislike  app.NullInt64 `json:"statistik.dislike"   db:"(SELECT COUNT(*) FROM t_dislike WHERE t_dislike.id_cop=m.id)"   gorm:"-"`
-	StatistikKomentar app.NullInt64 `json:"statistik.komentar"  db:"(SELECT COUNT(*) FROM t_komentar WHERE t_komentar.id_cop=m.id)" gorm:"-"`
+	StatistikLike     app.NullInt64 `json:"statistik.like"      db:"(SELECT COUNT(*) FROM t_like WHERE t_like.id_forum=m.id)"         gorm:"-"`
+	StatistikDislike  app.NullInt64 `json:"statistik.dislike"   db:"(SELECT COUNT(*) FROM t_dislike WHERE t_dislike.id_forum=m.id)"   gorm:"-"`
+	StatistikKomentar app.NullInt64 `json:"statistik.komentar"  db:"(SELECT COUNT(*) FROM t_komentar WHERE t_komentar.id_forum=m.id)" gorm:"-"`
 	IsLiked           app.NullBool  `json:"is_liked"            db:"-"                                                              gorm:"-"`
 	IsDisliked        app.NullBool  `json:"is_disliked"         db:"-"                                                              gorm:"-"`
 }
 
-func (Cop) EndPoint() string {
-	return "cop"
+func (Forum) EndPoint() string {
+	return "forum"
 }
 
-func (Cop) TableVersion() string {
-	return "28.08.231152"
+func (Forum) TableVersion() string {
+	return "28.08.301152"
 }
 
-func (Cop) TableName() string {
-	return "t_cop"
+func (Forum) TableName() string {
+	return "t_forum"
 }
 
-func (Cop) TableAliasName() string {
+func (Forum) TableAliasName() string {
 	return "m"
 }
 
-func (m *Cop) GetRelations() map[string]map[string]any {
+func (m *Forum) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_attachments", "g", []map[string]any{{"column1": "g.id", "column2": "m.gambar_id"}})
 	m.AddRelation("left", "m_attachments", "d", []map[string]any{{"column1": "d.id", "column2": "m.dokumen_id"}})
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
@@ -58,43 +60,43 @@ func (m *Cop) GetRelations() map[string]map[string]any {
 	return m.Relations
 }
 
-func (m *Cop) GetFilters() []map[string]any {
+func (m *Forum) GetFilters() []map[string]any {
 	m.AddFilter(map[string]any{"column1": "m.deleted_at", "operator": "=", "value": nil})
 	return m.Filters
 }
 
-func (m *Cop) GetSorts() []map[string]any {
+func (m *Forum) GetSorts() []map[string]any {
 	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
 	return m.Sorts
 }
 
-func (m *Cop) GetFields() map[string]map[string]any {
+func (m *Forum) GetFields() map[string]map[string]any {
 	m.SetFields(m)
 	return m.Fields
 }
 
-func (m *Cop) GetSchema() map[string]any {
+func (m *Forum) GetSchema() map[string]any {
 	return m.SetSchema(m)
 }
 
-func (Cop) OpenAPISchemaName() string {
-	return "Cop"
+func (Forum) OpenAPISchemaName() string {
+	return "Forum"
 }
 
-func (m *Cop) GetOpenAPISchema() map[string]any {
+func (m *Forum) GetOpenAPISchema() map[string]any {
 	return m.SetOpenAPISchema(m)
 }
 
-type CopList struct {
+type ForumList struct {
 	app.ListModel
 }
 
-func (CopList) OpenAPISchemaName() string {
+func (ForumList) OpenAPISchemaName() string {
 	return "CopList"
 }
 
-func (p *CopList) GetOpenAPISchema() map[string]any {
-	return p.SetOpenAPISchema(&Cop{})
+func (p *ForumList) GetOpenAPISchema() map[string]any {
+	return p.SetOpenAPISchema(&Forum{})
 }
 
 type ParamCreate struct {

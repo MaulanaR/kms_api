@@ -1,4 +1,4 @@
-package cop
+package forum
 
 import (
 	"net/http"

@@ -9,7 +9,7 @@ type LeaderTalk struct {
 	Jabatan           app.NullText     `json:"jabatan"             db:"m.jabatan"                                                              gorm:"column:jabatan"`
 	NamaKegiatan      app.NullText     `json:"nama_kegiatan"       db:"m.nama_kegiatan"                                                        gorm:"column:nama_kegiatan"`
 	IsiDokumen        app.NullText     `json:"isi_dokumen"         db:"m.isi_dokumen"                                                          gorm:"column:isi_dokumen"`
-	DokumenID         app.NullInt64    `json:"dokumen_id"          db:"m.dokumen_id"                                                           gorm:"column:dokumen_id"`
+	DokumenID         app.NullInt64    `json:"dokumen.id"          db:"m.dokumen_id"                                                           gorm:"column:dokumen_id"`
 	DokumenFilename   app.NullString   `json:"dokumen.filename"    db:"d.filename"                                                             gorm:"-"`
 	DokumenUrl        app.NullString   `json:"dokumen.url"         db:"d.url"                                                                  gorm:"-"`
 	CreatedAt         app.NullDateTime `json:"created_at"          db:"m.created_at"                                                           gorm:"column:created_at"`

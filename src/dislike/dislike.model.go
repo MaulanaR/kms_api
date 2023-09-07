@@ -6,7 +6,7 @@ type Dislike struct {
 	app.Model
 	ID                     app.NullInt64    `json:"id"                  db:"m.id"              gorm:"column:id;primaryKey"`
 	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"      db:"m.id_pengetahuan"  gorm:"column:id_pengetahuan"`
-	CopID                  app.NullInt64    `json:"cop.id"              db:"m.id_cop"          gorm:"column:id_cop"`
+	forumID                app.NullInt64    `json:"forum.id"              db:"m.id_forum"          gorm:"column:id_forum"`
 	LeaderTalkID           app.NullInt64    `json:"leader_talk.id"              db:"m.id_leader_talk"          gorm:"column:id_leader_talk"`
 	UserID                 app.NullInt64    `json:"user.id"             db:"m.id_user"         gorm:"column:id_user"`
 	UserOrangId            app.NullInt64    `json:"user.orang.id"       db:"u.id_orang,hide"   gorm:"-"`
@@ -32,7 +32,7 @@ func (Dislike) EndPoint() string {
 }
 
 func (Dislike) TableVersion() string {
-	return "28.08.231152"
+	return "28.08.301152"
 }
 
 func (Dislike) TableName() string {

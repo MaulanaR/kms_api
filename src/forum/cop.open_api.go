@@ -1,4 +1,4 @@
-package cop
+package forum
 
 import "github.com/maulanar/kms/app"
 
@@ -19,7 +19,7 @@ func (o *OpenAPIOperation) Base() {
 	o.Responses = map[string]map[string]any{
 		"200": {
 			"description": "Success",
-			"content":     map[string]any{"application/json": &Cop{}}, // will auto create schema $ref: '#/components/schemas/Cop' if not exists
+			"content":     map[string]any{"application/json": &Forum{}}, // will auto create schema $ref: '#/components/schemas/Cop' if not exists
 		},
 		"400": app.OpenAPIError().BadRequest(),
 		"401": app.OpenAPIError().Unauthorized(),
@@ -41,7 +41,7 @@ func (o *OpenAPIOperation) Get() *OpenAPIOperation {
 	o.Responses = map[string]map[string]any{
 		"200": {
 			"description": "Success",
-			"content":     map[string]any{"application/json": &CopList{}}, // will auto create schema $ref: '#/components/schemas/Cop.List' if not exists
+			"content":     map[string]any{"application/json": &ForumList{}}, // will auto create schema $ref: '#/components/schemas/forum.List' if not exists
 		},
 		"400": app.OpenAPIError().BadRequest(),
 		"401": app.OpenAPIError().Unauthorized(),

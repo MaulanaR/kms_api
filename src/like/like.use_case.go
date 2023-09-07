@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
-	"github.com/maulanar/kms/src/cop"
+	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
@@ -272,8 +272,8 @@ func (u *UseCaseHandler) setDefaultValue(old Like) error {
 	}
 
 	//validasi
-	if u.CopID.Valid {
-		_, err := cop.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.CopID.Int64)))
+	if u.forumID.Valid {
+		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.forumID.Int64)))
 		if err != nil {
 			return err
 		}
@@ -318,9 +318,9 @@ func (u UseCaseHandler) UpdateByPengetahuanID(id string, p *ParamUpdate) error {
 	return nil
 }
 
-func (u UseCaseHandler) UpdateByCopID(id string, p *ParamUpdate) error {
+func (u UseCaseHandler) UpdateByforumID(id string, p *ParamUpdate) error {
 	//validasi
-	pgth, err := cop.UseCase(*u.Ctx).GetByID(id)
+	pgth, err := forum.UseCase(*u.Ctx).GetByID(id)
 	if err != nil {
 		return err
 	}
@@ -333,13 +333,13 @@ func (u UseCaseHandler) UpdateByCopID(id string, p *ParamUpdate) error {
 	//make sure that person havent doing this action before
 	var exist int64
 	tx.Model(&Like{}).
-		Where("id_cop = ?", pgth.ID.Int64).
+		Where("id_forum = ?", pgth.ID.Int64).
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
 
 	if exist < 1 {
 		//Set param
-		p.CopID.Set(pgth.ID.Int64)
+		p.forumID.Set(pgth.ID.Int64)
 		p.UserID.Set(u.Ctx.User.ID)
 		p.CreatedAt.Set(time.Now())
 

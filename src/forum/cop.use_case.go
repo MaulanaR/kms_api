@@ -1,4 +1,4 @@
-package cop
+package forum
 
 import (
 	"net/http"
@@ -22,7 +22,7 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 }
 
 type UseCaseHandler struct {
-	Cop
+	Forum
 
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
 	Query url.Values `json:"-" db:"-" gorm:"-"`
@@ -33,10 +33,10 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-func (u UseCaseHandler) GetByID(id string) (Cop, error) {
-	res := Cop{}
+func (u UseCaseHandler) GetByID(id string) (Forum, error) {
+	res := Forum{}
 
-	err := u.Ctx.ValidatePermission("cop.detail")
+	err := u.Ctx.ValidatePermission("forum.detail")
 	if err != nil {
 		return res, err
 	}
@@ -59,18 +59,18 @@ func (u UseCaseHandler) GetByID(id string) (Cop, error) {
 	}
 
 	//get is liked & is disliked
-	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsLiked)
-	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_cop = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
+	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_forum = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsLiked)
+	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_forum = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
 
 	//update count view
-	tx.Exec("UPDATE t_cop SET count_view = count_view + 1 WHERE id = ?", id)
+	tx.Exec("UPDATE t_forum SET count_view = count_view + 1 WHERE id = ?", id)
 	return res, err
 }
 
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
-	err := u.Ctx.ValidatePermission("cop.list")
+	err := u.Ctx.ValidatePermission("forum.list")
 	if err != nil {
 		return res, err
 	}
@@ -90,7 +90,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Cop{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &Forum{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -99,7 +99,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	data, err := app.Query().Find(tx, &Cop{}, u.Query)
+	data, err := app.Query().Find(tx, &Forum{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -111,7 +111,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
-	err := u.Ctx.ValidatePermission("cop.create")
+	err := u.Ctx.ValidatePermission("forum.create")
 	if err != nil {
 		return err
 	}
@@ -121,7 +121,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	err = p.setDefaultValue(Cop{})
+	err = p.setDefaultValue(Forum{})
 	if err != nil {
 		return err
 	}
@@ -144,7 +144,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
-	err := u.Ctx.ValidatePermission("cop.edit")
+	err := u.Ctx.ValidatePermission("forum.edit")
 	if err != nil {
 		return err
 	}
@@ -182,7 +182,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
-	err := u.Ctx.ValidatePermission("cop.edit")
+	err := u.Ctx.ValidatePermission("forum.edit")
 	if err != nil {
 		return err
 	}
@@ -220,7 +220,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
-	err := u.Ctx.ValidatePermission("cop.delete")
+	err := u.Ctx.ValidatePermission("forum.delete")
 	if err != nil {
 		return err
 	}
@@ -251,7 +251,7 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-func (u *UseCaseHandler) setDefaultValue(old Cop) error {
+func (u *UseCaseHandler) setDefaultValue(old Forum) error {
 	if old.ID.Valid {
 		u.ID = old.ID
 	}

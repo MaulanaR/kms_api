@@ -1,4 +1,4 @@
-package cop
+package forum
 
 import (
 	"io"
@@ -17,16 +17,16 @@ import (
 func prepareTest(tb testing.TB) {
 	app.Test()
 	tx := app.Test().Tx
-	app.DB().RegisterTable("main", Cop{})
+	app.DB().RegisterTable("main", Forum{})
 	app.DB().MigrateTable(tx, "main", app.Setting{})
-	tx.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&Cop{})
+	tx.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&Forum{})
 
 	app.Server().AddMiddleware(app.Test().NewCtx([]string{
-		"cop.detail",
-		"cop.list",
-		"cop.create",
-		"cop.edit",
-		"cop.delete",
+		"forum.detail",
+		"forum.list",
+		"forum.create",
+		"forum.edit",
+		"forum.delete",
 	}))
 	app.Server().AddRoute("/cop", "POST", REST().Create, nil)
 	app.Server().AddRoute("/cop", "GET", REST().Get, nil)
@@ -36,8 +36,8 @@ func prepareTest(tb testing.TB) {
 	app.Server().AddRoute("/cop/:id", "DELETE", REST().DeleteByID, nil)
 }
 
-// getTestCopID returns an available Cop ID.
-func getTestCopID() string {
+// getTestforumID returns an available Cop ID.
+func getTestforumID() string {
 	return "todo"
 }
 
@@ -71,7 +71,7 @@ var tests = []struct {
 	{
 		description:  "Get Cop by ID",
 		method:       "GET",
-		path:         "/cop/" + getTestCopID(),
+		path:         "/cop/" + getTestforumID(),
 		token:        app.TestFullAccessToken,
 		expectedCode: http.StatusOK,
 		expectedBody: `{"name":"Kilogram"}`,
@@ -79,7 +79,7 @@ var tests = []struct {
 	{
 		description:  "Update Cop by ID",
 		method:       "PUT",
-		path:         "/cop/" + getTestCopID(),
+		path:         "/cop/" + getTestforumID(),
 		token:        app.TestFullAccessToken,
 		bodyRequest:  `{"reason":"Update Cop by ID","name":"KG"}`,
 		expectedCode: http.StatusOK,
@@ -88,7 +88,7 @@ var tests = []struct {
 	{
 		description:  "Partially update Cop by ID",
 		method:       "PATCH",
-		path:         "/cop/" + getTestCopID(),
+		path:         "/cop/" + getTestforumID(),
 		token:        app.TestFullAccessToken,
 		bodyRequest:  `{"reason":"Partially Update Cop by ID","name":"Kilo Gram"}`,
 		expectedCode: http.StatusOK,
@@ -97,7 +97,7 @@ var tests = []struct {
 	{
 		description:  "Delete Cop by ID",
 		method:       "DELETE",
-		path:         "/cop/" + getTestCopID(),
+		path:         "/cop/" + getTestforumID(),
 		token:        app.TestFullAccessToken,
 		bodyRequest:  `{"reason":"Delete Cop by ID"}`,
 		expectedCode: http.StatusOK,

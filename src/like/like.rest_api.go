@@ -201,7 +201,7 @@ func (r *RESTAPIHandler) UpdateByPengetahuanID(c *fiber.Ctx) error {
 	return c.JSON(res)
 }
 
-func (r *RESTAPIHandler) UpdateByCopID(c *fiber.Ctx) error {
+func (r *RESTAPIHandler) UpdateByforumID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -209,7 +209,7 @@ func (r *RESTAPIHandler) UpdateByCopID(c *fiber.Ctx) error {
 	p := ParamUpdate{}
 	p.Ctx = r.UseCase.Ctx
 
-	err = r.UseCase.UpdateByCopID(c.Params("id"), &p)
+	err = r.UseCase.UpdateByforumID(c.Params("id"), &p)
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
