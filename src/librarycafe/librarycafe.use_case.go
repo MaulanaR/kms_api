@@ -259,8 +259,14 @@ func (u *UseCaseHandler) setDefaultValue(old LibraryCafe) error {
 		}
 	}
 
-	if !u.UserID.Valid {
-		u.UserID.Set(u.Ctx.User.ID)
+	if u.Ctx.Action.Method == "POST" {
+		if !u.CreatedBy.Valid {
+			u.CreatedBy.Set(u.Ctx.User.ID)
+		}
+	} else {
+		if !u.UpdatedBy.Valid {
+			u.UpdatedBy.Set(u.Ctx.User.ID)
+		}
 	}
 	return nil
 }

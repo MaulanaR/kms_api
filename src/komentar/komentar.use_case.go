@@ -278,8 +278,8 @@ func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
 		}
 	}
 
-	if u.forumID.Valid {
-		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.forumID.Int64)))
+	if u.ForumID.Valid {
+		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.ForumID.Int64)))
 		if err != nil {
 			return err
 		}

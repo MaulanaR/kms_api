@@ -273,8 +273,8 @@ func (u *UseCaseHandler) setDefaultValue(old Dislike) error {
 	}
 
 	//validasi
-	if u.forumID.Valid {
-		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.forumID.Int64)))
+	if u.ForumID.Valid {
+		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.ForumID.Int64)))
 		if err != nil {
 			return err
 		}
@@ -341,7 +341,7 @@ func (u UseCaseHandler) UpdateByforumID(id string, p *ParamUpdate) error {
 
 	if exist < 1 {
 		//Set param
-		p.forumID.Set(pgth.ID.Int64)
+		p.ForumID.Set(pgth.ID.Int64)
 		p.UserID.Set(u.Ctx.User.ID)
 		p.CreatedAt.Set(time.Now())
 
