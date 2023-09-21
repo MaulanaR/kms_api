@@ -14,7 +14,7 @@ type EventMateri struct {
 	KelompokDokumen     app.NullText       `json:"kelompok_dokumen"     db:"m.kelompok_dokumen"     gorm:"column:kelompok_dokumen"`
 	KelompokPengetahuan app.NullText       `json:"kelompok_pengetahuan" db:"m.kelompok_pengetahuan" gorm:"column:kelompok_pengetahuan"`
 	IsiDokumen          app.NullText       `json:"isi_dokumen"          db:"m.isi_dokumen"          gorm:"column:isi_dokumen"`
-	Dokumen             []MateriAttachment `json:"dokumen" db:"event_materi.id={id}" gorm:"-"`
+	Dokumen             []MateriAttachment `json:"dokumen"              db:"event_materi.id={id}"   gorm:"-"`
 	CreatedBy           app.NullInt64      `json:"created_by.id"        db:"m.created_by"           gorm:"column:created_by"`
 	CreatedByUsername   app.NullString     `json:"created_by.username"  db:"cbuser.username"        gorm:"-"`
 	CreatedAt           app.NullDateTime   `json:"created_at"           db:"m.created_at"           gorm:"column:created_at"`
@@ -100,17 +100,17 @@ type ParamDelete struct {
 
 type MateriAttachment struct {
 	app.Model
-	ID              app.NullInt64    `json:"id"               db:"mea.id"               gorm:"column:id;primaryKey;autoIncrement"`
-	EventMateriID   app.NullInt64    `json:"event_materi.id"       db:"mea.event_materi_id"   gorm:"column:event_materi_id"`
-	AttachmentID    app.NullInt64    `json:"attachment.id"       db:"mea.attachment_id"   gorm:"column:attachment_id"`
-	Filename        app.NullString   `json:"attachment.filename"         db:"a.filename"         gorm:"-"`
-	Size            app.NullInt64    `json:"attachment.size"             db:"a.size"             gorm:"-"`
-	Extension       app.NullString   `json:"attachment.extension"        db:"a.extension"        gorm:"-"`
-	StorageLocation app.NullString   `json:"attachment.storage_location" db:"a.storage_location" gorm:"-"`
-	Url             app.NullString   `json:"attachment.url"              db:"a.url"              gorm:"-"`
-	CreatedAt       app.NullDateTime `json:"created_at"       db:"mea.created_at"       gorm:"column:created_at"`
-	UpdatedAt       app.NullDateTime `json:"updated_at"       db:"mea.updated_at"       gorm:"column:updated_at"`
-	DeletedAt       app.NullDateTime `json:"deleted_at"       db:"mea.deleted_at,hide"  gorm:"column:deleted_at"`
+	ID              app.NullInt64    `json:"id"                          db:"mea.id"              gorm:"column:id;primaryKey;autoIncrement"`
+	EventMateriID   app.NullInt64    `json:"event_materi.id"             db:"mea.event_materi_id" gorm:"column:event_materi_id"`
+	AttachmentID    app.NullInt64    `json:"attachment.id"               db:"mea.attachment_id"   gorm:"column:attachment_id"`
+	Filename        app.NullString   `json:"attachment.filename"         db:"a.filename"          gorm:"-"`
+	Size            app.NullInt64    `json:"attachment.size"             db:"a.size"              gorm:"-"`
+	Extension       app.NullString   `json:"attachment.extension"        db:"a.extension"         gorm:"-"`
+	StorageLocation app.NullString   `json:"attachment.storage_location" db:"a.storage_location"  gorm:"-"`
+	Url             app.NullString   `json:"attachment.url"              db:"a.url"               gorm:"-"`
+	CreatedAt       app.NullDateTime `json:"created_at"                  db:"mea.created_at"      gorm:"column:created_at"`
+	UpdatedAt       app.NullDateTime `json:"updated_at"                  db:"mea.updated_at"      gorm:"column:updated_at"`
+	DeletedAt       app.NullDateTime `json:"deleted_at"                  db:"mea.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 func (MateriAttachment) TableVersion() string {

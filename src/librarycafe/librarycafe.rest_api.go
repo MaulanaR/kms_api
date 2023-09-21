@@ -1,4 +1,4 @@
-package dislike
+package librarycafe
 
 import (
 	"net/http"
@@ -15,12 +15,12 @@ func REST() *RESTAPIHandler {
 	return &RESTAPIHandler{}
 }
 
-// RESTAPIHandler provides a convenient interface for Dislike REST API handler.
+// RESTAPIHandler provides a convenient interface for LibraryCafe REST API handler.
 type RESTAPIHandler struct {
 	UseCase UseCaseHandler
 }
 
-// injectDeps inject the dependencies of the Dislike REST API handler.
+// injectDeps inject the dependencies of the LibraryCafe REST API handler.
 func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	ctx, ok := c.Locals(app.CtxKey).(*app.Ctx)
 	if !ok {
@@ -30,7 +30,7 @@ func (r *RESTAPIHandler) injectDeps(c *fiber.Ctx) error {
 	return nil
 }
 
-// GetByID is the REST API handler for `GET /api/dislike/{id}`.
+// GetByID is the REST API handler for `GET /api/library_cafe/{id}`.
 func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -46,7 +46,7 @@ func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
-// Get is the REST API handler for `GET /api/dislike`.
+// Get is the REST API handler for `GET /api/library_cafe`.
 func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -63,7 +63,7 @@ func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
-// Create is the REST API handler for `POST /api/dislike`.
+// Create is the REST API handler for `POST /api/library_cafe`.
 func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -92,7 +92,7 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	return c.Status(http.StatusCreated).JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
-// UpdateByID is the REST API handler for `PUT /api/dislike/{id}`.
+// UpdateByID is the REST API handler for `PUT /api/library_cafe/{id}`.
 func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -121,7 +121,7 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
-// PartiallyUpdateByID is the REST API handler for `PATCH /api/dislike/{id}`.
+// PartiallyUpdateByID is the REST API handler for `PATCH /api/library_cafe/{id}`.
 func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -150,7 +150,7 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
-// DeleteByID is the REST API handler for `DELETE /api/dislike/{id}`.
+// DeleteByID is the REST API handler for `DELETE /api/library_cafe/{id}`.
 func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	err := r.injectDeps(c)
 	if err != nil {
@@ -169,112 +169,8 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 	res := map[string]any{
 		"code": http.StatusOK,
 		"message": r.UseCase.Ctx.Trans("deleted", map[string]string{
-			"dislike": p.EndPoint(),
-			"id":      c.Params("id"),
-		}),
-	}
-	return c.JSON(res)
-}
-
-func (r *RESTAPIHandler) UpdateByPengetahuanID(c *fiber.Ctx) error {
-	err := r.injectDeps(c)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	p := ParamUpdate{}
-	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-
-	err = r.UseCase.UpdateByPengetahuanID(c.Params("id"), &p)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	if r.UseCase.Query.Get("is_skip_return") == "true" {
-		return c.JSON(map[string]any{"message": "Success"})
-	}
-	res := map[string]any{
-		"code": http.StatusOK,
-		"message": r.UseCase.Ctx.Trans("success", map[string]string{
-			"dislike": p.EndPoint(),
-			"id":      c.Params("id"),
-		}),
-	}
-	return c.JSON(res)
-}
-
-func (r *RESTAPIHandler) UpdateByforumID(c *fiber.Ctx) error {
-	err := r.injectDeps(c)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	p := ParamUpdate{}
-	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-
-	err = r.UseCase.UpdateByforumID(c.Params("id"), &p)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	if r.UseCase.Query.Get("is_skip_return") == "true" {
-		return c.JSON(map[string]any{"message": "Success"})
-	}
-	res := map[string]any{
-		"code": http.StatusOK,
-		"message": r.UseCase.Ctx.Trans("success", map[string]string{
-			"dislike": p.EndPoint(),
-			"id":      c.Params("id"),
-		}),
-	}
-	return c.JSON(res)
-}
-
-func (r *RESTAPIHandler) UpdateByLeaderTalkID(c *fiber.Ctx) error {
-	err := r.injectDeps(c)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	p := ParamUpdate{}
-	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-
-	err = r.UseCase.UpdateByLeaderTalkID(c.Params("id"), &p)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	if r.UseCase.Query.Get("is_skip_return") == "true" {
-		return c.JSON(map[string]any{"message": "Success"})
-	}
-	res := map[string]any{
-		"code": http.StatusOK,
-		"message": r.UseCase.Ctx.Trans("success", map[string]string{
-			"dislike": p.EndPoint(),
-			"id":      c.Params("id"),
-		}),
-	}
-	return c.JSON(res)
-}
-
-func (r *RESTAPIHandler) UpdateByLibraryCafeID(c *fiber.Ctx) error {
-	err := r.injectDeps(c)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	p := ParamUpdate{}
-	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-
-	err = r.UseCase.UpdateByLibraryCafeID(c.Params("id"), &p)
-	if err != nil {
-		return app.Error().Handler(c, err)
-	}
-	if r.UseCase.Query.Get("is_skip_return") == "true" {
-		return c.JSON(map[string]any{"message": "Success"})
-	}
-	res := map[string]any{
-		"code": http.StatusOK,
-		"message": r.UseCase.Ctx.Trans("success", map[string]string{
-			"dislike": p.EndPoint(),
-			"id":      c.Params("id"),
+			"library_cafe": p.EndPoint(),
+			"id":           c.Params("id"),
 		}),
 	}
 	return c.JSON(res)

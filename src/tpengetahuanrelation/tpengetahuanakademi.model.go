@@ -714,9 +714,9 @@ type TPengetahuanPedoman struct {
 	app.Model
 	ID            app.NullInt64  `json:"-"              db:"tp_pedoman.id_pengetahuan_ta"   gorm:"column:id_pengetahuan_ta;primaryKey;auto_increment;AutoIncrement;"`
 	PengetahuanID app.NullInt64  `json:"pengetahuan.id" db:"tp_pedoman.id_pengetahuan,hide" gorm:"column:id_pengetahuan"`
-	PedomanID     app.NullText   `json:"id"             db:"tp_pedoman.pedoman_id"          gorm:"column:pedoman_id"`
-	PedmoanNama   app.NullString `json:"nama"           db:"-"                              gorm:"-"`
-	PedmoanData   app.NullString `json:"data"           db:"-"                              gorm:"-"`
+	PedomanID     app.NullInt64  `json:"id"             db:"tp_pedoman.pedoman_id"          gorm:"column:pedoman_id"`
+	PedmoanNama   app.NullString `json:"nama"           db:"mpedoman.nama"                  gorm:"-"`
+	PedmoanData   app.NullString `json:"data"           db:"mpedoman.data"                  gorm:"-"`
 }
 
 func (TPengetahuanPedoman) EndPoint() string {
@@ -724,7 +724,7 @@ func (TPengetahuanPedoman) EndPoint() string {
 }
 
 func (TPengetahuanPedoman) TableVersion() string {
-	return "28.07.301152"
+	return "23.09.011152"
 }
 
 func (TPengetahuanPedoman) TableName() string {
@@ -736,6 +736,7 @@ func (TPengetahuanPedoman) TableAliasName() string {
 }
 
 func (m *TPengetahuanPedoman) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_pedoman", "mpedoman", []map[string]any{{"column1": "mpedoman.id", "column2": "m.pedoman_id"}})
 	return m.Relations
 }
 

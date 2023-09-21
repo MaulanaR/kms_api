@@ -8,6 +8,8 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/forum"
+	"github.com/maulanar/kms/src/leadertalk"
+	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
 
@@ -276,9 +278,22 @@ func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
 		}
 	}
 
-	//validasi
 	if u.forumID.Valid {
 		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.forumID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.LeaderTalkID.Valid {
+		_, err := leadertalk.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LeaderTalkID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.LibraryCafeID.Valid {
+		_, err := librarycafe.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LibraryCafeID.Int64)))
 		if err != nil {
 			return err
 		}

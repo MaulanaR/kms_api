@@ -16,9 +16,13 @@ import (
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
+	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
+	"github.com/maulanar/kms/src/narasumber"
 	"github.com/maulanar/kms/src/orang"
+	"github.com/maulanar/kms/src/pedoman"
+	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
@@ -135,6 +139,20 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/referensi/{id}", "PATCH", referensi.REST().PartiallyUpdateByID, referensi.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/referensi/{id}", "DELETE", referensi.REST().DeleteByID, referensi.OpenAPI().DeleteByID())
 
+	app.Server().AddRoute("/api/v1/narasumber", "POST", narasumber.REST().Create, narasumber.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/narasumber", "GET", narasumber.REST().Get, narasumber.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/narasumber/{id}", "GET", narasumber.REST().GetByID, narasumber.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/narasumber/{id}", "PUT", narasumber.REST().UpdateByID, narasumber.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/narasumber/{id}", "PATCH", narasumber.REST().PartiallyUpdateByID, narasumber.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/narasumber/{id}", "DELETE", narasumber.REST().DeleteByID, narasumber.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/penerbit", "POST", penerbit.REST().Create, penerbit.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/penerbit", "GET", penerbit.REST().Get, penerbit.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/penerbit/{id}", "GET", penerbit.REST().GetByID, penerbit.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/penerbit/{id}", "PUT", penerbit.REST().UpdateByID, penerbit.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/penerbit/{id}", "PATCH", penerbit.REST().PartiallyUpdateByID, penerbit.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/penerbit/{id}", "DELETE", penerbit.REST().DeleteByID, penerbit.OpenAPI().DeleteByID())
+
 	app.Server().AddRoute("/api/v1/login", "POST", accesstoken.REST().Login, accesstoken.OpenAPI().Create())
 
 	app.Server().AddRoute("/api/v1/attachments", "POST", attachment.REST().Create, attachment.OpenAPI().Create())
@@ -198,6 +216,22 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/leader_talk/{id}", "DELETE", leadertalk.REST().DeleteByID, leadertalk.OpenAPI().DeleteByID())
 	app.Server().AddRoute("/api/v1/leader_talk/{id}/like", "POST", like.REST().UpdateByLeaderTalkID, like.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/leader_talk/{id}/dislike", "POST", dislike.REST().UpdateByLeaderTalkID, dislike.OpenAPI().PartiallyUpdateByID())
+
+	app.Server().AddRoute("/api/v1/library_cafe", "POST", librarycafe.REST().Create, librarycafe.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/library_cafe", "GET", librarycafe.REST().Get, librarycafe.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/library_cafe/{id}", "GET", librarycafe.REST().GetByID, librarycafe.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/library_cafe/{id}", "PUT", librarycafe.REST().UpdateByID, librarycafe.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/library_cafe/{id}", "PATCH", librarycafe.REST().PartiallyUpdateByID, librarycafe.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/library_cafe/{id}", "DELETE", librarycafe.REST().DeleteByID, librarycafe.OpenAPI().DeleteByID())
+	app.Server().AddRoute("/api/v1/leader_talk/{id}/like", "POST", like.REST().UpdateByLibraryCafeID, like.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/leader_talk/{id}/dislike", "POST", dislike.REST().UpdateByLibraryCafeID, dislike.OpenAPI().PartiallyUpdateByID())
+
+	app.Server().AddRoute("/api/v1/pedoman", "POST", pedoman.REST().Create, pedoman.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/pedoman", "GET", pedoman.REST().Get, pedoman.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/pedoman/{id}", "GET", pedoman.REST().GetByID, pedoman.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/pedoman/{id}", "PUT", pedoman.REST().UpdateByID, pedoman.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/pedoman/{id}", "PATCH", pedoman.REST().PartiallyUpdateByID, pedoman.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/pedoman/{id}", "DELETE", pedoman.REST().DeleteByID, pedoman.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

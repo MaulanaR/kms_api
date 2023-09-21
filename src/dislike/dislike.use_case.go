@@ -9,6 +9,7 @@ import (
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/leadertalk"
+	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
 
@@ -378,6 +379,43 @@ func (u UseCaseHandler) UpdateByLeaderTalkID(id string, p *ParamUpdate) error {
 	if exist < 1 {
 		//Set param
 		p.LeaderTalkID.Set(pgth.ID.Int64)
+		p.UserID.Set(u.Ctx.User.ID)
+		p.CreatedAt.Set(time.Now())
+
+		err = tx.Model(&p).Create(&p).Error
+		if err != nil {
+			return app.Error().New(http.StatusInternalServerError, err.Error())
+		}
+	}
+
+	app.Cache().Invalidate(u.EndPoint())
+
+	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	return nil
+}
+
+func (u UseCaseHandler) UpdateByLibraryCafeID(id string, p *ParamUpdate) error {
+	//validasi
+	pgth, err := librarycafe.UseCase(*u.Ctx).GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//make sure that person havent doing this action before
+	var exist int64
+	tx.Model(&Dislike{}).
+		Where("id_library_cafe = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&exist)
+
+	if exist < 1 {
+		//Set param
+		p.LibraryCafeID.Set(pgth.ID.Int64)
 		p.UserID.Set(u.Ctx.User.ID)
 		p.CreatedAt.Set(time.Now())
 

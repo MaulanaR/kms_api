@@ -12,6 +12,7 @@ import (
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
 	"github.com/maulanar/kms/src/orang"
+	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
 	"github.com/maulanar/kms/src/tag"
@@ -319,8 +320,12 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	//validasi pedoman
 	if len(p.Pedoman) > 0 {
-		for i, _ := range p.Pedoman {
+		for i, v := range p.Pedoman {
 			//validasi
+			_, err := pedoman.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(v.PedomanID.Int64)))
+			if err != nil {
+				return err
+			}
 			p.Pedoman[i].PengetahuanID.Set(p.ID.Int64)
 		}
 

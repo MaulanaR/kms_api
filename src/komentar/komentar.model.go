@@ -6,8 +6,9 @@ type Komentar struct {
 	app.Model
 	ID                     app.NullInt64    `json:"id"                       db:"m.id"                 gorm:"column:id;primaryKey"`
 	PengetahuanID          app.NullInt64    `json:"pengetahuan.id"           db:"m.id_pengetahuan"     gorm:"column:id_pengetahuan"`
-	forumID                app.NullInt64    `json:"forum.id"                 db:"m.id_forum"             gorm:"column:id_forum"`
-	LeaderTalkID           app.NullInt64    `json:"leader_talk.id"           db:"m.id_leader_talk"          gorm:"column:id_leader_talk"`
+	forumID                app.NullInt64    `json:"forum.id"                 db:"m.id_forum"           gorm:"column:id_forum"`
+	LeaderTalkID           app.NullInt64    `json:"leader_talk.id"           db:"m.id_leader_talk"     gorm:"column:id_leader_talk"`
+	LibraryCafeID          app.NullInt64    `json:"library_cafe.id"          db:"m.id_library_cafe"    gorm:"column:id_library_cafe"`
 	UserID                 app.NullInt64    `json:"user.id"                  db:"m.id_user"            gorm:"column:id_user"`
 	UserOrangId            app.NullInt64    `json:"user.orang.id"            db:"u.id_orang,hide"      gorm:"-"`
 	UserOrangNama          app.NullString   `json:"user.nama_lengkap"        db:"o.nama"               gorm:"-"`
@@ -25,7 +26,7 @@ type Komentar struct {
 	ParentKomentarID       app.NullInt64    `json:"parent_komentar.id"       db:"m.id_parent_komentar" gorm:"column:id_parent_komentar"`
 	ParentKomentarKomentar app.NullText     `json:"parent_komentar.komentar" db:"pkom.komentar"        gorm:"-"`
 	ParentKomentarStatus   app.NullString   `json:"parent_komentar.status"   db:"pkom.status"          gorm:"-"`
-	Komentar               app.NullText     `json:"komentar"                 db:"m.komentar"           gorm:"column:komentar" validate:"required"`
+	Komentar               app.NullText     `json:"komentar"                 db:"m.komentar"           gorm:"column:komentar"           validate:"required"`
 	Status                 app.NullString   `json:"status"                   db:"m.status"             gorm:"column:status"`
 	CreatedAt              app.NullDateTime `json:"created_at"               db:"m.created_at"         gorm:"column:created_at"`
 	UpdatedAt              app.NullDateTime `json:"updated_at"               db:"m.updated_at"         gorm:"column:updated_at"`
@@ -37,7 +38,7 @@ func (Komentar) EndPoint() string {
 }
 
 func (Komentar) TableVersion() string {
-	return "28.06.301152"
+	return "23.09.011152"
 }
 
 func (Komentar) TableName() string {

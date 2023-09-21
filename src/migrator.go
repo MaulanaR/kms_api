@@ -13,10 +13,12 @@ import (
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
+	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
 	"github.com/maulanar/kms/src/narasumber"
 	"github.com/maulanar/kms/src/orang"
+	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
 	"github.com/maulanar/kms/src/referensi"
@@ -86,6 +88,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", eventmateri.MateriAttachment{})
 	app.DB().RegisterTable("main", forum.Forum{})
 	app.DB().RegisterTable("main", leadertalk.LeaderTalk{})
+	app.DB().RegisterTable("main", librarycafe.LibraryCafe{})
+	app.DB().RegisterTable("main", pedoman.Pedoman{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

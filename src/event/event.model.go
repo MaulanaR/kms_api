@@ -23,7 +23,7 @@ type Event struct {
 	CreatedAt          app.NullDateTime          `json:"created_at"          db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt          app.NullDateTime          `json:"updated_at"          db:"m.updated_at"      gorm:"column:updated_at"`
 	DeletedAt          app.NullDateTime          `json:"deleted_at"          db:"m.deleted_at,hide" gorm:"column:deleted_at"`
-	Materi             []eventmateri.EventMateri `json:"materi" db:"event.id={id}" gorm:"-"`
+	Materi             []eventmateri.EventMateri `json:"materi"              db:"event.id={id}"     gorm:"-"`
 }
 
 func (Event) EndPoint() string {
