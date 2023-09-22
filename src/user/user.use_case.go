@@ -155,6 +155,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	org.Jabatan = p.OrangJabatan
 	org.Email = p.OrangEmail
 	org.FotoID = p.OrangFotoID
+	org.Nip = p.OrangNip
 
 	err = orang.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.Create(&org)
 	if err != nil {
