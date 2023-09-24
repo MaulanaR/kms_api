@@ -48,6 +48,9 @@ func (u UseCaseHandler) GetByID(id string) (AccessToken, error) {
 
 	// get from db
 	key := "access_token"
+	if id == "" {
+		id = u.Ctx.Token.AccessToken.String
+	}
 	u.Query.Add(key, id)
 	err = app.Query().First(tx, &res, u.Query)
 	if err != nil {

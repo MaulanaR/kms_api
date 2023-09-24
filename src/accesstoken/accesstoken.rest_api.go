@@ -35,7 +35,7 @@ func (r *RESTAPIHandler) GetByID(c *fiber.Ctx) error {
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
-	res, err := r.UseCase.GetByID(c.Params("id"))
+	res, err := r.UseCase.GetByID("")
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}

@@ -154,6 +154,7 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/penerbit/{id}", "DELETE", penerbit.REST().DeleteByID, penerbit.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/login", "POST", accesstoken.REST().Login, accesstoken.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/session", "GET", accesstoken.REST().GetByID, accesstoken.OpenAPI().Create())
 
 	app.Server().AddRoute("/api/v1/attachments", "POST", attachment.REST().Create, attachment.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/attachments", "GET", attachment.REST().Get, attachment.OpenAPI().Get())
