@@ -9,10 +9,13 @@ import (
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
+	"github.com/maulanar/kms/src/dokumen"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/jenispengetahuan"
+	"github.com/maulanar/kms/src/kategoripengetahuan"
+	"github.com/maulanar/kms/src/kelompokdokumen"
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
@@ -233,6 +236,27 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/pedoman/{id}", "PUT", pedoman.REST().UpdateByID, pedoman.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/pedoman/{id}", "PATCH", pedoman.REST().PartiallyUpdateByID, pedoman.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/pedoman/{id}", "DELETE", pedoman.REST().DeleteByID, pedoman.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/kelompok_dokumen", "POST", kelompokdokumen.REST().Create, kelompokdokumen.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/kelompok_dokumen", "GET", kelompokdokumen.REST().Get, kelompokdokumen.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/kelompok_dokumen/{id}", "GET", kelompokdokumen.REST().GetByID, kelompokdokumen.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/kelompok_dokumen/{id}", "PUT", kelompokdokumen.REST().UpdateByID, kelompokdokumen.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/kelompok_dokumen/{id}", "PATCH", kelompokdokumen.REST().PartiallyUpdateByID, kelompokdokumen.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/kelompok_dokumen/{id}", "DELETE", kelompokdokumen.REST().DeleteByID, kelompokdokumen.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/kategori_pengetahuan", "POST", kategoripengetahuan.REST().Create, kategoripengetahuan.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/kategori_pengetahuan", "GET", kategoripengetahuan.REST().Get, kategoripengetahuan.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/kategori_pengetahuan/{id}", "GET", kategoripengetahuan.REST().GetByID, kategoripengetahuan.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/kategori_pengetahuan/{id}", "PUT", kategoripengetahuan.REST().UpdateByID, kategoripengetahuan.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/kategori_pengetahuan/{id}", "PATCH", kategoripengetahuan.REST().PartiallyUpdateByID, kategoripengetahuan.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/kategori_pengetahuan/{id}", "DELETE", kategoripengetahuan.REST().DeleteByID, kategoripengetahuan.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/dokumen", "POST", dokumen.REST().Create, dokumen.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/dokumen", "GET", dokumen.REST().Get, dokumen.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/dokumen/{id}", "GET", dokumen.REST().GetByID, dokumen.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/dokumen/{id}", "PUT", dokumen.REST().UpdateByID, dokumen.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/dokumen/{id}", "PATCH", dokumen.REST().PartiallyUpdateByID, dokumen.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/dokumen/{id}", "DELETE", dokumen.REST().DeleteByID, dokumen.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

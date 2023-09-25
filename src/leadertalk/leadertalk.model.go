@@ -61,7 +61,7 @@ func (m *LeaderTalk) GetFilters() []map[string]any {
 }
 
 func (m *LeaderTalk) GetSorts() []map[string]any {
-	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
+	m.AddSort(map[string]any{"column": "m.id", "direction": "desc"})
 	return m.Sorts
 }
 

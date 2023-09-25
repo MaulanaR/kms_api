@@ -49,9 +49,6 @@ func (u UseCaseHandler) GetByID(id string) (User, error) {
 		return res, err
 	}
 
-	// get from cache and return if exists
-	cacheKey := u.EndPoint() + "." + id
-	app.Cache().Get(cacheKey, &res)
 	if res.ID.Valid {
 		return res, err
 	}
@@ -71,8 +68,6 @@ func (u UseCaseHandler) GetByID(id string) (User, error) {
 		return res, u.Ctx.NotFoundError(err, u.EndPoint(), key, id)
 	}
 
-	// save to cache and return if exists
-	app.Cache().Set(cacheKey, res)
 	return res, err
 }
 

@@ -6,10 +6,13 @@ import (
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
+	"github.com/maulanar/kms/src/dokumen"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/jenispengetahuan"
+	"github.com/maulanar/kms/src/kategoripengetahuan"
+	"github.com/maulanar/kms/src/kelompokdokumen"
 	"github.com/maulanar/kms/src/komentar"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
@@ -90,6 +93,9 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", leadertalk.LeaderTalk{})
 	app.DB().RegisterTable("main", librarycafe.LibraryCafe{})
 	app.DB().RegisterTable("main", pedoman.Pedoman{})
+	app.DB().RegisterTable("main", kelompokdokumen.KelompokDokumen{})
+	app.DB().RegisterTable("main", kategoripengetahuan.KategoriPengetahuan{})
+	app.DB().RegisterTable("main", dokumen.Dokumen{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
@@ -98,7 +104,6 @@ func (*migratorUtil) Run() {
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	} else {
-		err = app.DB().MigrateTable(tx, "main", app.Setting{})
 		err = app.DB().MigrateTable(tx, "main", app.Setting{})
 	}
 	if err != nil {

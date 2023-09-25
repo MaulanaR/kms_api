@@ -97,7 +97,8 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 			if len(segments) >= 5 {
 				ctx.Action.DataID = segments[4]
 			}
-			//get pengetahuan tanpa login
+
+			//get tanpa login
 			if segments[3] == "pengetahuan" && method == "GET" {
 				return false
 			} else if segments[3] == "komentar" && method == "GET" {
@@ -108,6 +109,30 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if segments[3] == "event_materi" && method == "GET" {
 				return false
+			} else if segments[3] == "leader_talk" && method == "GET" {
+				return false
+			} else if segments[3] == "search_pengetahuan" && method == "GET" {
+				return false
+			} else if segments[3] == "forum" && method == "GET" {
+				return false
+			} else if segments[3] == "user" && method == "GET" {
+				return false
+			} else if segments[3] == "jenis_pengetahuan" && method == "GET" {
+				return false
+			} else if segments[3] == "kelompok_dokumen" && method == "GET" {
+				return false
+			} else if segments[3] == "attachment" && method == "GET" {
+				return false
+			} else if segments[3] == "like" && method == "GET" {
+				return false
+			} else if segments[3] == "dislike" && method == "GET" {
+				return false
+			} else if segments[3] == "library_cafe" && method == "GET" {
+				return false
+			} else if segments[3] == "kategori_pengetahuan" && method == "GET" {
+				return false
+			} else if segments[3] == "dokumen" && method == "GET" {
+				return false
 			}
 
 			switch segments[3] {
@@ -116,15 +141,5 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 			}
 		}
 	}
-
-	// // check login, login pake jwt
-	// if (path == "/api/v1/session" || path == "/api/v1/session_std") && method != "PATCH" {
-	// 	return false
-	// }
-
-	// proxy pake auth dari url tujuan
-	// if strings.HasPrefix(path, "/api/v2") {
-	// 	return false
-	// }
 	return true
 }
