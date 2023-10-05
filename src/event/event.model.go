@@ -20,6 +20,10 @@ type Event struct {
 	AksesKegiatan      app.NullString            `json:"akses_kegiatan"      db:"m.akses_kegiatan"  gorm:"column:akses_kegiatan"`
 	CreatedBy          app.NullInt64             `json:"created_by.id"       db:"m.created_by"      gorm:"column:created_by"`
 	CreatedByUsername  app.NullString            `json:"created_by.username" db:"cbuser.username"   gorm:"-"`
+	UpdatedBy          app.NullInt64             `json:"updated_by.id"       db:"m.updated_by"       gorm:"column:updated_by"`
+	UpdatedByUsername  app.NullString            `json:"updated_by.username" db:"ubuser.username"    gorm:"-"`
+	DeletedBy          app.NullInt64             `json:"deleted_by.id"       db:"m.deleted_by"       gorm:"column:deleted_by"`
+	DeletedByUsername  app.NullString            `json:"deleted_by.username" db:"dbuser.username"    gorm:"-"`
 	CreatedAt          app.NullDateTime          `json:"created_at"          db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt          app.NullDateTime          `json:"updated_at"          db:"m.updated_at"      gorm:"column:updated_at"`
 	DeletedAt          app.NullDateTime          `json:"deleted_at"          db:"m.deleted_at,hide" gorm:"column:deleted_at"`
@@ -31,7 +35,7 @@ func (Event) EndPoint() string {
 }
 
 func (Event) TableVersion() string {
-	return "28.08.291152"
+	return "23.10.051152"
 }
 
 func (Event) TableName() string {
@@ -45,6 +49,8 @@ func (Event) TableAliasName() string {
 func (m *Event) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_attachments", "a", []map[string]any{{"column1": "a.id", "column2": "m.attachment_id"}})
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
+	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
+	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
 	return m.Relations
 }
 

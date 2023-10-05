@@ -577,6 +577,18 @@ func (u *UseCaseHandler) setDefaultValue(old Pengetahuan) error {
 		u.ID = old.ID
 	}
 
+	if u.Ctx.Action.Method == "POST" {
+		u.CreatedBy.Set(u.Ctx.User.ID)
+	}
+
+	if u.Ctx.Action.Method == "PUT" || u.Ctx.Action.Method == "PATCH" {
+		u.UpdatedBy.Set(u.Ctx.User.ID)
+	}
+
+	if u.Ctx.Action.Method == "DELETE" {
+		u.DeletedBy.Set(u.Ctx.User.ID)
+	}
+
 	return nil
 }
 

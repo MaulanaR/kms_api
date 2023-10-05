@@ -7,10 +7,12 @@ import (
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/dokumen"
+	"github.com/maulanar/kms/src/elibrary"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/jenispengetahuan"
+	"github.com/maulanar/kms/src/kategoribuku"
 	"github.com/maulanar/kms/src/kategoripengetahuan"
 	"github.com/maulanar/kms/src/kelompokdokumen"
 	"github.com/maulanar/kms/src/komentar"
@@ -96,6 +98,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", kelompokdokumen.KelompokDokumen{})
 	app.DB().RegisterTable("main", kategoripengetahuan.KategoriPengetahuan{})
 	app.DB().RegisterTable("main", dokumen.Dokumen{})
+	app.DB().RegisterTable("main", kategoribuku.KategoriBuku{})
+	app.DB().RegisterTable("main", elibrary.Elibrary{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

@@ -5,13 +5,13 @@ import "github.com/maulanar/kms/app"
 // SubjenisPengetahuan is the main model of SubjenisPengetahuan data. It provides a convenient interface for app.ModelInterface
 type SubjenisPengetahuan struct {
 	app.Model
-	ID                   app.NullInt64    `json:"id"                     db:"m.id_subjenis_pengetahuan"   gorm:"column:id_subjenis_pengetahuan;primaryKey"`
-	JenisPengetahuanID   app.NullInt64    `json:"jenis_pengetahuan.id"   db:"m.id_jenis_pengetahuan"      gorm:"column:id_jenis_pengetahuan"`
-	JenisPengetahuanNama app.NullText     `json:"jenis_pengetahuan.nama" db:"jp.nama_jenis_pengetahuan"   gorm:"-"`
-	Nama                 app.NullText     `json:"nama"                   db:"m.nama_subjenis_pengetahuan" gorm:"column:nama_subjenis_pengetahuan"`
-	CreatedAt            app.NullDateTime `json:"created_at"             db:"m.created_at"                gorm:"column:created_at"`
-	UpdatedAt            app.NullDateTime `json:"updated_at"             db:"m.updated_at"                gorm:"column:updated_at"`
-	DeletedAt            app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"           gorm:"column:deleted_at"`
+	ID app.NullInt64 `json:"id"                     db:"m.id_subjenis_pengetahuan"   gorm:"column:id_subjenis_pengetahuan;primaryKey"`
+	// JenisPengetahuanID   app.NullInt64    `json:"jenis_pengetahuan.id"   db:"m.id_jenis_pengetahuan"      gorm:"column:id_jenis_pengetahuan"`
+	// JenisPengetahuanNama app.NullText     `json:"jenis_pengetahuan.nama" db:"jp.nama_jenis_pengetahuan"   gorm:"-"`
+	Nama      app.NullText     `json:"nama"                   db:"m.nama_subjenis_pengetahuan" gorm:"column:nama_subjenis_pengetahuan"`
+	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"                gorm:"column:created_at"`
+	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"                gorm:"column:updated_at"`
+	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"           gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the SubjenisPengetahuan end point, it used for cache key, etc.
@@ -37,7 +37,7 @@ func (SubjenisPengetahuan) TableAliasName() string {
 
 // GetRelations returns the relations of the SubjenisPengetahuan data in the database, used for querying.
 func (m *SubjenisPengetahuan) GetRelations() map[string]map[string]any {
-	m.AddRelation("left", "m_jenis_pengetahuan", "jp", []map[string]any{{"column1": "jp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})
+	// m.AddRelation("left", "m_jenis_pengetahuan", "jp", []map[string]any{{"column1": "jp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})
 	// m.AddRelation("left", "users", "uu", []map[string]any{{"column1": "uu.id", "column2": "m.updated_by_user_id"}})
 	return m.Relations
 }

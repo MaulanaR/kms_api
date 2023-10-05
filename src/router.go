@@ -10,10 +10,12 @@ import (
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/dokumen"
+	"github.com/maulanar/kms/src/elibrary"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/jenispengetahuan"
+	"github.com/maulanar/kms/src/kategoribuku"
 	"github.com/maulanar/kms/src/kategoripengetahuan"
 	"github.com/maulanar/kms/src/kelompokdokumen"
 	"github.com/maulanar/kms/src/komentar"
@@ -257,6 +259,20 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/dokumen/{id}", "PUT", dokumen.REST().UpdateByID, dokumen.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/dokumen/{id}", "PATCH", dokumen.REST().PartiallyUpdateByID, dokumen.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/dokumen/{id}", "DELETE", dokumen.REST().DeleteByID, dokumen.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/kategori_buku", "POST", kategoribuku.REST().Create, kategoribuku.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/kategori_buku", "GET", kategoribuku.REST().Get, kategoribuku.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/kategori_buku/{id}", "GET", kategoribuku.REST().GetByID, kategoribuku.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/kategori_buku/{id}", "PUT", kategoribuku.REST().UpdateByID, kategoribuku.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/kategori_buku/{id}", "PATCH", kategoribuku.REST().PartiallyUpdateByID, kategoribuku.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/kategori_buku/{id}", "DELETE", kategoribuku.REST().DeleteByID, kategoribuku.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/elibrary", "POST", elibrary.REST().Create, elibrary.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/elibrary", "GET", elibrary.REST().Get, elibrary.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/elibrary/{id}", "GET", elibrary.REST().GetByID, elibrary.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/elibrary/{id}", "PUT", elibrary.REST().UpdateByID, elibrary.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/elibrary/{id}", "PATCH", elibrary.REST().PartiallyUpdateByID, elibrary.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/elibrary/{id}", "DELETE", elibrary.REST().DeleteByID, elibrary.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

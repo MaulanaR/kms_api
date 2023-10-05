@@ -133,6 +133,10 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if segments[3] == "dokumen" && method == "GET" {
 				return false
+			} else if segments[3] == "kategori_buku" && method == "GET" {
+				return false
+			} else if segments[3] == "elibrary" && method == "GET" {
+				return false
 			}
 
 			switch segments[3] {

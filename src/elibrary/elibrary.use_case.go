@@ -1,4 +1,4 @@
-package librarycafe
+package elibrary
 
 import (
 	"net/http"
@@ -8,6 +8,7 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/kategoribuku"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -22,7 +23,7 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 }
 
 type UseCaseHandler struct {
-	LibraryCafe
+	Elibrary
 
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
 	Query url.Values `json:"-" db:"-" gorm:"-"`
@@ -33,11 +34,17 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-func (u UseCaseHandler) GetByID(id string) (LibraryCafe, error) {
-	res := LibraryCafe{}
+func (u UseCaseHandler) GetByID(id string) (Elibrary, error) {
+	res := Elibrary{}
 
-	err := u.Ctx.ValidatePermission("library_cafe.detail")
+	err := u.Ctx.ValidatePermission("elibrary.detail")
 	if err != nil {
+		return res, err
+	}
+
+	cacheKey := u.EndPoint() + "." + id
+	app.Cache().Get(cacheKey, &res)
+	if res.ID.Valid {
 		return res, err
 	}
 
@@ -54,19 +61,14 @@ func (u UseCaseHandler) GetByID(id string) (LibraryCafe, error) {
 		return res, u.Ctx.NotFoundError(err, u.EndPoint(), key, id)
 	}
 
-	//get is liked & is disliked
-	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_library_cafe = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsLiked)
-	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_library_cafe = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
-
-	//update count view
-	tx.Exec("UPDATE t_forum SET count_view = count_view + 1 WHERE id = ?", id)
+	app.Cache().Set(cacheKey, res)
 	return res, err
 }
 
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
-	err := u.Ctx.ValidatePermission("library_cafe.list")
+	err := u.Ctx.ValidatePermission("elibrary.list")
 	if err != nil {
 		return res, err
 	}
@@ -86,7 +88,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &LibraryCafe{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &Elibrary{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -95,7 +97,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	data, err := app.Query().Find(tx, &LibraryCafe{}, u.Query)
+	data, err := app.Query().Find(tx, &Elibrary{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -107,7 +109,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
-	err := u.Ctx.ValidatePermission("library_cafe.create")
+	err := u.Ctx.ValidatePermission("elibrary.create")
 	if err != nil {
 		return err
 	}
@@ -117,7 +119,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	err = p.setDefaultValue(LibraryCafe{})
+	err = p.setDefaultValue(Elibrary{})
 	if err != nil {
 		return err
 	}
@@ -140,7 +142,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
-	err := u.Ctx.ValidatePermission("library_cafe.edit")
+	err := u.Ctx.ValidatePermission("elibrary.edit")
 	if err != nil {
 		return err
 	}
@@ -178,7 +180,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
-	err := u.Ctx.ValidatePermission("library_cafe.edit")
+	err := u.Ctx.ValidatePermission("elibrary.edit")
 	if err != nil {
 		return err
 	}
@@ -216,7 +218,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
-	err := u.Ctx.ValidatePermission("library_cafe.delete")
+	err := u.Ctx.ValidatePermission("elibrary.delete")
 	if err != nil {
 		return err
 	}
@@ -247,18 +249,31 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-func (u *UseCaseHandler) setDefaultValue(old LibraryCafe) error {
+func (u *UseCaseHandler) setDefaultValue(old Elibrary) error {
 	if old.ID.Valid {
 		u.ID = old.ID
 	}
 
-	if u.GambarID.Valid {
-		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.GambarID.Int64)))
+	if u.KategoriBukuId.Valid {
+		_, err := kategoribuku.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.KategoriBukuId.Int64)))
 		if err != nil {
 			return err
 		}
 	}
 
+	if u.GambarId.Valid {
+		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.GambarId.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.DokumenId.Valid {
+		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.DokumenId.Int64)))
+		if err != nil {
+			return err
+		}
+	}
 	if u.Ctx.Action.Method == "POST" {
 		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
@@ -270,5 +285,6 @@ func (u *UseCaseHandler) setDefaultValue(old LibraryCafe) error {
 	if u.Ctx.Action.Method == "DELETE" {
 		u.DeletedBy.Set(u.Ctx.User.ID)
 	}
+
 	return nil
 }

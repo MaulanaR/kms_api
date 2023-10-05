@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/elibrary"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/librarycafe"
@@ -294,6 +295,13 @@ func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
 
 	if u.LibraryCafeID.Valid {
 		_, err := librarycafe.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LibraryCafeID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.ElibraryID.Valid {
+		_, err := elibrary.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.ElibraryID.Int64)))
 		if err != nil {
 			return err
 		}
