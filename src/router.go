@@ -133,6 +133,8 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}", "PATCH", pengetahuan.REST().PartiallyUpdateByID, pengetahuan.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}", "DELETE", pengetahuan.REST().DeleteByID, pengetahuan.OpenAPI().DeleteByID())
 
+	app.Server().AddRoute("/api/v1/slider_pengetahuan", "GET", pengetahuan.REST().GetSlider, pengetahuan.OpenAPI().Get())
+
 	//like & dislike
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}/like", "POST", like.REST().UpdateByPengetahuanID, like.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}/dislike", "POST", dislike.REST().UpdateByPengetahuanID, dislike.OpenAPI().PartiallyUpdateByID())

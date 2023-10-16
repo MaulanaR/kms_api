@@ -143,6 +143,15 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
+	//enc password
+	if p.Password.Valid {
+		enc, err := app.Crypto().Encrypt(p.Password.String)
+		if err != nil {
+			return err
+		}
+		p.Password.Set(enc)
+	}
+
 	//Insert to Orang
 	org := orang.ParamCreate{}
 	org.Nama = p.OrangNama
@@ -165,7 +174,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	}
 
 	// save data to db
-	err = tx.Model(&p).Create(&p).Error
+	err = tx.Model(&p).Create(p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -230,6 +239,15 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return err
 	}
 
+	//enc password
+	if p.Password.Valid {
+		enc, err := app.Crypto().Encrypt(p.Password.String)
+		if err != nil {
+			return err
+		}
+		p.Password.Set(enc)
+	}
+
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
 	if err != nil {
@@ -275,6 +293,15 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	err = p.setDefaultValue(old)
 	if err != nil {
 		return err
+	}
+
+	//enc password
+	if p.Password.Valid {
+		enc, err := app.Crypto().Encrypt(p.Password.String)
+		if err != nil {
+			return err
+		}
+		p.Password.Set(enc)
 	}
 
 	// prepare db for current ctx
@@ -339,32 +366,24 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 }
 
 // setDefaultValue set default value of undefined field when create or update User data.
-func (u *UseCaseHandler) setDefaultValue(old User) error {
+func (p *UseCaseHandler) setDefaultValue(old User) error {
 	if old.ID.Valid {
-		u.ID = old.ID
+		p.ID = old.ID
 	}
 
-	if u.Password.Valid {
-		enc, err := app.Crypto().Encrypt(u.Password.String)
-		if err != nil {
-			return err
-		}
-		u.Password.Set(enc)
-	}
-
-	if u.Username != old.Username {
+	if p.User.Username != old.Username {
 		//check ke db, pastikan tidak duplikat
 		var count int64
-		tx, err := u.Ctx.DB()
+		tx, err := p.Ctx.DB()
 		if err != nil {
 			return app.Error().New(http.StatusInternalServerError, err.Error())
 		}
 
-		tx.Model(u.User).Where("username = ?", u.Username.String).Where("deleted_at IS NULL").Count(&count)
+		tx.Model(p.User).Where("username = ?", p.User.Username.String).Where("deleted_at IS NULL").Count(&count)
 		if count > 1 {
-			return app.Error().New(http.StatusBadRequest, app.Translator().Trans(u.Ctx.Lang, "unique", map[string]string{
+			return app.Error().New(http.StatusBadRequest, app.Translator().Trans(p.Ctx.Lang, "unique", map[string]string{
 				"attribute": "username",
-				"value":     u.Username.String,
+				"value":     p.User.Username.String,
 			}))
 		}
 	}

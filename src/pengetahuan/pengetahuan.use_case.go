@@ -1,6 +1,7 @@
 package pengetahuan
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -15,6 +16,7 @@ import (
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
+	"github.com/maulanar/kms/src/subjenispengetahuan"
 	"github.com/maulanar/kms/src/tag"
 	"github.com/maulanar/kms/src/tpengetahuanrelation"
 
@@ -649,6 +651,47 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		}
 		res.SetData(newData, u.Query)
 		res.Count = int64(len(newData))
+	}
+
+	return res, err
+}
+
+// Get returns the list of Pengetahuan data per jenis.
+func (u UseCaseHandler) GetSlider() ([]Pengetahuan, error) {
+	res := []Pengetahuan{}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// find data
+	//cek by subjenis
+	subjenis := []subjenispengetahuan.SubjenisPengetahuan{}
+	err = tx.Model(&subjenispengetahuan.SubjenisPengetahuan{}).Find(&subjenis).Error
+	if err != nil {
+		return res, err
+	}
+
+	for _, sjp := range subjenis {
+		p := []Pengetahuan{}
+		q := url.Values{}
+		q.Add("subjenis_pengetahuan.id", strconv.Itoa(int(sjp.ID.Int64)))
+		q.Add("$per_page", strconv.Itoa(1))
+		r, err := app.Query().Find(tx, &Pengetahuan{}, q)
+		if err != nil {
+			return res, err
+		}
+		b, err := json.Marshal(r)
+		if err == nil {
+			err = json.Unmarshal(b, &p)
+			if err == nil {
+				for _, v := range p {
+					res = append(res, v)
+				}
+			}
+		}
 	}
 
 	return res, err
