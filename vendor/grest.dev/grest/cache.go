@@ -124,10 +124,11 @@ func (c *Cache) DeleteWithPrefix(prefix string) error {
 }
 
 func (c *Cache) Invalidate(prefix string, keys ...string) {
-	for _, k := range keys {
-		c.Delete(prefix + "." + k)
-	}
-	go c.DeleteWithPrefix(prefix + "?")
+	// for _, k := range keys {
+	// 	c.Delete(prefix + "." + k)
+	// }
+	// go c.DeleteWithPrefix(prefix + "?")
+	c.Clear()
 }
 
 func (c *Cache) Clear() error {

@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/lithammer/fuzzysearch/fuzzy"
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
 )
@@ -31,6 +32,73 @@ type UseCaseHandler struct {
 func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	ctx.IsAsync = true
 	return UseCase(ctx, query...)
+}
+
+// Get returns the list of Pengetahuan data.
+func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
+	res := app.ListModel{}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	u.Query.Add("$is_disable_pagination", "true")
+	// set pagination info
+	res.Count,
+		res.PageContext.Page,
+		res.PageContext.PerPage,
+		res.PageContext.PageCount,
+		err = app.Query().PaginationInfo(tx, &Forum{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	// return data count if $per_page set to 0
+	if res.PageContext.PerPage == 0 {
+		return res, err
+	}
+
+	// find data
+	data, err := app.Query().Find(tx, &Forum{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	res.SetData(data, u.Query)
+	res.Count = int64(len(data))
+	if u.Query.Has("levenshtein.keyword.$eq") {
+		newData := []map[string]any{}
+		keyword := u.Query.Get("levenshtein.keyword.$eq")
+		// do for levenshtein
+		listJudul := []string{}
+		for _, v := range data {
+			_, ok := v["judul"].(string)
+			if ok {
+				_, ok2 := v["deskripsi"].(string)
+				if ok2 {
+					listJudul = append(listJudul, v["judul"].(string)+" "+v["deskripsi"].(string))
+				} else {
+					listJudul = append(listJudul, v["judul"].(string))
+				}
+			} else {
+				listJudul = append(listJudul, "")
+			}
+		}
+		rnk := fuzzy.RankFindFold(keyword, listJudul)
+		for _, v := range rnk {
+			var pr float64 = 0
+			pr = float64(v.Distance) / float64(len(v.Target)) * 100
+			data[v.OriginalIndex]["levenshtein.keyword"] = keyword
+			data[v.OriginalIndex]["levenshtein.distance"] = v.Distance
+			data[v.OriginalIndex]["levenshtein.percentage"] = int64(pr)
+
+			newData = append(newData, data[v.OriginalIndex])
+		}
+		res.SetData(newData, u.Query)
+		res.Count = int64(len(newData))
+	}
+
+	return res, err
 }
 
 func (u UseCaseHandler) GetByID(id string) (Forum, error) {
@@ -103,6 +171,18 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
+
+	for k, d := range data {
+		var isLiked bool
+		var isDisliked bool
+		//get is liked & is disliked
+		tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_forum = ? and id_user = ?", d["id"].(int32), u.Ctx.User.ID).Scan(&isLiked)
+		tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_forum = ? and id_user = ?", d["id"].(int32), u.Ctx.User.ID).Scan(&isDisliked)
+
+		data[k]["is_liked"] = isLiked
+		data[k]["is_disliked"] = isDisliked
+	}
+
 	res.SetData(data, u.Query)
 
 	app.Cache().Set(cacheKey, res)

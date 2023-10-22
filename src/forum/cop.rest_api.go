@@ -63,6 +63,18 @@ func (r *RESTAPIHandler) Get(c *fiber.Ctx) error {
 	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
+func (r *RESTAPIHandler) GetSearch(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res, err := r.UseCase.GetSearch()
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+}
+
 // Create is the REST API handler for `POST /api/cop`.
 func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	err := r.injectDeps(c)

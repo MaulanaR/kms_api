@@ -216,6 +216,8 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/forum/{id}/like", "POST", like.REST().UpdateByforumID, like.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/forum/{id}/dislike", "POST", dislike.REST().UpdateByforumID, dislike.OpenAPI().PartiallyUpdateByID())
 
+	app.Server().AddRoute("/api/v1/search_forum", "GET", forum.REST().GetSearch, forum.OpenAPI().Get())
+
 	app.Server().AddRoute("/api/v1/leader_talk", "POST", leadertalk.REST().Create, leadertalk.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/leader_talk", "GET", leadertalk.REST().Get, leadertalk.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/leader_talk/{id}", "GET", leadertalk.REST().GetByID, leadertalk.OpenAPI().GetByID())
