@@ -1,6 +1,7 @@
 package leadertalk
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -100,18 +101,39 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	for k, d := range data {
+	jData, err := json.Marshal(data)
+	if err != nil {
+		return res, err
+	}
+
+	sData := []LeaderTalk{}
+	err = json.Unmarshal([]byte(jData), &sData)
+	if err != nil {
+		return res, err
+	}
+	for k, d := range sData {
 		var isLiked bool
 		var isDisliked bool
 		//get is liked & is disliked
-		tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_leader_talk = ? and id_user = ?", d["id"].(int32), u.Ctx.User.ID).Scan(&isLiked)
-		tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_leader_talk = ? and id_user = ?", d["id"].(int32), u.Ctx.User.ID).Scan(&isDisliked)
+		tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_like WHERE id_leader_talk = ? and id_user = ?", d.ID, u.Ctx.User.ID).Scan(&isLiked)
+		tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_leader_talk = ? and id_user = ?", d.ID, u.Ctx.User.ID).Scan(&isDisliked)
 
-		data[k]["is_liked"] = isLiked
-		data[k]["is_disliked"] = isDisliked
+		sData[k].IsLiked.Set(isLiked)
+		sData[k].IsDisliked.Set(isDisliked)
 	}
 
-	res.SetData(data, u.Query)
+	j2Data, err := json.Marshal(sData)
+	if err != nil {
+		return res, err
+	}
+
+	s2Data := []map[string]any{}
+	err = json.Unmarshal([]byte(j2Data), &s2Data)
+	if err != nil {
+		return res, err
+	}
+
+	res.SetData(s2Data, u.Query)
 
 	app.Cache().Set(cacheKey, res)
 	return res, err

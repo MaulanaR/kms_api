@@ -71,6 +71,35 @@ func (auth *authHandler) ValidateAuth(c *fiber.Ctx) error {
 
 		ctx.Token = token
 		ctx.User = user
+	} else {
+		bearerToken := strings.Split(c.Get("Authorization"), " ")
+		if len(bearerToken) > 1 {
+			token.AccessToken.Set(bearerToken[1])
+		}
+
+		if token.AccessToken.String != "" {
+			//check access token
+			tx, err := ctx.DB()
+			if err != nil {
+				return app.Error().New(http.StatusInternalServerError, err.Error())
+			}
+
+			err = tx.Table("access_token").
+				Where("expired_at > ?", time.Now()).
+				Take(&token).Error
+
+			if err == nil {
+				// get user
+				err = tx.Table("m_user").
+					Where("id_user", token.UserId.Int64).
+					Where("deleted_at IS NULL").
+					Take(&user).Error
+			}
+
+			ctx.Token = token
+			ctx.User = user
+		}
+
 	}
 
 	return c.Next()

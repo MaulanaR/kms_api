@@ -280,6 +280,22 @@ func (u *UseCaseHandler) setDefaultValue(old Dislike) error {
 		}
 	}
 
+	//validasi
+	if u.LeaderTalkID.Valid {
+		_, err := leadertalk.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LeaderTalkID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi
+	if u.LibraryCafeID.Valid {
+		_, err := librarycafe.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LibraryCafeID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
