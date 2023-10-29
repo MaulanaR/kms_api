@@ -736,7 +736,7 @@ func (TPengetahuanPedoman) TableAliasName() string {
 }
 
 func (m *TPengetahuanPedoman) GetRelations() map[string]map[string]any {
-	m.AddRelation("left", "m_pedoman", "mpedoman", []map[string]any{{"column1": "mpedoman.id", "column2": "m.pedoman_id"}})
+	m.AddRelation("left", "m_pedoman", "mpedoman", []map[string]any{{"column1": "mpedoman.id", "column2": "tp_pedoman.pedoman_id"}})
 	return m.Relations
 }
 

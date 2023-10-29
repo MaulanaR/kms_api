@@ -37,7 +37,7 @@ type User struct {
 type Token struct {
 	AccessToken NullString   `json:"access_token" db:"m.access_token" gorm:"column:access_token;PrimaryKey"`
 	ExpiredAt   NullDateTime `json:"expired_at"   db:"m.expired_at"   gorm:"column:expired_at"`
-	UserId      NullInt64    `json:"user.id"      db:"m.user_id"      gorm:"column:user_id"`
+	UserId      NullInt64    `json:"user.id"      db:"m.id_user"      gorm:"column:id_user"`
 	IpAddress   NullString   `json:"ip_address"   db:"m.ip_address"   gorm:"column:ip_address"`
 	CreatedAt   NullDateTime `json:"created_at"   db:"m.created_at"   gorm:"column:created_at"`
 }

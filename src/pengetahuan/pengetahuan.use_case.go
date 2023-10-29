@@ -9,6 +9,7 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
@@ -460,6 +461,32 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 			if err != nil {
 				return err
 			}
+		}
+	}
+
+	//Adjustment point
+
+	//ID SUBJENIS
+	//KIAT = 2 => 3 poin
+	//RESENSI = 4 => 1 poin
+	//TUGAS = 1 => 4 poin
+	//AKPER = 5 => 5 poin
+
+	var poin int64 = 0
+	if p.SubJenisPengetahuanID.Int64 == 2 {
+		poin = 3
+	} else if p.SubJenisPengetahuanID.Int64 == 4 {
+		poin = 1
+	} else if p.SubJenisPengetahuanID.Int64 == 1 {
+		poin = 4
+	} else if p.SubJenisPengetahuanID.Int64 == 5 {
+		poin = 5
+	}
+
+	if poin > 0 {
+		err = historypoint.UseCase(*u.Ctx).AddPoint(p.ID.Int64, poin)
+		if err != nil {
+			return err
 		}
 	}
 

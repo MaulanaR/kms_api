@@ -14,6 +14,7 @@ import (
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
+	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kategoribuku"
 	"github.com/maulanar/kms/src/kategoripengetahuan"
@@ -277,6 +278,13 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/elibrary/{id}", "PUT", elibrary.REST().UpdateByID, elibrary.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/elibrary/{id}", "PATCH", elibrary.REST().PartiallyUpdateByID, elibrary.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/elibrary/{id}", "DELETE", elibrary.REST().DeleteByID, elibrary.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/history_points", "POST", historypoint.REST().Create, historypoint.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/history_points", "GET", historypoint.REST().Get, historypoint.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/history_points/{id}", "GET", historypoint.REST().GetByID, historypoint.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/history_points/{id}", "PUT", historypoint.REST().UpdateByID, historypoint.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/history_points/{id}", "PATCH", historypoint.REST().PartiallyUpdateByID, historypoint.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/history_points/{id}", "DELETE", historypoint.REST().DeleteByID, historypoint.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

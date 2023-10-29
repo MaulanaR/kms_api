@@ -143,6 +143,13 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
+	//validasi lanjutan
+	if p.OrangEmail.Valid {
+		if !p.Username.Valid || p.Username.String == "" {
+			p.Username = p.OrangEmail
+		}
+	}
+
 	//enc password
 	if p.Password.Valid {
 		enc, err := app.Crypto().Encrypt(p.Password.String)
@@ -156,10 +163,19 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	org := orang.ParamCreate{}
 	org.Nama = p.OrangNama
 	org.NamaPanggilan = p.OrangNamaPanggilan
-	org.Jabatan = p.OrangJabatan
-	org.Email = p.OrangEmail
-	org.FotoID = p.OrangFotoID
 	org.Nip = p.OrangNip
+	org.Nik = p.OrangNik
+	org.TempatLahir = p.OrangTempatLahir
+	org.TglLahir = p.OrangTglLahir
+	org.JenisKelamin = p.OrangJenisKelamin
+	org.Alamat = p.OrangAlamat
+	org.Email = p.OrangEmail
+	org.Telp = p.OrangTelp
+	org.Jabatan = p.OrangJabatan
+	org.FotoID = p.OrangFotoID
+	org.UnitKerja = p.OrangUnitKerja
+	org.UserLevel = p.OrangUserLevel
+	org.StatusLevel = p.OrangStatusLevel
 
 	err = orang.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.Create(&org)
 	if err != nil {
@@ -371,7 +387,7 @@ func (p *UseCaseHandler) setDefaultValue(old User) error {
 		p.ID = old.ID
 	}
 
-	if p.User.Username != old.Username {
+	if p.User.Username.Valid && (p.User.Username != old.Username) {
 		//check ke db, pastikan tidak duplikat
 		var count int64
 		tx, err := p.Ctx.DB()

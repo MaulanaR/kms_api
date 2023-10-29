@@ -318,6 +318,20 @@ func (u UseCaseHandler) UpdateByPengetahuanID(id string, p *ParamUpdate) error {
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
 
+	//delete like action if exists
+	var likeExist int64 = 0
+	tx.Table("t_like").
+		Where("id_pengetahuan = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&likeExist)
+	if likeExist > 0 {
+		//delete like
+		tx.Table("t_like").
+			Where("id_pengetahuan = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_like")
+	}
+
 	if exist < 1 {
 		//Set param
 		p.PengetahuanID.Set(pgth.ID.Int64)
@@ -354,6 +368,20 @@ func (u UseCaseHandler) UpdateByforumID(id string, p *ParamUpdate) error {
 		Where("id_forum = ?", pgth.ID.Int64).
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
+
+	//delete like action if exists
+	var likeExist int64 = 0
+	tx.Table("t_like").
+		Where("id_forum = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&likeExist)
+	if likeExist > 0 {
+		//delete like
+		tx.Table("t_like").
+			Where("id_forum = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_like")
+	}
 
 	if exist < 1 {
 		//Set param
@@ -392,6 +420,20 @@ func (u UseCaseHandler) UpdateByLeaderTalkID(id string, p *ParamUpdate) error {
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
 
+	//delete like action if exists
+	var likeExist int64 = 0
+	tx.Table("t_like").
+		Where("id_leader_talk = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&likeExist)
+	if likeExist > 0 {
+		//delete like
+		tx.Table("t_like").
+			Where("id_leader_talk = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_like")
+	}
+
 	if exist < 1 {
 		//Set param
 		p.LeaderTalkID.Set(pgth.ID.Int64)
@@ -428,6 +470,20 @@ func (u UseCaseHandler) UpdateByLibraryCafeID(id string, p *ParamUpdate) error {
 		Where("id_library_cafe = ?", pgth.ID.Int64).
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
+
+	//delete like action if exists
+	var likeExist int64 = 0
+	tx.Table("t_like").
+		Where("id_library_cafe = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&likeExist)
+	if likeExist > 0 {
+		//delete like
+		tx.Table("t_like").
+			Where("id_library_cafe = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_like")
+	}
 
 	if exist < 1 {
 		//Set param

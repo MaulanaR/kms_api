@@ -5,24 +5,32 @@ import "github.com/maulanar/kms/app"
 // Orang is the main model of Orang data. It provides a convenient interface for app.ModelInterface
 type Orang struct {
 	app.Model
-	ID            app.NullInt64    `json:"id"             db:"m.id_orang"        gorm:"column:id_orang;primaryKey"`
-	Nip           app.NullString   `json:"nip"            db:"m.nip"             gorm:"column:nip"`
-	Nama          app.NullString   `json:"nama_lengkap"   db:"m.nama"            gorm:"column:nama"`
-	NamaPanggilan app.NullString   `json:"nama_panggilan" db:"m.nama_panggilan"  gorm:"column:nama_panggilan"`
-	Jabatan       app.NullString   `json:"jabatan"        db:"m.jabatan"         gorm:"column:jabatan"`
-	Email         app.NullString   `json:"email"          db:"m.email"           gorm:"column:email"               validate:"email"`
-	FotoID        app.NullInt64    `json:"foto.id"        db:"m.foto"            gorm:"column:foto"`
-	FotoUrl       app.NullString   `json:"foto.url"       db:"att.url"           gorm:"-"`
-	FotoNama      app.NullString   `json:"foto.nama"      db:"att.filename"      gorm:"-"`
-	UnitKerja     app.NullString   `json:"unit_kerja"     db:"m.unit_kerja"      gorm:"column:unit_kerja"`
-	UserLevel     app.NullString   `json:"user_level"     db:"m.user_level"      gorm:"column:user_level"`
-	StatusLevel   app.NullString   `json:"status_level"   db:"m.status_level"    gorm:"column:status_level"`
-	CreatedBy     app.NullInt64    `json:"created_by"     db:"m.created_by"      gorm:"column:created_by"`
-	UpdatedBy     app.NullInt64    `json:"updated_by"     db:"m.updated_by"      gorm:"column:updated_by"`
-	DeletedBy     app.NullInt64    `json:"deleted_by"     db:"m.deleted_by"      gorm:"column:deleted_by"`
-	CreatedAt     app.NullDateTime `json:"created_at"     db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt     app.NullDateTime `json:"updated_at"     db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt     app.NullDateTime `json:"deleted_at"     db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	ID            app.NullInt64  `json:"id"             db:"m.id_orang"        gorm:"column:id_orang;primaryKey"`
+	Nama          app.NullString `json:"nama_lengkap"   db:"m.nama"            gorm:"column:nama"`
+	NamaPanggilan app.NullString `json:"nama_panggilan" db:"m.nama_panggilan"  gorm:"column:nama_panggilan"`
+	Nip           app.NullString `json:"nip"            db:"m.nip"             gorm:"column:nip"`
+	Nik           app.NullString `json:"nik"            db:"m.nik"             gorm:"column:nik"`
+	TempatLahir   app.NullString `json:"tempat_lahir"   db:"m.tempat_lahir"    gorm:"column:tempat_lahir"`
+	TglLahir      app.NullDate   `json:"tgl_lahir"      db:"m.tgl_lahir"       gorm:"column:tgl_lahir"`
+	JenisKelamin  app.NullString `json:"jenis_kelamin"  db:"m.jenis_kelamin"   gorm:"column:jenis_kelamin"       validate:"omitempty,oneof='pria' 'wanita'"`
+	Alamat        app.NullString `json:"alamat"         db:"m.alamat"          gorm:"column:alamat"`
+	Email         app.NullString `json:"email"          db:"m.email"           gorm:"column:email"               validate:"omitempty,email"`
+	Telp          app.NullString `json:"telp"           db:"m.telp"            gorm:"column:telp"`
+	Jabatan       app.NullString `json:"jabatan"        db:"m.jabatan"         gorm:"column:jabatan"`
+	FotoID        app.NullInt64  `json:"foto.id"        db:"m.foto"            gorm:"column:foto"`
+	FotoUrl       app.NullString `json:"foto.url"       db:"att.url"           gorm:"-"`
+	FotoNama      app.NullString `json:"foto.nama"      db:"att.filename"      gorm:"-"`
+	UnitKerja     app.NullString `json:"unit_kerja"     db:"m.unit_kerja"      gorm:"column:unit_kerja"`
+	//sementara patokannya dari table user saja levelnya
+	UserLevel   app.NullString `json:"user_level"     db:"m.user_level"      gorm:"column:user_level"`
+	StatusLevel app.NullString `json:"status_level"   db:"m.status_level"    gorm:"column:status_level"`
+
+	CreatedBy app.NullInt64    `json:"created_by"     db:"m.created_by"      gorm:"column:created_by"`
+	UpdatedBy app.NullInt64    `json:"updated_by"     db:"m.updated_by"      gorm:"column:updated_by"`
+	DeletedBy app.NullInt64    `json:"deleted_by"     db:"m.deleted_by"      gorm:"column:deleted_by"`
+	CreatedAt app.NullDateTime `json:"created_at"     db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt app.NullDateTime `json:"updated_at"     db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt app.NullDateTime `json:"deleted_at"     db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Orang end point, it used for cache key, etc.
@@ -33,7 +41,7 @@ func (Orang) EndPoint() string {
 // TableVersion returns the versions of the Orang table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Orang) TableVersion() string {
-	return "28.07.011152"
+	return "23.10.291631"
 }
 
 // TableName returns the name of the Orang table in the database.
@@ -103,9 +111,11 @@ func (p *OrangList) GetOpenAPISchema() map[string]any {
 // ParamCreate is the expected parameters for create a new Orang data.
 type ParamCreate struct {
 	UseCaseHandler
-	Nama    app.NullString `json:"nama_lengkap" db:"m.nama"    gorm:"column:nama"    validate:"required"`
-	Jabatan app.NullString `json:"jabatan"      db:"m.jabatan" gorm:"column:jabatan" validate:"required"`
-	Nip     app.NullString `json:"nip"          db:"m.nip"     gorm:"column:nip"     validate:"required"`
+	Nama         app.NullString `json:"nama_lengkap"  db:"m.nama"          gorm:"column:nama"          validate:"required"`
+	Nik          app.NullString `json:"nik"           db:"m.nik"           gorm:"column:nik"           validate:"required"`
+	JenisKelamin app.NullString `json:"jenis_kelamin" db:"m.jenis_kelamin" gorm:"column:jenis_kelamin" validate:"required,oneof='pria' 'wanita'"`
+	Email        app.NullString `json:"email"         db:"m.email"         gorm:"column:email"         validate:"required,email"`
+	Telp         app.NullString `json:"telp"          db:"m.telp"          gorm:"column:telp"          validate:"required"`
 }
 
 // ParamUpdate is the expected parameters for update the Orang data.

@@ -11,6 +11,7 @@ import (
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
+	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kategoribuku"
 	"github.com/maulanar/kms/src/kategoripengetahuan"
@@ -100,6 +101,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", dokumen.Dokumen{})
 	app.DB().RegisterTable("main", kategoribuku.KategoriBuku{})
 	app.DB().RegisterTable("main", elibrary.Elibrary{})
+	app.DB().RegisterTable("main", historypoint.HistoryPoint{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

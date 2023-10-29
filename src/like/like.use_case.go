@@ -301,6 +301,20 @@ func (u UseCaseHandler) UpdateByPengetahuanID(id string, p *ParamUpdate) error {
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
 
+	//delete dislike action if exists
+	var dislikeExist int64 = 0
+	tx.Table("t_dislike").
+		Where("id_pengetahuan = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&dislikeExist)
+	if dislikeExist > 0 {
+		//delete dislike
+		tx.Table("t_dislike").
+			Where("id_pengetahuan = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_dislike")
+	}
+
 	if exist < 1 {
 		//Set param
 		p.PengetahuanID.Set(pgth.ID.Int64)
@@ -338,6 +352,20 @@ func (u UseCaseHandler) UpdateByforumID(id string, p *ParamUpdate) error {
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
 
+	//delete dislike action if exists
+	var dislikeExist int64 = 0
+	tx.Table("t_dislike").
+		Where("id_forum = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&dislikeExist)
+	if dislikeExist > 0 {
+		//delete dislike
+		tx.Table("t_dislike").
+			Where("id_forum = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_dislike")
+	}
+
 	if exist < 1 {
 		//Set param
 		p.ForumID.Set(pgth.ID.Int64)
@@ -369,11 +397,25 @@ func (u UseCaseHandler) UpdateByLeaderTalkID(id string, p *ParamUpdate) error {
 	}
 
 	//make sure that person havent doing this action before
-	var exist int64
+	var exist int64 = 0
 	tx.Model(&Like{}).
 		Where("id_leader_talk = ?", pgth.ID.Int64).
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
+
+	//delete dislike action if exists
+	var dislikeExist int64 = 0
+	tx.Table("t_dislike").
+		Where("id_leader_talk = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&dislikeExist)
+	if dislikeExist > 0 {
+		//delete dislike
+		tx.Table("t_dislike").
+			Where("id_leader_talk = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_dislike")
+	}
 
 	if exist < 1 {
 		//Set param
@@ -411,6 +453,20 @@ func (u UseCaseHandler) UpdateByLibraryCafeID(id string, p *ParamUpdate) error {
 		Where("id_library_cafe = ?", pgth.ID.Int64).
 		Where("id_user = ?", u.Ctx.User.ID).
 		Count(&exist)
+
+	//delete dislike action if exists
+	var dislikeExist int64 = 0
+	tx.Table("t_dislike").
+		Where("id_library_cafe = ?", pgth.ID.Int64).
+		Where("id_user = ?", u.Ctx.User.ID).
+		Count(&dislikeExist)
+	if dislikeExist > 0 {
+		//delete dislike
+		tx.Table("t_dislike").
+			Where("id_library_cafe = ?", pgth.ID.Int64).
+			Where("id_user = ?", u.Ctx.User.ID).
+			Delete("t_dislike")
+	}
 
 	if exist < 1 {
 		//Set param

@@ -19,19 +19,22 @@ type AccessToken struct {
 	app.Model
 	AccessToken        app.NullString   `json:"access_token"        db:"m.access_token"    gorm:"column:access_token;PrimaryKey"`
 	ExpiredAt          app.NullDateTime `json:"expired_at"          db:"m.expired_at"      gorm:"column:expired_at"`
-	UserId             app.NullInt64    `json:"user.id"             db:"m.user_id"         gorm:"column:user_id"`
+	UserId             app.NullInt64    `json:"user.id"             db:"m.id_user"         gorm:"column:id_user"`
 	OrangId            app.NullInt64    `json:"user.orang.id"       db:"u.id_orang,hide"   gorm:"-"`
 	OrangNama          app.NullString   `json:"user.nama_lengkap"   db:"o.nama"            gorm:"-"`
 	OrangNamaPanggilan app.NullString   `json:"user.nama_panggilan" db:"o.nama_panggilan"  gorm:"-"`
 	OrangJabatan       app.NullString   `json:"user.jabatan"        db:"o.jabatan"         gorm:"-"`
 	OrangEmail         app.NullString   `json:"user.email"          db:"o.email"           gorm:"-"`
-	OrangFoto          app.NullString   `json:"user.foto"           db:"o.foto"            gorm:"-"`
+	OrangFoto          app.NullInt64    `json:"user.foto.id"        db:"o.foto"            gorm:"-"`
+	OrangFotoUrl       app.NullString   `json:"user.foto.url"       db:"att.url"           gorm:"-"`
+	OrangFotoNama      app.NullString   `json:"user.foto.nama"      db:"att.filename"      gorm:"-"`
 	OrangUnitKerja     app.NullString   `json:"user.unit_kerja"     db:"o.unit_kerja"      gorm:"-"`
-	OrangUserLevel     app.NullString   `json:"user.user_level"     db:"o.user_level"      gorm:"-"`
 	OrangStatusLevel   app.NullString   `json:"user.status_level"   db:"o.status_level"    gorm:"-"`
 	OrangNip           app.NullString   `json:"user.nip"            db:"o.nip"             gorm:"-"`
 	Username           app.NullString   `json:"user.username"       db:"u.username"        gorm:"-"`
 	Jenis              app.NullString   `json:"user.jenis"          db:"u.jenis"           gorm:"-"`
+	LeveL              app.NullString   `json:"user.level"          db:"u.level"           gorm:"-"`
+	Points             app.NullInt64    `json:"user.total_point"    db:"(SELECT thp.after FROM t_history_points thp WHERE thp.id_user = m.id_user ORDER BY thp.updated_at DESC, thp.created_at DESC LIMIT 1)"           gorm:"-"`
 	Password           app.NullString   `json:"user.password"       db:"u.password"        gorm:"-"`
 	IpAddress          app.NullString   `json:"ip_address"          db:"m.ip_address"      gorm:"column:ip_address"`
 	CreatedAt          app.NullDateTime `json:"created_at"          db:"m.created_at"      gorm:"column:created_at"`
@@ -47,7 +50,7 @@ func (AccessToken) EndPoint() string {
 // TableVersion returns the versions of the AccessToken table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (AccessToken) TableVersion() string {
-	return "28.06.291156"
+	return "23.10.291156"
 }
 
 // TableName returns the name of the AccessToken table in the database.
@@ -62,8 +65,9 @@ func (AccessToken) TableAliasName() string {
 
 // GetRelations returns the relations of the AccessToken data in the database, used for querying.
 func (m *AccessToken) GetRelations() map[string]map[string]any {
-	m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.user_id"}})
+	m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.id_user"}})
 	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "u.id_orang"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "o.foto"}})
 	return m.Relations
 }
 
