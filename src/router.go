@@ -10,6 +10,7 @@ import (
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/dokumen"
+	"github.com/maulanar/kms/src/dokumenmap"
 	"github.com/maulanar/kms/src/elibrary"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
@@ -25,7 +26,6 @@ import (
 	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
-	"github.com/maulanar/kms/src/narasumber"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
@@ -34,6 +34,7 @@ import (
 	"github.com/maulanar/kms/src/statuspengetahuan"
 	"github.com/maulanar/kms/src/subjenispengetahuan"
 	"github.com/maulanar/kms/src/tag"
+	"github.com/maulanar/kms/src/totalsummary"
 	"github.com/maulanar/kms/src/user"
 	// import : DONT REMOVE THIS COMMENT
 )
@@ -147,12 +148,12 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/referensi/{id}", "PATCH", referensi.REST().PartiallyUpdateByID, referensi.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/referensi/{id}", "DELETE", referensi.REST().DeleteByID, referensi.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/v1/narasumber", "POST", narasumber.REST().Create, narasumber.OpenAPI().Create())
-	app.Server().AddRoute("/api/v1/narasumber", "GET", narasumber.REST().Get, narasumber.OpenAPI().Get())
-	app.Server().AddRoute("/api/v1/narasumber/{id}", "GET", narasumber.REST().GetByID, narasumber.OpenAPI().GetByID())
-	app.Server().AddRoute("/api/v1/narasumber/{id}", "PUT", narasumber.REST().UpdateByID, narasumber.OpenAPI().UpdateByID())
-	app.Server().AddRoute("/api/v1/narasumber/{id}", "PATCH", narasumber.REST().PartiallyUpdateByID, narasumber.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/narasumber/{id}", "DELETE", narasumber.REST().DeleteByID, narasumber.OpenAPI().DeleteByID())
+	// app.Server().AddRoute("/api/v1/narasumber", "POST", narasumber.REST().Create, narasumber.OpenAPI().Create())
+	// app.Server().AddRoute("/api/v1/narasumber", "GET", narasumber.REST().Get, narasumber.OpenAPI().Get())
+	// app.Server().AddRoute("/api/v1/narasumber/{id}", "GET", narasumber.REST().GetByID, narasumber.OpenAPI().GetByID())
+	// app.Server().AddRoute("/api/v1/narasumber/{id}", "PUT", narasumber.REST().UpdateByID, narasumber.OpenAPI().UpdateByID())
+	// app.Server().AddRoute("/api/v1/narasumber/{id}", "PATCH", narasumber.REST().PartiallyUpdateByID, narasumber.OpenAPI().PartiallyUpdateByID())
+	// app.Server().AddRoute("/api/v1/narasumber/{id}", "DELETE", narasumber.REST().DeleteByID, narasumber.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/penerbit", "POST", penerbit.REST().Create, penerbit.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/penerbit", "GET", penerbit.REST().Get, penerbit.OpenAPI().Get())
@@ -285,6 +286,15 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/history_points/{id}", "PUT", historypoint.REST().UpdateByID, historypoint.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/history_points/{id}", "PATCH", historypoint.REST().PartiallyUpdateByID, historypoint.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/history_points/{id}", "DELETE", historypoint.REST().DeleteByID, historypoint.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/dokumen_map", "POST", dokumenmap.REST().Create, dokumenmap.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/dokumen_map", "GET", dokumenmap.REST().Get, dokumenmap.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/dokumen_map/{id}", "GET", dokumenmap.REST().GetByID, dokumenmap.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/dokumen_map/{id}", "PUT", dokumenmap.REST().UpdateByID, dokumenmap.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/dokumen_map/{id}", "PATCH", dokumenmap.REST().PartiallyUpdateByID, dokumenmap.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/dokumen_map/{id}", "DELETE", dokumenmap.REST().DeleteByID, dokumenmap.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/total_summaries", "GET", totalsummary.REST().Get, totalsummary.OpenAPI().Get())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

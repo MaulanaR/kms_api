@@ -329,6 +329,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 				return err
 			}
 			p.Dokumen[i].PengetahuanID.Set(p.ID.Int64)
+			p.CreatedAt.Set(time.Now())
+			p.CreatedBy.Set(u.Ctx.User.ID)
 		}
 
 		err = tx.Create(&p.Dokumen).Error

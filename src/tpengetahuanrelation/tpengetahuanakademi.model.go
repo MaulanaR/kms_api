@@ -573,11 +573,13 @@ func (p *TPengetahuanReferensiList) GetOpenAPISchema() map[string]any {
 // tpengetahuan dokumen
 type TPengetahuanDokumen struct {
 	app.Model
-	ID             app.NullInt64 `json:"-"              db:"tpdokumen.id_pengetahuan_referensi" gorm:"column:id_pengetahuan_referensi;primaryKey"`
-	PengetahuanID  app.NullInt64 `json:"pengetahuan.id" db:"tpdokumen.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
-	AttachmentID   app.NullInt64 `json:"id"             db:"tpdokumen.id_attachment"            gorm:"column:id_attachment"`
-	AttachmentNama app.NullText  `json:"nama"           db:"attachment.filename"                gorm:"-"`
-	AttachmentUrl  app.NullText  `json:"url"            db:"attachment.url"                     gorm:"-"`
+	ID             app.NullInt64    `json:"-"              db:"tpdokumen.id_pengetahuan_dokumen" gorm:"column:id_pengetahuan_dokumen;primaryKey"`
+	PengetahuanID  app.NullInt64    `json:"pengetahuan.id" db:"tpdokumen.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
+	AttachmentID   app.NullInt64    `json:"id"             db:"tpdokumen.id_attachment"            gorm:"column:id_attachment"`
+	AttachmentNama app.NullText     `json:"nama"           db:"attachment.filename"                gorm:"-"`
+	AttachmentUrl  app.NullText     `json:"url"            db:"attachment.url"                     gorm:"-"`
+	CreatedAt      app.NullDateTime `json:"created_at"     db:"tpdokumen.created_at"                    gorm:"column:created_at"`
+	CreatedBy      app.NullInt64    `json:"created_by.id"  db:"tpdokumen.created_by"                    gorm:"column:created_by"`
 }
 
 func (TPengetahuanDokumen) EndPoint() string {
@@ -780,10 +782,23 @@ func (p *TPengetahuanPedomanList) GetOpenAPISchema() map[string]any {
 // pengetahuan Narasumber
 type TPengetahuanNarsum struct {
 	app.Model
-	ID             app.NullInt64  `json:"-"              db:"tp_narsum.id_pengetahuan_narsum" gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
-	PengetahuanID  app.NullInt64  `json:"pengetahuan.id" db:"tp_narsum.id_pengetahuan,hide"   gorm:"column:id_pengetahuan"`
-	NarasumberID   app.NullText   `json:"id"             db:"tp_narsum.id_narasumber"         gorm:"column:id_narasumber"`
-	NarasumberNama app.NullString `json:"nama"           db:"narsum.nama"                     gorm:"-"`
+	ID                      app.NullInt64  `json:"-"              db:"tp_narsum.id_pengetahuan_narsum" gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
+	PengetahuanID           app.NullInt64  `json:"pengetahuan.id" db:"tp_narsum.id_pengetahuan,hide"   gorm:"column:id_pengetahuan"`
+	NarasumberID            app.NullText   `json:"id"             db:"tp_narsum.id_narasumber"         gorm:"column:id_narasumber"`
+	NarasumberNama          app.NullString `json:"nama_lengkap"   db:"narsum.nama"            gorm:"-"`
+	NarasumberNamaPanggilan app.NullString `json:"nama_panggilan" db:"narsum.nama_panggilan"  gorm:"-"`
+	NarasumberNip           app.NullString `json:"nip"            db:"narsum.nip"             gorm:"-"`
+	NarasumberNik           app.NullString `json:"nik"            db:"narsum.nik"             gorm:"-"`
+	NarasumberTempatLahir   app.NullString `json:"tempat_lahir"   db:"narsum.tempat_lahir"    gorm:"-"`
+	NarasumberTglLahir      app.NullDate   `json:"tgl_lahir"      db:"narsum.tgl_lahir"       gorm:"-"`
+	NarasumberJenisKelamin  app.NullString `json:"jenis_kelamin"  db:"narsum.jenis_kelamin"   gorm:"-"`
+	NarasumberAlamat        app.NullString `json:"alamat"         db:"narsum.alamat"          gorm:"-"`
+	NarasumberEmail         app.NullString `json:"email"          db:"narsum.email"           gorm:"-"`
+	NarasumberTelp          app.NullString `json:"telp"           db:"narsum.telp"            gorm:"-"`
+	NarasumberJabatan       app.NullString `json:"jabatan"        db:"narsum.jabatan"         gorm:"-"`
+	NarasumberFotoID        app.NullInt64  `json:"foto.id"        db:"narsum.foto"            gorm:"-"`
+	NarasumberFotoUrl       app.NullString `json:"foto.url"       db:"attnarsum.url"          gorm:"-"`
+	NarasumberFotoNama      app.NullString `json:"foto.nama"      db:"attnarsum.filename"     gorm:"-"`
 }
 
 func (TPengetahuanNarsum) EndPoint() string {
@@ -791,7 +806,7 @@ func (TPengetahuanNarsum) EndPoint() string {
 }
 
 func (TPengetahuanNarsum) TableVersion() string {
-	return "28.07.301152"
+	return "28.10.301152"
 }
 
 func (TPengetahuanNarsum) TableName() string {
@@ -803,7 +818,8 @@ func (TPengetahuanNarsum) TableAliasName() string {
 }
 
 func (m *TPengetahuanNarsum) GetRelations() map[string]map[string]any {
-	m.AddRelation("left", "m_narasumber", "narsum", []map[string]any{{"column1": "narsum.id", "column2": "tp_narsum.id_narasumber"}})
+	m.AddRelation("left", "m_orang", "narsum", []map[string]any{{"column1": "narsum.id_orang", "column2": "tp_narsum.id_narasumber"}})
+	m.AddRelation("left", "m_attachments", "attnarsum", []map[string]any{{"column1": "attnarsum.id", "column2": "narsum.foto"}})
 	return m.Relations
 }
 

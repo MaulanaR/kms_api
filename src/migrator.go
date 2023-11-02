@@ -7,6 +7,7 @@ import (
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/dokumen"
+	"github.com/maulanar/kms/src/dokumenmap"
 	"github.com/maulanar/kms/src/elibrary"
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
@@ -22,7 +23,6 @@ import (
 	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
-	"github.com/maulanar/kms/src/narasumber"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
@@ -72,7 +72,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTag{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTugas{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanReferensi{})
-	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanDokumen{})
+	// app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanDokumen{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanKompetensi{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanKiat{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanTenagaAhli{})
@@ -84,7 +84,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", referensi.Referensi{})
 	app.DB().RegisterTable("main", accesstoken.AccessToken{})
 	app.DB().RegisterTable("main", attachment.Attachment{})
-	app.DB().RegisterTable("main", narasumber.Narasumber{})
+	// app.DB().RegisterTable("main", narasumber.Narasumber{})
 	app.DB().RegisterTable("main", penerbit.Penerbit{})
 	app.DB().RegisterTable("main", komentar.Komentar{})
 	app.DB().RegisterTable("main", like.Like{})
@@ -102,6 +102,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", kategoribuku.KategoriBuku{})
 	app.DB().RegisterTable("main", elibrary.Elibrary{})
 	app.DB().RegisterTable("main", historypoint.HistoryPoint{})
+	app.DB().RegisterTable("main", dokumenmap.DokumenMap{})
+	// app.DB().RegisterTable("main", totalsummary.TotalSummary{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

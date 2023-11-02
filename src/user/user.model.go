@@ -25,7 +25,7 @@ type User struct {
 	OrangUserLevel     app.NullString   `json:"user_level"     db:"o.user_level"                                                                                                                         gorm:"-"`
 	OrangStatusLevel   app.NullString   `json:"status_level"   db:"o.status_level"                                                                                                                       gorm:"-"`
 	Username           app.NullString   `json:"username"       db:"m.username"                                                                                                                           gorm:"column:username"`
-	Jenis              app.NullString   `json:"jenis"          db:"m.jenis"                                                                                                                              gorm:"column:jenis"`
+	Kategori           app.NullString   `json:"kategori"       db:"m.kategori"                                                                                                                           gorm:"column:kategori" validate:"omitempty,oneof='BPKP' 'UMUM' 'APIP'"`
 	Level              app.NullString   `json:"level"          db:"m.level"                                                                                                                              gorm:"column:level"`
 	Points             app.NullInt64    `json:"total_point"    db:"(SELECT thp.after FROM t_history_points thp WHERE thp.id_user = m.id_user ORDER BY thp.updated_at DESC, thp.created_at DESC LIMIT 1)" gorm:"-"`
 	Password           app.NullString   `json:"password"       db:"m.password,hide"                                                                                                                      gorm:"column:password"`
@@ -42,7 +42,7 @@ func (User) EndPoint() string {
 // TableVersion returns the versions of the User table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (User) TableVersion() string {
-	return "28.07.021154"
+	return "23.11.0112302"
 }
 
 // TableName returns the name of the User table in the database.
