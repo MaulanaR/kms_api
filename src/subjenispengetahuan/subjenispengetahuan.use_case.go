@@ -303,5 +303,17 @@ func (u *UseCaseHandler) setDefaultValue(old SubjenisPengetahuan) error {
 		u.ID = old.ID
 	}
 
+	if u.Ctx.Action.Method == "POST" {
+		u.CreatedAt.Set(time.Now())
+	}
+
+	if u.Ctx.Action.Method == "PUT" || u.Ctx.Action.Method == "PATCH" {
+		u.UpdatedAt.Set(time.Now())
+	}
+
+	if u.Ctx.Action.Method == "DELETE" {
+		u.DeletedAt.Set(time.Now())
+	}
+
 	return nil
 }

@@ -9,6 +9,7 @@ type SubjenisPengetahuan struct {
 	// JenisPengetahuanID   app.NullInt64    `json:"jenis_pengetahuan.id"   db:"m.id_jenis_pengetahuan"      gorm:"column:id_jenis_pengetahuan"`
 	// JenisPengetahuanNama app.NullText     `json:"jenis_pengetahuan.nama" db:"jp.nama_jenis_pengetahuan"   gorm:"-"`
 	Nama      app.NullText     `json:"nama"                   db:"m.nama_subjenis_pengetahuan" gorm:"column:nama_subjenis_pengetahuan"`
+	IsShow    app.NullBool     `json:"is_show"                db:"m.is_show" gorm:"column:is_show;default:true"`
 	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"                gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"                gorm:"column:updated_at"`
 	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"           gorm:"column:deleted_at"`
@@ -22,7 +23,7 @@ func (SubjenisPengetahuan) EndPoint() string {
 // TableVersion returns the versions of the SubjenisPengetahuan table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (SubjenisPengetahuan) TableVersion() string {
-	return "28.06.291152"
+	return "23.11.041152"
 }
 
 // TableName returns the name of the SubjenisPengetahuan table in the database.
