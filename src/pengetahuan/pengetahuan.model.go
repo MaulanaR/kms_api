@@ -13,47 +13,52 @@ type Pengetahuan struct {
 	LevenshteinDistance   app.NullInt64   `json:"levenshtein.distance"      db:"-"                                                                                  gorm:"-"`
 	LevenshteinPercentage app.NullFloat64 `json:"levenshtein.percentage"    db:"-"                                                                                  gorm:"-"`
 	//common data
-	ID                     app.NullInt64    `json:"id"                        db:"m.id_pengetahuan"                                                                   gorm:"column:id_pengetahuan;primaryKey"`
-	JenisPengetahuanID     app.NullInt64    `json:"jenis_pengetahuan.id"      db:"m.id_jenis_pengetahuan"                                                             gorm:"column:id_jenis_pengetahuan"`
-	JenisPengtahuanNama    app.NullText     `json:"jenis_pengetahuan.nama"    db:"jp.nama_jenis_pengetahuan"                                                          gorm:"-"`
-	SubJenisPengetahuanID  app.NullInt64    `json:"subjenis_pengetahuan.id"   db:"m.id_subjenis_pengetahuan"                                                          gorm:"column:id_subjenis_pengetahuan"`
-	SubJenisPengtahuanNama app.NullText     `json:"subjenis_pengetahuan.nama" db:"sjp.nama_subjenis_pengetahuan"                                                      gorm:"-"`
-	LingkupPengetahuanID   app.NullInt64    `json:"lingkup_pengetahuan.id"    db:"m.id_lingkup_pengetahuan"                                                           gorm:"column:id_lingkup_pengetahuan"`
-	LingkupPengetahuanNama app.NullText     `json:"lingkup_pengetahuan.nama"  db:"lp.nama_lingkup_pengetahuan"                                                        gorm:"-"`
-	StatusPengetahuanID    app.NullInt64    `json:"status_pengetahuan.id"     db:"m.id_status_pengetahuan"                                                            gorm:"column:id_status_pengetahuan"`
-	StatusPengetahuanNama  app.NullText     `json:"status_pengetahuan.nama"   db:"status.nama_status_pengetahuan"                                                     gorm:"-"`
-	Judul                  app.NullText     `json:"judul"                     db:"m.judul"                                                                            gorm:"column:judul"`
-	Ringkasan              app.NullText     `json:"ringkasan"                 db:"m.ringkasan"                                                                        gorm:"column:ringkasan"`
-	ThumbnailID            app.NullInt64    `json:"thumbnail.id"              db:"m.thumbnail"                                                                        gorm:"column:thumbnail"`
-	ThumbnailName          app.NullString   `json:"thumbnail.nama"            db:"attachment.filename"                                                                gorm:"-"`
-	ThumbnailUrl           app.NullString   `json:"thumbnail.url"             db:"attachment.url"                                                                     gorm:"-"`
-	Penulis1ID             app.NullInt64    `json:"penulis_1.id"              db:"m.penulis_1"                                                                        gorm:"column:penulis_1"`
-	Penulis1Nama           app.NullString   `json:"penulis_1.nama"            db:"p1.nama"                                                                            gorm:"-"`
-	Penulis1Jabatan        app.NullString   `json:"penulis_1.jabatan"         db:"p1.jabatan"                                                                         gorm:"-"`
-	Penulis1Foto           app.NullString   `json:"penulis_1.foto.id"         db:"p1.foto"                                                                            gorm:"-"`
-	Penulis1Url            app.NullString   `json:"penulis_1.foto.url"        db:"p1attachment.url"                                                                   gorm:"-"`
-	Penulis1Filename       app.NullString   `json:"penulis_1.foto.nama"       db:"p1attachment.filename"                                                              gorm:"-"`
-	Penulis2ID             app.NullInt64    `json:"penulis_2.id"              db:"m.penulis_2"                                                                        gorm:"column:penulis_2"`
-	Penulis2Nama           app.NullString   `json:"penulis_2.nama"            db:"p2.nama"                                                                            gorm:"-"`
-	Penulis2Jabatan        app.NullString   `json:"penulis_2.jabatan"         db:"p2.jabatan"                                                                         gorm:"-"`
-	Penulis2Foto           app.NullString   `json:"penulis_2.foto.id"         db:"p2.foto"                                                                            gorm:"-"`
-	Penulis2Url            app.NullString   `json:"penulis_2.foto.url"        db:"p2attachment.url"                                                                   gorm:"-"`
-	Penulis2Filename       app.NullString   `json:"penulis_2.foto.nama"       db:"p2attachment.filename"                                                              gorm:"-"`
-	Penulis3ID             app.NullInt64    `json:"penulis_3.id"              db:"m.penulis_3"                                                                        gorm:"column:penulis_3"`
-	Penulis3Nama           app.NullString   `json:"penulis_3.nama"            db:"p3.nama"                                                                            gorm:"-"`
-	Penulis3Jabatan        app.NullString   `json:"penulis_3.jabatan"         db:"p3.jabatan"                                                                         gorm:"-"`
-	Penulis3Foto           app.NullString   `json:"penulis_3.foto.id"         db:"p3.foto"                                                                            gorm:"-"`
-	Penulis3Url            app.NullString   `json:"penulis_3.foto.url"        db:"p3attachment.url"                                                                   gorm:"-"`
-	Penulis3Filename       app.NullString   `json:"penulis_3.foto.nama"       db:"p3attachment.filename"                                                              gorm:"-"`
-	CreatedBy              app.NullInt64    `json:"created_by.id"             db:"m.created_by"                                                                       gorm:"column:created_by"`
-	CreatedByUsername      app.NullString   `json:"created_by.username"       db:"cbuser.username"                                                                    gorm:"-"`
-	UpdatedBy              app.NullInt64    `json:"updated_by.id"             db:"m.updated_by"                                                                       gorm:"column:updated_by"`
-	UpdatedByUsername      app.NullString   `json:"updated_by.username"       db:"ubuser.username"                                                                    gorm:"-"`
-	DeletedBy              app.NullInt64    `json:"deleted_by.id"             db:"m.deleted_by"                                                                       gorm:"column:deleted_by"`
-	DeletedByUsername      app.NullString   `json:"deleted_by.username"       db:"dbuser.username"                                                                    gorm:"-"`
-	CreatedAt              app.NullDateTime `json:"created_at"                db:"m.created_at"                                                                       gorm:"column:created_at"`
-	UpdatedAt              app.NullDateTime `json:"updated_at"                db:"m.updated_at"                                                                       gorm:"column:updated_at"`
-	DeletedAt              app.NullDateTime `json:"deleted_at"                db:"m.deleted_at,hide"                                                                  gorm:"column:deleted_at"`
+	ID                       app.NullInt64  `json:"id"                        db:"m.id_pengetahuan"                                                                   gorm:"column:id_pengetahuan;primaryKey"`
+	JenisPengetahuanID       app.NullInt64  `json:"jenis_pengetahuan.id"      db:"m.id_jenis_pengetahuan"                                                             gorm:"column:id_jenis_pengetahuan"`
+	JenisPengtahuanNama      app.NullText   `json:"jenis_pengetahuan.nama"    db:"jp.nama_jenis_pengetahuan"                                                          gorm:"-"`
+	SubJenisPengetahuanID    app.NullInt64  `json:"subjenis_pengetahuan.id"   db:"m.id_subjenis_pengetahuan"                                                          gorm:"column:id_subjenis_pengetahuan"`
+	SubJenisPengtahuanNama   app.NullText   `json:"subjenis_pengetahuan.nama" db:"sjp.nama_subjenis_pengetahuan"                                                      gorm:"-"`
+	SubJenisPengtahuanIsShow app.NullBool   `json:"subjenis_pengetahuan.is_show" db:"sjp.is_show"                                                      gorm:"-"`
+	LingkupPengetahuanID     app.NullInt64  `json:"lingkup_pengetahuan.id"    db:"m.id_lingkup_pengetahuan"                                                           gorm:"column:id_lingkup_pengetahuan"`
+	LingkupPengetahuanNama   app.NullText   `json:"lingkup_pengetahuan.nama"  db:"lp.nama_lingkup_pengetahuan"                                                        gorm:"-"`
+	StatusPengetahuanID      app.NullInt64  `json:"status_pengetahuan.id"     db:"m.id_status_pengetahuan"                                                            gorm:"column:id_status_pengetahuan"`
+	StatusPengetahuanNama    app.NullText   `json:"status_pengetahuan.nama"   db:"status.nama_status_pengetahuan"                                                     gorm:"-"`
+	Judul                    app.NullText   `json:"judul"                     db:"m.judul"                                                                            gorm:"column:judul"`
+	Ringkasan                app.NullText   `json:"ringkasan"                 db:"m.ringkasan"                                                                        gorm:"column:ringkasan"`
+	ThumbnailID              app.NullInt64  `json:"thumbnail.id"              db:"m.thumbnail"                                                                        gorm:"column:thumbnail"`
+	ThumbnailName            app.NullString `json:"thumbnail.nama"            db:"attachment.filename"                                                                gorm:"-"`
+	ThumbnailUrl             app.NullString `json:"thumbnail.url"             db:"attachment.url"                                                                     gorm:"-"`
+	Penulis1ID               app.NullInt64  `json:"penulis_1.id"              db:"m.penulis_1"                                                                        gorm:"column:penulis_1"`
+	Penulis1Nama             app.NullString `json:"penulis_1.nama"            db:"p1.nama"                                                                            gorm:"-"`
+	Penulis1Jabatan          app.NullString `json:"penulis_1.jabatan"         db:"p1.jabatan"                                                                         gorm:"-"`
+	Penulis1Foto             app.NullString `json:"penulis_1.foto.id"         db:"p1.foto"                                                                            gorm:"-"`
+	Penulis1Url              app.NullString `json:"penulis_1.foto.url"        db:"p1attachment.url"                                                                   gorm:"-"`
+	Penulis1Filename         app.NullString `json:"penulis_1.foto.nama"       db:"p1attachment.filename"                                                              gorm:"-"`
+	Penulis2ID               app.NullInt64  `json:"penulis_2.id"              db:"m.penulis_2"                                                                        gorm:"column:penulis_2"`
+	Penulis2Nama             app.NullString `json:"penulis_2.nama"            db:"p2.nama"                                                                            gorm:"-"`
+	Penulis2Jabatan          app.NullString `json:"penulis_2.jabatan"         db:"p2.jabatan"                                                                         gorm:"-"`
+	Penulis2Foto             app.NullString `json:"penulis_2.foto.id"         db:"p2.foto"                                                                            gorm:"-"`
+	Penulis2Url              app.NullString `json:"penulis_2.foto.url"        db:"p2attachment.url"                                                                   gorm:"-"`
+	Penulis2Filename         app.NullString `json:"penulis_2.foto.nama"       db:"p2attachment.filename"                                                              gorm:"-"`
+	Penulis3ID               app.NullInt64  `json:"penulis_3.id"              db:"m.penulis_3"                                                                        gorm:"column:penulis_3"`
+	Penulis3Nama             app.NullString `json:"penulis_3.nama"            db:"p3.nama"                                                                            gorm:"-"`
+	Penulis3Jabatan          app.NullString `json:"penulis_3.jabatan"         db:"p3.jabatan"                                                                         gorm:"-"`
+	Penulis3Foto             app.NullString `json:"penulis_3.foto.id"         db:"p3.foto"                                                                            gorm:"-"`
+	Penulis3Url              app.NullString `json:"penulis_3.foto.url"        db:"p3attachment.url"                                                                   gorm:"-"`
+	Penulis3Filename         app.NullString `json:"penulis_3.foto.nama"       db:"p3attachment.filename"                                                              gorm:"-"`
+	CreatedBy                app.NullInt64  `json:"created_by.id"             db:"m.created_by"                                                                       gorm:"column:created_by"`
+	CreatedByUsername        app.NullString `json:"created_by.username"       db:"cbuser.username"                                                                    gorm:"-"`
+	CreatedByOrangFotoID     app.NullInt64  `json:"created_by.foto.id"        db:"cbo.foto"                                                                                                                               gorm:"-"`
+	CreatedByOrangFotoUrl    app.NullString `json:"created_by.foto.url"       db:"cbatt.url"                                                                                                                              gorm:"-"`
+	CreatedByOrangFotoNama   app.NullString `json:"created_by.foto.nama"      db:"cbatt.filename"                                                                                                                         gorm:"-"`
+
+	UpdatedBy         app.NullInt64    `json:"updated_by.id"             db:"m.updated_by"                                                                       gorm:"column:updated_by"`
+	UpdatedByUsername app.NullString   `json:"updated_by.username"       db:"ubuser.username"                                                                    gorm:"-"`
+	DeletedBy         app.NullInt64    `json:"deleted_by.id"             db:"m.deleted_by"                                                                       gorm:"column:deleted_by"`
+	DeletedByUsername app.NullString   `json:"deleted_by.username"       db:"dbuser.username"                                                                    gorm:"-"`
+	CreatedAt         app.NullDateTime `json:"created_at"                db:"m.created_at"                                                                       gorm:"column:created_at"`
+	UpdatedAt         app.NullDateTime `json:"updated_at"                db:"m.updated_at"                                                                       gorm:"column:updated_at"`
+	DeletedAt         app.NullDateTime `json:"deleted_at"                db:"m.deleted_at,hide"                                                                  gorm:"column:deleted_at"`
 
 	//statistik View, like, dislike, komentar
 	StatistikView     app.NullInt64 `json:"statistik.view"            db:"(CASE WHEN m.count_view > 0 THEN m.count_view ELSE 0 END)"                          gorm:"column:count_view;default:0"`
@@ -132,6 +137,9 @@ func (Pengetahuan) TableAliasName() string {
 func (m *Pengetahuan) GetRelations() map[string]map[string]any {
 	//created by, updated by , deleted by
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
+	m.AddRelation("left", "m_orang", "cbo", []map[string]any{{"column1": "cbo.id_orang", "column2": "cbuser.id_orang"}})
+	m.AddRelation("left", "m_attachments", "cbatt", []map[string]any{{"column1": "cbatt.id", "column2": "cbo.foto"}})
+
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
 

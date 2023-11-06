@@ -58,7 +58,7 @@ func (User) TableAliasName() string {
 // GetRelations returns the relations of the User data in the database, used for querying.
 func (m *User) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "m.id_orang"}})
-	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "m.foto"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "o.foto"}})
 	return m.Relations
 }
 
@@ -112,7 +112,8 @@ func (p *UserList) GetOpenAPISchema() map[string]any {
 // ParamCreate is the expected parameters for create a new User data.
 type ParamCreate struct {
 	UseCaseHandler
-	//Username app.NullString `json:"username" db:"m.username"      gorm:"column:username" validate:"required"`
+	OrangNik   app.NullString `json:"nik"      db:"o.nik"           gorm:"-"               validate:"required"`
+	OrangNama  app.NullString `json:"nama_lengkap"   db:"o.nama"    gorm:"-"               validate:"required"`
 	OrangEmail app.NullString `json:"email"    db:"o.email"         gorm:"-"               validate:"required"`
 	Password   app.NullString `json:"password" db:"m.password,hide" gorm:"column:password" validate:"required"`
 }

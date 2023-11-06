@@ -4,20 +4,24 @@ import "github.com/maulanar/kms/app"
 
 type Forum struct {
 	app.Model
-	ID                app.NullInt64    `json:"id"                  db:"m.id"                                                             gorm:"column:id;primaryKey"`
-	Topik             app.NullText     `json:"topik"               db:"m.topik"                                                          gorm:"column:topik"`
-	Kategori          app.NullString   `json:"kategori"            db:"m.kategori"                                                       gorm:"column:kategori"             validate:"oneof='cop' 'non-cop' 'umum'"`
-	Judul             app.NullText     `json:"judul"               db:"m.judul"                                                          gorm:"column:judul"`
-	Deskripsi         app.NullText     `json:"deskripsi"           db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
-	GambarID          app.NullInt64    `json:"gambar.id"           db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
-	GambarFilename    app.NullString   `json:"gambar.filename"     db:"g.filename"                                                       gorm:"-"`
-	GambarUrl         app.NullString   `json:"gambar.url"          db:"g.url"                                                            gorm:"-"`
-	DokumenID         app.NullInt64    `json:"dokumen.id"          db:"m.dokumen_id"                                                     gorm:"column:dokumen_id"`
-	DokumenFilename   app.NullString   `json:"dokumen.filename"    db:"d.filename"                                                       gorm:"-"`
-	DokumenUrl        app.NullString   `json:"dokumen.url"         db:"d.url"                                                            gorm:"-"`
-	CreatedAt         app.NullDateTime `json:"created_at"          db:"m.created_at"                                                     gorm:"column:created_at"`
-	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"m.created_by"                                                     gorm:"column:created_by"`
-	CreatedByUsername app.NullString   `json:"created_by.username" db:"cbuser.username"                                                  gorm:"-"`
+	ID                     app.NullInt64    `json:"id"                  db:"m.id"                                                             gorm:"column:id;primaryKey"`
+	Topik                  app.NullText     `json:"topik"               db:"m.topik"                                                          gorm:"column:topik"`
+	Kategori               app.NullString   `json:"kategori"            db:"m.kategori"                                                       gorm:"column:kategori"             validate:"oneof='cop' 'non-cop' 'umum'"`
+	Judul                  app.NullText     `json:"judul"               db:"m.judul"                                                          gorm:"column:judul"`
+	Deskripsi              app.NullText     `json:"deskripsi"           db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
+	GambarID               app.NullInt64    `json:"gambar.id"           db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
+	GambarFilename         app.NullString   `json:"gambar.filename"     db:"g.filename"                                                       gorm:"-"`
+	GambarUrl              app.NullString   `json:"gambar.url"          db:"g.url"                                                            gorm:"-"`
+	DokumenID              app.NullInt64    `json:"dokumen.id"          db:"m.dokumen_id"                                                     gorm:"column:dokumen_id"`
+	DokumenFilename        app.NullString   `json:"dokumen.filename"    db:"d.filename"                                                       gorm:"-"`
+	DokumenUrl             app.NullString   `json:"dokumen.url"         db:"d.url"                                                            gorm:"-"`
+	CreatedAt              app.NullDateTime `json:"created_at"          db:"m.created_at"                                                     gorm:"column:created_at"`
+	CreatedBy              app.NullInt64    `json:"created_by.id"       db:"m.created_by"                                                     gorm:"column:created_by"`
+	CreatedByUsername      app.NullString   `json:"created_by.username" db:"cbuser.username"                                                  gorm:"-"`
+	CreatedByOrangFotoID   app.NullInt64    `json:"created_by.foto.id"        db:"cbo.foto"                                                                                                                               gorm:"-"`
+	CreatedByOrangFotoUrl  app.NullString   `json:"created_by.foto.url"       db:"cbatt.url"                                                                                                                              gorm:"-"`
+	CreatedByOrangFotoNama app.NullString   `json:"created_by.foto.nama"      db:"cbatt.filename"                                                                                                                         gorm:"-"`
+
 	UpdatedBy         app.NullInt64    `json:"updated_by.id"       db:"m.updated_by"                                                     gorm:"column:updated_by"`
 	UpdatedByUsername app.NullString   `json:"updated_by.username" db:"ubuser.username"                                                  gorm:"-"`
 	DeletedBy         app.NullInt64    `json:"deleted_by.id"       db:"m.deleted_by"                                                     gorm:"column:deleted_by"`
@@ -53,7 +57,11 @@ func (Forum) TableAliasName() string {
 func (m *Forum) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_attachments", "g", []map[string]any{{"column1": "g.id", "column2": "m.gambar_id"}})
 	m.AddRelation("left", "m_attachments", "d", []map[string]any{{"column1": "d.id", "column2": "m.dokumen_id"}})
+
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
+	m.AddRelation("left", "m_orang", "cbo", []map[string]any{{"column1": "cbo.id_orang", "column2": "cbuser.id_orang"}})
+	m.AddRelation("left", "m_attachments", "cbatt", []map[string]any{{"column1": "cbatt.id", "column2": "cbo.foto"}})
+
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
 

@@ -133,20 +133,10 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	// copy same field to param.UsecaseHandler.Model & set default value for undefined field
-	err = copySameField(p, &p.UseCaseHandler.User)
-	if err != nil {
-		return err
-	}
-	err = p.setDefaultValue(User{})
-	if err != nil {
-		return err
-	}
-
 	//validasi lanjutan
-	if p.OrangEmail.Valid {
+	if p.OrangNik.Valid {
 		if !p.Username.Valid || p.Username.String == "" {
-			p.Username = p.OrangEmail
+			p.Username = p.OrangNik
 		}
 	}
 
@@ -159,16 +149,26 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		p.Password.Set(enc)
 	}
 
+	// copy same field to param.UsecaseHandler.Model & set default value for undefined field
+	err = copySameField(p, &p.UseCaseHandler.User)
+	if err != nil {
+		return err
+	}
+	err = p.setDefaultValue(User{})
+	if err != nil {
+		return err
+	}
+
 	//Insert to Orang
 	org := orang.ParamCreate{}
 	org.Nama = p.OrangNama
-	org.NamaPanggilan = p.OrangNamaPanggilan
+	org.NamaPanggilan = p.OrangNama
 	org.Nip = p.OrangNip
 	org.Nik = p.OrangNik
 	org.TempatLahir = p.OrangTempatLahir
 	org.TglLahir = p.OrangTglLahir
 	org.JenisKelamin = p.OrangJenisKelamin
-	org.Alamat = p.OrangAlamat
+	org.Alamat = p.OrangUnitKerja
 	org.Email = p.OrangEmail
 	org.Telp = p.OrangTelp
 	org.Jabatan = p.OrangJabatan
@@ -249,6 +249,13 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return err
 	}
 
+	//validasi lanjutan
+	if p.OrangNik.Valid {
+		if !p.Username.Valid || p.Username.String == "" {
+			p.Username = p.OrangNik
+		}
+	}
+
 	// set default value for undefined field
 	err = p.setDefaultValue(old)
 	if err != nil {
@@ -303,6 +310,13 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	old, err := u.GetByID(id)
 	if err != nil {
 		return err
+	}
+
+	//validasi lanjutan
+	if p.OrangNik.Valid {
+		if !p.Username.Valid || p.Username.String == "" {
+			p.Username = p.OrangNik
+		}
 	}
 
 	// set default value for undefined field

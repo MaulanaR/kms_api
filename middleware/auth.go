@@ -144,7 +144,7 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if segments[3] == "forum" && method == "GET" {
 				return false
-			} else if segments[3] == "user" && method == "GET" {
+			} else if segments[3] == "user" && (method == "GET" || method == "POST") {
 				return false
 			} else if segments[3] == "jenis_pengetahuan" && method == "GET" {
 				return false
@@ -165,6 +165,10 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 			} else if segments[3] == "kategori_buku" && method == "GET" {
 				return false
 			} else if segments[3] == "elibrary" && method == "GET" {
+				return false
+			} else if segments[3] == "slider_pengetahuan" && method == "GET" {
+				return false
+			} else if segments[3] == "total_summaries" && method == "GET" {
 				return false
 			}
 
