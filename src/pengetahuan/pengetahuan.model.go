@@ -246,3 +246,9 @@ type ParamPartiallyUpdate struct {
 type ParamDelete struct {
 	UseCaseHandler
 }
+
+type MixSlide struct {
+	Pengetahuan []map[string]any `json:"pengetahuan" db:"-" gorm:"-"`
+	LeaderTalk  []map[string]any `json:"leader_talk" db:"-" gorm:"-"`
+	Events      []map[string]any `json:"event" db:"-" gorm:"-"`
+}

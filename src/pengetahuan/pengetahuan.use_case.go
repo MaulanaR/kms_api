@@ -9,9 +9,11 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
+	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
@@ -755,6 +757,44 @@ func (u UseCaseHandler) GetSlider() ([]Pengetahuan, error) {
 			}
 		}
 	}
+
+	return res, err
+}
+
+// get return 4 data of latest pengetahuan, 4 data of leader talk, 4 data of events
+// Get returns the list of Pengetahuan data per jenis.
+func (u UseCaseHandler) GetMixSlider() (MixSlide, error) {
+	res := MixSlide{}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// find data pengetahuan
+	q := url.Values{}
+	q.Add("$per_page", "4")
+	q.Add("$include", "all")
+	dataPengetahuan, err := app.Query().Find(tx, &Pengetahuan{}, q)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	res.Pengetahuan = dataPengetahuan
+
+	// find data leader talk
+	dataLeaderTalk, err := app.Query().Find(tx, &leadertalk.LeaderTalk{}, q)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	res.LeaderTalk = dataLeaderTalk
+
+	// find data events
+	dataEvents, err := app.Query().Find(tx, &event.Event{}, q)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	res.Events = dataEvents
 
 	return res, err
 }

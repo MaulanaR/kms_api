@@ -166,7 +166,7 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if segments[3] == "elibrary" && method == "GET" {
 				return false
-			} else if segments[3] == "slider_pengetahuan" && method == "GET" {
+			} else if segments[3] == "slider_pengetahuan" || segments[3] == "mix_slider" && method == "GET" {
 				return false
 			} else if segments[3] == "total_summaries" && method == "GET" {
 				return false
