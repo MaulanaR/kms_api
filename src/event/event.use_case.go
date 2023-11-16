@@ -28,6 +28,13 @@ type UseCaseHandler struct {
 	Query url.Values `json:"-" db:"-" gorm:"-"`
 }
 
+type UseCaseLiveCommentHandler struct {
+	LiveComment
+
+	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
+	Query url.Values `json:"-" db:"-" gorm:"-"`
+}
+
 func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	ctx.IsAsync = true
 	return UseCase(ctx, query...)
@@ -128,9 +135,30 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	//validasi other attachment
+	if len(p.OtherAttachments) > 0 {
+		for _, ref := range p.OtherAttachments {
+			//validasi
+			_, err := attachment.UseCase(*p.Ctx).GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	err = tx.Model(&p).Create(&p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	if len(p.OtherAttachments) > 0 {
+		for i, _ := range p.OtherAttachments {
+			p.OtherAttachments[i].EventID.Set(p.ID.Int64)
+		}
+		err = tx.Create(&p.OtherAttachments).Error
+		if err != nil {
+			return err
+		}
 	}
 
 	app.Cache().Invalidate(u.EndPoint())
@@ -164,6 +192,26 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//delete other attachment lama
+	tx.Where("id_event = ?", old.ID).Delete(&OtherAttachment{})
+
+	//validasi other attachment
+	if len(p.OtherAttachments) > 0 {
+		for i, ref := range p.OtherAttachments {
+			//validasi
+			_, err := attachment.UseCase(*p.Ctx).GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.OtherAttachments[i].EventID.Set(old.ID.Int64)
+		}
+
+		err = tx.Create(&p.OtherAttachments).Error
+		if err != nil {
+			return err
+		}
 	}
 
 	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
@@ -202,6 +250,25 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//validasi other attachment
+	if len(p.OtherAttachments) > 0 {
+		//delete other attachment lama
+		tx.Where("id_event = ?", old.ID).Delete(&OtherAttachment{})
+		for i, ref := range p.OtherAttachments {
+			//validasi
+			_, err := attachment.UseCase(*p.Ctx).GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.OtherAttachments[i].EventID.Set(old.ID.Int64)
+		}
+
+		err = tx.Create(&p.OtherAttachments).Error
+		if err != nil {
+			return err
+		}
 	}
 
 	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
@@ -275,6 +342,62 @@ func (u *UseCaseHandler) setDefaultValue(old Event) error {
 	if u.Ctx.Action.Method == "DELETE" {
 		u.DeletedBy.Set(u.Ctx.User.ID)
 	}
+
+	return nil
+}
+
+func (u UseCaseHandler) GetLiveKomentarByIDEvent(id string) (app.ListModel, error) {
+	res := app.ListModel{}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	u.Query.Add("event.id", id)
+	res.Count,
+		res.PageContext.Page,
+		res.PageContext.PerPage,
+		res.PageContext.PageCount,
+		err = app.Query().PaginationInfo(tx, &LiveComment{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	if res.PageContext.PerPage == 0 {
+		return res, err
+	}
+
+	data, err := app.Query().Find(tx, &LiveComment{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	res.SetData(data, u.Query)
+
+	return res, err
+}
+
+func (u UseCaseHandler) CreateLiveKomen(p *ParamCreateLiveKomentar, id string) error {
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//validasi, hanya bisa input jika event sedang berlangsung
+	e, err := u.GetByID(id)
+	if time.Now().Before(e.TanggalMulai.Time) || time.Now().After(e.TanggalSelesai.Time) {
+		return app.Error().New(http.StatusBadRequest, "Event sudah Selesai/ Belum dimulai. Komentar hanya dapat dikirim saat acara berlangsung.")
+	}
+	p.CreatedBy.Set(u.Ctx.User.ID)
+	p.EventID.Set(e.ID.Int64)
+	err = tx.Model(&p).Create(&p).Error
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	app.Cache().Invalidate(u.EndPoint())
+	app.Cache().Invalidate("events")
 
 	return nil
 }

@@ -90,6 +90,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", like.Like{})
 	app.DB().RegisterTable("main", dislike.Dislike{})
 	app.DB().RegisterTable("main", event.Event{})
+	app.DB().RegisterTable("main", event.OtherAttachment{})
+	app.DB().RegisterTable("main", event.LiveComment{})
 	app.DB().RegisterTable("main", eventmateri.EventMateri{})
 	app.DB().RegisterTable("main", eventmateri.MateriAttachment{})
 	app.DB().RegisterTable("main", forum.Forum{})

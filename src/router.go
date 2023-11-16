@@ -196,6 +196,9 @@ func (r *routerUtil) Configure() {
 
 	app.Server().AddRoute("/api/v1/search_pengetahuan", "GET", pengetahuan.REST().GetSearch, pengetahuan.OpenAPI().Get())
 
+	app.Server().AddRoute("/api/v1/events/{id}/live_komentar", "GET", event.REST().GetLiveKomentar, event.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/events/{id}/live_komentar", "POST", event.REST().CreateLiveKomentar, event.OpenAPI().Create())
+
 	app.Server().AddRoute("/api/v1/events", "POST", event.REST().Create, event.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/events", "GET", event.REST().Get, event.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/events/{id}", "GET", event.REST().GetByID, event.OpenAPI().GetByID())

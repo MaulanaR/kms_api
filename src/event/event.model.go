@@ -28,6 +28,8 @@ type Event struct {
 	UpdatedAt          app.NullDateTime          `json:"updated_at"          db:"m.updated_at"      gorm:"column:updated_at"`
 	DeletedAt          app.NullDateTime          `json:"deleted_at"          db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 	Materi             []eventmateri.EventMateri `json:"materi"              db:"event.id={id}"     gorm:"-"`
+	OtherAttachments   []OtherAttachment         `json:"other_attachments" db:"event.id={id}" gorm:"-"`
+	LiveComment        []LiveComment             `json:"live_komentar" db:"event.id={id}" gorm:"-"`
 }
 
 func (Event) EndPoint() string {
@@ -107,4 +109,124 @@ type ParamPartiallyUpdate struct {
 
 type ParamDelete struct {
 	UseCaseHandler
+}
+
+// other attachments
+type OtherAttachment struct {
+	app.Model
+	ID              app.NullInt64  `json:"-"                db:"tea.id" gorm:"column:id;primaryKey;auto_increment"`
+	EventID         app.NullInt64  `json:"event.id"         db:"tea.id_event,hide"      gorm:"column:id_event"`
+	AttachmentID    app.NullInt64  `json:"id"               db:"tea.id_attachment"             gorm:"column:id_attachment"`
+	Filename        app.NullString `json:"filename"         db:"m.filename"         gorm:"-"`
+	Size            app.NullInt64  `json:"size"             db:"m.size"             gorm:"-"`
+	Extension       app.NullString `json:"extension"        db:"m.extension"        gorm:"-"`
+	StorageLocation app.NullString `json:"storage_location" db:"m.storage_location" gorm:"-"`
+	Url             app.NullString `json:"url"              db:"m.url"              gorm:"-"`
+}
+
+func (OtherAttachment) EndPoint() string {
+	return "t_event_attachments"
+}
+
+func (OtherAttachment) TableVersion() string {
+	return "28.07.291152"
+}
+
+func (OtherAttachment) TableName() string {
+	return "t_event_attachments"
+}
+
+func (OtherAttachment) TableAliasName() string {
+	return "tea"
+}
+
+func (m *OtherAttachment) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_attachments", "m", []map[string]any{{"column1": "m.id", "column2": "tea.id_attachment"}})
+	return m.Relations
+}
+
+func (m *OtherAttachment) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *OtherAttachment) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *OtherAttachment) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *OtherAttachment) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (OtherAttachment) OpenAPISchemaName() string {
+	return "TPengetahuanReferensi"
+}
+
+func (m *OtherAttachment) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+// other attachments
+type LiveComment struct {
+	app.Model
+	ID                app.NullInt64    `json:"id"                db:"tek.id" gorm:"column:id;primaryKey;auto_increment"`
+	EventID           app.NullInt64    `json:"event.id"         db:"tek.id_event,hide"      gorm:"column:id_event"`
+	Komentar          app.NullText     `json:"komentar" db:"tek.komentar" gorm:"column:komentar"`
+	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"tek.created_by"      gorm:"column:created_by"`
+	CreatedByUsername app.NullString   `json:"created_by.username" db:"cbuser.username"   gorm:"-"`
+	CreatedAt         app.NullDateTime `json:"created_at"          db:"tek.created_at"      gorm:"column:created_at"`
+}
+
+func (LiveComment) EndPoint() string {
+	return "t_event_komentar"
+}
+
+func (LiveComment) TableVersion() string {
+	return "28.07.291152"
+}
+
+func (LiveComment) TableName() string {
+	return "t_event_komentar"
+}
+
+func (LiveComment) TableAliasName() string {
+	return "tek"
+}
+
+func (m *LiveComment) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "tek.created_by"}})
+	return m.Relations
+}
+
+func (m *LiveComment) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *LiveComment) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *LiveComment) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *LiveComment) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (LiveComment) OpenAPISchemaName() string {
+	return ""
+}
+
+func (m *LiveComment) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
+type ParamCreateLiveKomentar struct {
+	UseCaseLiveCommentHandler
 }

@@ -17,7 +17,8 @@ func REST() *RESTAPIHandler {
 
 // RESTAPIHandler provides a convenient interface for Event REST API handler.
 type RESTAPIHandler struct {
-	UseCase UseCaseHandler
+	UseCase            UseCaseHandler
+	UseCaseLiveComment UseCaseLiveCommentHandler
 }
 
 // injectDeps inject the dependencies of the Event REST API handler.
@@ -174,4 +175,37 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 		}),
 	}
 	return c.JSON(res)
+}
+
+// LIVE KOMENTAR
+// Get is the REST API handler for `GET /api/events/{id}/live_komentar`.
+func (r *RESTAPIHandler) GetLiveKomentar(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res, err := r.UseCase.GetLiveKomentarByIDEvent(c.Params("id"))
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+}
+
+// Create is the REST API handler for `POST /api/events/{id}/post_komentar`.
+func (r *RESTAPIHandler) CreateLiveKomentar(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	p := ParamCreateLiveKomentar{}
+	p.Ctx = r.UseCase.Ctx
+	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	if err != nil {
+		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+	}
+	err = r.UseCase.CreateLiveKomen(&p, c.Params("id"))
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	return c.Status(http.StatusCreated).JSON(map[string]any{"message": "Success"})
 }
