@@ -386,7 +386,11 @@ func (u UseCaseHandler) CreateLiveKomen(p *ParamCreateLiveKomentar, id string) e
 
 	//validasi, hanya bisa input jika event sedang berlangsung
 	e, err := u.GetByID(id)
-	if time.Now().Before(e.TanggalMulai.Time) || time.Now().After(e.TanggalSelesai.Time) {
+	if err != nil {
+		return err
+	}
+	now := time.Now().Truncate(24 * time.Hour)
+	if now.Before(e.TanggalMulai.Time.Truncate(24*time.Hour)) || now.After(e.TanggalSelesai.Time.Truncate(24*time.Hour)) {
 		return app.Error().New(http.StatusBadRequest, "Event sudah Selesai/ Belum dimulai. Komentar hanya dapat dikirim saat acara berlangsung.")
 	}
 	p.CreatedBy.Set(u.Ctx.User.ID)
