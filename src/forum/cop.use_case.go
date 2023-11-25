@@ -76,7 +76,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			if ok {
 				_, ok2 := v["deskripsi"].(string)
 				if ok2 {
-					listJudul = append(listJudul, v["judul"].(string)+" "+v["deskripsi"].(string))
+					listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["deskripsi"].(string)))
 				} else {
 					listJudul = append(listJudul, v["judul"].(string))
 				}

@@ -696,7 +696,12 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		for _, v := range data {
 			_, ok := v["judul"].(string)
 			if ok {
-				listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["ringkasan"].(string)))
+				_, ok2 := v["ringkasan"].(string)
+				if ok2 {
+					listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["ringkasan"].(string)))
+				} else {
+					listJudul = append(listJudul, v["judul"].(string))
+				}
 			} else {
 				listJudul = append(listJudul, "")
 			}
