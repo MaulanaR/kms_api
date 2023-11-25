@@ -180,19 +180,19 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/komentar/{id}", "PATCH", komentar.REST().PartiallyUpdateByID, komentar.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/komentar/{id}", "DELETE", komentar.REST().DeleteByID, komentar.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/v1/like", "POST", like.REST().Create, like.OpenAPI().Create())
+	// app.Server().AddRoute("/api/v1/like", "POST", like.REST().Create, like.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/like", "GET", like.REST().Get, like.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/like/{id}", "GET", like.REST().GetByID, like.OpenAPI().GetByID())
-	app.Server().AddRoute("/api/v1/like/{id}", "PUT", like.REST().UpdateByID, like.OpenAPI().UpdateByID())
-	app.Server().AddRoute("/api/v1/like/{id}", "PATCH", like.REST().PartiallyUpdateByID, like.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/like/{id}", "DELETE", like.REST().DeleteByID, like.OpenAPI().DeleteByID())
+	// app.Server().AddRoute("/api/v1/like/{id}", "PUT", like.REST().UpdateByID, like.OpenAPI().UpdateByID())
+	// app.Server().AddRoute("/api/v1/like/{id}", "PATCH", like.REST().PartiallyUpdateByID, like.OpenAPI().PartiallyUpdateByID())
+	// app.Server().AddRoute("/api/v1/like/{id}", "DELETE", like.REST().DeleteByID, like.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/v1/dislike", "POST", dislike.REST().Create, dislike.OpenAPI().Create())
+	// app.Server().AddRoute("/api/v1/dislike", "POST", dislike.REST().Create, dislike.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/dislike", "GET", dislike.REST().Get, dislike.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/dislike/{id}", "GET", dislike.REST().GetByID, dislike.OpenAPI().GetByID())
-	app.Server().AddRoute("/api/v1/dislike/{id}", "PUT", dislike.REST().UpdateByID, dislike.OpenAPI().UpdateByID())
-	app.Server().AddRoute("/api/v1/dislike/{id}", "PATCH", dislike.REST().PartiallyUpdateByID, dislike.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/dislike/{id}", "DELETE", dislike.REST().DeleteByID, dislike.OpenAPI().DeleteByID())
+	// app.Server().AddRoute("/api/v1/dislike/{id}", "PUT", dislike.REST().UpdateByID, dislike.OpenAPI().UpdateByID())
+	// app.Server().AddRoute("/api/v1/dislike/{id}", "PATCH", dislike.REST().PartiallyUpdateByID, dislike.OpenAPI().PartiallyUpdateByID())
+	// app.Server().AddRoute("/api/v1/dislike/{id}", "DELETE", dislike.REST().DeleteByID, dislike.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/search_pengetahuan", "GET", pengetahuan.REST().GetSearch, pengetahuan.OpenAPI().Get())
 

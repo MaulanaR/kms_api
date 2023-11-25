@@ -102,9 +102,6 @@ github.com/klauspost/cpuid/v2
 # github.com/leodido/go-urn v1.2.4
 ## explicit; go 1.16
 github.com/leodido/go-urn
-# github.com/lithammer/fuzzysearch v1.1.8
-## explicit; go 1.15
-github.com/lithammer/fuzzysearch/fuzzy
 # github.com/mattn/go-colorable v0.1.13
 ## explicit; go 1.15
 github.com/mattn/go-colorable
@@ -248,6 +245,7 @@ gorm.io/gorm/utils
 # gorm.io/plugin/dbresolver v1.4.1
 ## explicit; go 1.14
 gorm.io/plugin/dbresolver
-# grest.dev/grest v0.0.0-20230706091650-4fc77894ced1
+# grest.dev/grest v0.0.0-20230706091650-4fc77894ced1 => ./grest
 ## explicit; go 1.20
 grest.dev/grest
+# grest.dev/grest => ./grest

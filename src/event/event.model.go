@@ -62,7 +62,7 @@ func (m *Event) GetFilters() []map[string]any {
 }
 
 func (m *Event) GetSorts() []map[string]any {
-	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
+	m.AddSort(map[string]any{"column": "m.tanggal_mulai", "direction": "desc"})
 	return m.Sorts
 }
 

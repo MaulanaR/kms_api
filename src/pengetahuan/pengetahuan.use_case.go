@@ -22,8 +22,6 @@ import (
 	"github.com/maulanar/kms/src/subjenispengetahuan"
 	"github.com/maulanar/kms/src/tag"
 	"github.com/maulanar/kms/src/tpengetahuanrelation"
-
-	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -698,20 +696,16 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		for _, v := range data {
 			_, ok := v["judul"].(string)
 			if ok {
-				listJudul = append(listJudul, v["judul"].(string))
+				listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["ringkasan"].(string)))
 			} else {
 				listJudul = append(listJudul, "")
 			}
 		}
-		rnk := fuzzy.RankFindFold(keyword, listJudul)
-		for _, v := range rnk {
-			var pr float64 = 0
-			pr = float64(v.Distance) / float64(len(v.Target)) * 100
-			data[v.OriginalIndex]["levenshtein.keyword"] = keyword
-			data[v.OriginalIndex]["levenshtein.distance"] = v.Distance
-			data[v.OriginalIndex]["levenshtein.percentage"] = int64(pr)
+		rnk := app.FindSimilarStrings(keyword, listJudul, 2)
+		for i, _ := range rnk {
+			data[i]["levenshtein.keyword"] = keyword
 
-			newData = append(newData, data[v.OriginalIndex])
+			newData = append(newData, data[i])
 		}
 		res.SetData(newData, u.Query)
 		res.Count = int64(len(newData))

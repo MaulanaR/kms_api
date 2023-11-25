@@ -7,7 +7,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/lithammer/fuzzysearch/fuzzy"
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
 )
@@ -85,15 +84,11 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 				listJudul = append(listJudul, "")
 			}
 		}
-		rnk := fuzzy.RankFindFold(keyword, listJudul)
-		for _, v := range rnk {
-			var pr float64 = 0
-			pr = float64(v.Distance) / float64(len(v.Target)) * 100
-			data[v.OriginalIndex]["levenshtein.keyword"] = keyword
-			data[v.OriginalIndex]["levenshtein.distance"] = v.Distance
-			data[v.OriginalIndex]["levenshtein.percentage"] = int64(pr)
+		rnk := app.FindSimilarStrings(keyword, listJudul, 2)
+		for i, _ := range rnk {
+			data[i]["levenshtein.keyword"] = keyword
 
-			newData = append(newData, data[v.OriginalIndex])
+			newData = append(newData, data[i])
 		}
 		res.SetData(newData, u.Query)
 		res.Count = int64(len(newData))
