@@ -76,7 +76,8 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			if ok {
 				_, ok2 := v["deskripsi"].(string)
 				if ok2 {
-					listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["deskripsi"].(string)))
+					// listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["deskripsi"].(string)))
+					listJudul = append(listJudul, v["judul"].(string))
 				} else {
 					listJudul = append(listJudul, v["judul"].(string))
 				}
@@ -84,7 +85,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 				listJudul = append(listJudul, "")
 			}
 		}
-		rnk := app.FindSimilarStrings(keyword, listJudul, 2)
+		rnk := app.FindSimilarStrings(keyword, listJudul)
 		for i, _ := range rnk {
 			data[i]["levenshtein.keyword"] = keyword
 
@@ -128,6 +129,7 @@ func (u UseCaseHandler) GetByID(id string) (Forum, error) {
 
 	//update count view
 	tx.Exec("UPDATE t_forum SET count_view = count_view + 1 WHERE id = ?", id)
+	app.Cache().Invalidate(u.EndPoint())
 	return res, err
 }
 

@@ -9,6 +9,7 @@ type Forum struct {
 	Kategori               app.NullString   `json:"kategori"            db:"m.kategori"                                                       gorm:"column:kategori"             validate:"oneof='cop' 'non-cop' 'umum'"`
 	Judul                  app.NullText     `json:"judul"               db:"m.judul"                                                          gorm:"column:judul"`
 	Deskripsi              app.NullText     `json:"deskripsi"           db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
+	AkademiKnowledge       app.NullString   `json:"akademi_knowledge"   db:"m.akademi_knowledge"                                              gorm:"column:akademi_knowledge" validate:"omitempty,oneof='Perekonomian' 'Polhukam' 'Pemda dan Desa' 'TK Korporasi' 'Forensik dan Investigasi' 'Umum'"`
 	GambarID               app.NullInt64    `json:"gambar.id"           db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
 	GambarFilename         app.NullString   `json:"gambar.filename"     db:"g.filename"                                                       gorm:"-"`
 	GambarUrl              app.NullString   `json:"gambar.url"          db:"g.url"                                                            gorm:"-"`
@@ -43,7 +44,7 @@ func (Forum) EndPoint() string {
 }
 
 func (Forum) TableVersion() string {
-	return "28.08.301152"
+	return "23.11.271152"
 }
 
 func (Forum) TableName() string {

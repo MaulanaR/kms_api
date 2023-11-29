@@ -4,73 +4,25 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/sahilm/fuzzy"
 	"golang.org/x/net/html"
 )
 
-// Function to calculate Levenshtein distance between two strings
-func LevenshteinDistance(s1, s2 string) int {
-	m := len(s1)
-	n := len(s2)
-
-	// Create a matrix to store distances
-	dp := make([][]int, m+1)
-	for i := range dp {
-		dp[i] = make([]int, n+1)
-	}
-
-	for i := 0; i <= m; i++ {
-		for j := 0; j <= n; j++ {
-			// If one of the strings is empty, the distance is the length of the other string
-			if i == 0 {
-				dp[i][j] = j
-			} else if j == 0 {
-				dp[i][j] = i
-			} else if s1[i-1] == s2[j-1] {
-				dp[i][j] = dp[i-1][j-1]
-			} else {
-				dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])
-			}
-		}
-	}
-
-	return dp[m][n]
-}
-
-// Function to find similar strings in a slice based on a threshold distance and return their indices and titles
-func FindSimilarWords(key string, data []string, threshold int) map[int]string {
+func FindSimilarStrings(searchKey string, data []string) map[int]string {
 	result := make(map[int]string)
-
-	for i, str := range data {
-		distance := LevenshteinDistance(strings.ToLower(key), strings.ToLower(str))
-		if distance <= threshold {
-			result[i] = str
-		}
-	}
-
-	return result
-}
-
-func FindSimilarStrings(searchKey string, data []string, treshbold int) map[int]string {
-	result := make(map[int]string)
-	for index, title := range data {
-		words := strings.Fields(title)
-
-		// Finding similar strings for each word in the title
-		similarTitles := FindSimilarWords(strings.ToLower(searchKey), words, 2)
-		if len(similarTitles) > 0 {
-			result[index] = title
-		}
+	lowercaseSlice := toLower(data)
+	matches := fuzzy.Find(strings.ToLower(searchKey), lowercaseSlice)
+	for _, match := range matches {
+		result[match.Index] = data[match.Index]
 	}
 	return result
 }
 
-func min(a, b, c int) int {
-	if a <= b && a <= c {
-		return a
-	} else if b <= a && b <= c {
-		return b
+func toLower(slice []string) []string {
+	for i := range slice {
+		slice[i] = strings.ToLower(slice[i])
 	}
-	return c
+	return slice
 }
 
 // Function to remove HTML tags from a string

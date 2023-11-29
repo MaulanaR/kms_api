@@ -60,7 +60,8 @@ func (u UseCaseHandler) GetByID(id string) (LibraryCafe, error) {
 	tx.Raw("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM t_dislike WHERE id_library_cafe = ? and id_user = ?", id, u.Ctx.User.ID).Scan(&res.IsDisliked)
 
 	//update count view
-	tx.Exec("UPDATE t_forum SET count_view = count_view + 1 WHERE id = ?", id)
+	tx.Exec("UPDATE t_library_cafe SET count_view = count_view + 1 WHERE id = ?", id)
+	app.Cache().Invalidate(u.EndPoint())
 	return res, err
 }
 

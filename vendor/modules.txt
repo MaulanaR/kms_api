@@ -99,6 +99,8 @@ github.com/klauspost/compress/zlib
 # github.com/klauspost/cpuid/v2 v2.2.4
 ## explicit; go 1.15
 github.com/klauspost/cpuid/v2
+# github.com/kylelemons/godebug v1.1.0
+## explicit; go 1.11
 # github.com/leodido/go-urn v1.2.4
 ## explicit; go 1.16
 github.com/leodido/go-urn
@@ -153,6 +155,9 @@ github.com/rs/xid
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
 github.com/rs/zerolog/internal/json
+# github.com/sahilm/fuzzy v0.1.0
+## explicit
+github.com/sahilm/fuzzy
 # github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94
 ## explicit; go 1.13
 github.com/savsgio/dictpool

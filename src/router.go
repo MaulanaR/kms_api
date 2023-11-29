@@ -239,8 +239,8 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/library_cafe/{id}", "PUT", librarycafe.REST().UpdateByID, librarycafe.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/library_cafe/{id}", "PATCH", librarycafe.REST().PartiallyUpdateByID, librarycafe.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/library_cafe/{id}", "DELETE", librarycafe.REST().DeleteByID, librarycafe.OpenAPI().DeleteByID())
-	app.Server().AddRoute("/api/v1/leader_talk/{id}/like", "POST", like.REST().UpdateByLibraryCafeID, like.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/leader_talk/{id}/dislike", "POST", dislike.REST().UpdateByLibraryCafeID, dislike.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/library_cafe/{id}/like", "POST", like.REST().UpdateByLibraryCafeID, like.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/library_cafe/{id}/dislike", "POST", dislike.REST().UpdateByLibraryCafeID, dislike.OpenAPI().PartiallyUpdateByID())
 
 	app.Server().AddRoute("/api/v1/pedoman", "POST", pedoman.REST().Create, pedoman.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/pedoman", "GET", pedoman.REST().Get, pedoman.OpenAPI().Get())

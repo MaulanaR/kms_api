@@ -10,6 +10,7 @@ import (
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/event"
+	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
@@ -92,6 +93,7 @@ func (u UseCaseHandler) GetByID(id string) (Pengetahuan, error) {
 
 	// save to cache and return if exists
 	// app.Cache().Set(cacheKey, res)
+	app.Cache().Invalidate(u.EndPoint())
 	return res, err
 }
 
@@ -680,7 +682,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		return res, err
 	}
 
-	// find data
+	// find data pengetahuan
 	data, err := app.Query().Find(tx, &Pengetahuan{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
@@ -688,6 +690,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 
 	res.SetData(data, u.Query)
 	res.Count = int64(len(data))
+
 	if u.Query.Has("levenshtein.keyword.$eq") {
 		newData := []map[string]any{}
 		keyword := u.Query.Get("levenshtein.keyword.$eq")
@@ -698,7 +701,8 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			if ok {
 				_, ok2 := v["ringkasan"].(string)
 				if ok2 {
-					listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["ringkasan"].(string)))
+					// listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["ringkasan"].(string)))
+					listJudul = append(listJudul, v["judul"].(string))
 				} else {
 					listJudul = append(listJudul, v["judul"].(string))
 				}
@@ -706,7 +710,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 				listJudul = append(listJudul, "")
 			}
 		}
-		rnk := app.FindSimilarStrings(keyword, listJudul, 2)
+		rnk := app.FindSimilarStrings(keyword, listJudul)
 		for i, _ := range rnk {
 			data[i]["levenshtein.keyword"] = keyword
 
@@ -715,6 +719,55 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		res.SetData(newData, u.Query)
 		res.Count = int64(len(newData))
 	}
+
+	//sisipkan tipe
+	for i, _ := range res.Data {
+		res.Data[i]["tipe"] = "pengetahuan"
+	}
+
+	//data cop
+	// find data
+	data2, err := app.Query().Find(tx, &forum.Forum{}, u.Query)
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// res.SetData(data2, u.Query)
+	// res.Count = int64(len(data))
+	if u.Query.Has("levenshtein.keyword.$eq") {
+		newData := []map[string]any{}
+		keyword := u.Query.Get("levenshtein.keyword.$eq")
+		// do for levenshtein
+		listJudul := []string{}
+		for _, v := range data2 {
+			_, ok := v["judul"].(string)
+			if ok {
+				_, ok2 := v["deskripsi"].(string)
+				if ok2 {
+					// listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["deskripsi"].(string)))
+					listJudul = append(listJudul, v["judul"].(string))
+				} else {
+					listJudul = append(listJudul, v["judul"].(string))
+				}
+			} else {
+				listJudul = append(listJudul, "")
+			}
+		}
+		rnk := app.FindSimilarStrings(keyword, listJudul)
+		for i, _ := range rnk {
+			data2[i]["levenshtein.keyword"] = keyword
+			data2[i]["tipe"] = "cop"
+			newData = append(newData, data2[i])
+		}
+		res.Data = append(res.Data, newData...)
+	} else {
+		for i, _ := range data2 {
+			data2[i]["tipe"] = "cop"
+		}
+		res.Data = append(res.Data, data2...)
+	}
+
+	res.Count = int64(len(res.Data))
 
 	return res, err
 }

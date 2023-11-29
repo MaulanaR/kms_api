@@ -15,6 +15,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.59
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/rs/zerolog v1.29.1
+	github.com/sahilm/fuzzy v0.1.0
 	golang.org/x/net v0.10.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/driver/mysql v1.5.1
@@ -40,6 +41,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.4 // indirect
+	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
