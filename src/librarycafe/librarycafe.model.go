@@ -26,6 +26,9 @@ type LibraryCafe struct {
 	GambarID          app.NullInt64    `json:"gambar.id"           db:"m.gambar_id"                                                             gorm:"column:gambar_id"`
 	GambarUrl         app.NullString   `json:"gambar.url"          db:"gbr.url"                                                                 gorm:"-"`
 	GambarNama        app.NullString   `json:"gambar.nama"         db:"gbr.filename"                                                            gorm:"-"`
+	DokumenID         app.NullInt64    `json:"dokumen.id"          db:"m.dokumen_id"                                                            gorm:"column:dokumen_id"`
+	DokumenUrl        app.NullString   `json:"dokumen.url"         db:"dok.url"                                                                 gorm:"-"`
+	DokumenNama       app.NullString   `json:"dokumen.nama"        db:"dok.filename"                                                            gorm:"-"`
 	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"m.created_by"                                                            gorm:"column:created_by"`
 	CreatedByUsername app.NullString   `json:"created_by.username" db:"cbuser.username"                                                         gorm:"-"`
 	UpdatedBy         app.NullInt64    `json:"updated_by.id"       db:"m.updated_by"                                                            gorm:"column:updated_by"`
@@ -50,7 +53,7 @@ func (LibraryCafe) EndPoint() string {
 }
 
 func (LibraryCafe) TableVersion() string {
-	return "23.09.011152"
+	return "23.11.291152"
 }
 
 func (LibraryCafe) TableName() string {
@@ -64,7 +67,7 @@ func (LibraryCafe) TableAliasName() string {
 func (m *LibraryCafe) GetRelations() map[string]map[string]any {
 	//m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.id_user"}})
 	//m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "u.id_orang"}})
-	//m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "o.foto"}})
+	m.AddRelation("left", "m_attachments", "dok", []map[string]any{{"column1": "dok.id", "column2": "m.dokumen_id"}})
 	m.AddRelation("left", "m_attachments", "gbr", []map[string]any{{"column1": "gbr.id", "column2": "m.gambar_id"}})
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})

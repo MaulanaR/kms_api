@@ -294,6 +294,13 @@ func (u *UseCaseHandler) setDefaultValue(old LibraryCafe) error {
 		}
 	}
 
+	if u.DokumenID.Valid {
+		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.DokumenID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
 	if u.Ctx.Action.Method == "POST" {
 		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
