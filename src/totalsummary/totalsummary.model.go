@@ -4,10 +4,10 @@ import "github.com/maulanar/kms/app"
 
 type TotalSummary struct {
 	app.Model
-	TotalDocuments    app.NullInt64 `json:"total_documents"    db:"COUNT(*)"              gorm:"-"`
-	TotalContributors app.NullInt64 `json:"total_contributors" db:"(SELECT COUNT(*) FROM m_user)"              gorm:"-"`
+	TotalDocuments    app.NullInt64 `json:"total_documents"    db:"COUNT(*)"                                    gorm:"-"`
+	TotalContributors app.NullInt64 `json:"total_contributors" db:"(SELECT COUNT(*) FROM m_user)"               gorm:"-"`
 	TotalThreads      app.NullInt64 `json:"total_threads"      db:"(SELECT COUNT(*) FROM t_forum)"              gorm:"-"`
-	TotalHits         app.NullInt64 `json:"total_hits"         db:"(SELECT SUM(count_view) FROM t_pengetahuan)"              gorm:"-"`
+	TotalHits         app.NullInt64 `json:"total_hits"         db:"(SELECT SUM(count_view) FROM t_pengetahuan)" gorm:"-"`
 }
 
 func (TotalSummary) EndPoint() string {

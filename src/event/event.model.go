@@ -20,16 +20,16 @@ type Event struct {
 	AksesKegiatan      app.NullString            `json:"akses_kegiatan"      db:"m.akses_kegiatan"  gorm:"column:akses_kegiatan"`
 	CreatedBy          app.NullInt64             `json:"created_by.id"       db:"m.created_by"      gorm:"column:created_by"`
 	CreatedByUsername  app.NullString            `json:"created_by.username" db:"cbuser.username"   gorm:"-"`
-	UpdatedBy          app.NullInt64             `json:"updated_by.id"       db:"m.updated_by"       gorm:"column:updated_by"`
-	UpdatedByUsername  app.NullString            `json:"updated_by.username" db:"ubuser.username"    gorm:"-"`
-	DeletedBy          app.NullInt64             `json:"deleted_by.id"       db:"m.deleted_by"       gorm:"column:deleted_by"`
-	DeletedByUsername  app.NullString            `json:"deleted_by.username" db:"dbuser.username"    gorm:"-"`
+	UpdatedBy          app.NullInt64             `json:"updated_by.id"       db:"m.updated_by"      gorm:"column:updated_by"`
+	UpdatedByUsername  app.NullString            `json:"updated_by.username" db:"ubuser.username"   gorm:"-"`
+	DeletedBy          app.NullInt64             `json:"deleted_by.id"       db:"m.deleted_by"      gorm:"column:deleted_by"`
+	DeletedByUsername  app.NullString            `json:"deleted_by.username" db:"dbuser.username"   gorm:"-"`
 	CreatedAt          app.NullDateTime          `json:"created_at"          db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt          app.NullDateTime          `json:"updated_at"          db:"m.updated_at"      gorm:"column:updated_at"`
 	DeletedAt          app.NullDateTime          `json:"deleted_at"          db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 	Materi             []eventmateri.EventMateri `json:"materi"              db:"event.id={id}"     gorm:"-"`
-	OtherAttachments   []OtherAttachment         `json:"other_attachments" db:"event.id={id}" gorm:"-"`
-	LiveComment        []LiveComment             `json:"live_komentar" db:"event.id={id}" gorm:"-"`
+	OtherAttachments   []OtherAttachment         `json:"other_attachments"   db:"event.id={id}"     gorm:"-"`
+	LiveComment        []LiveComment             `json:"live_komentar"       db:"event.id={id}"     gorm:"-"`
 }
 
 func (Event) EndPoint() string {
@@ -114,9 +114,9 @@ type ParamDelete struct {
 // other attachments
 type OtherAttachment struct {
 	app.Model
-	ID              app.NullInt64  `json:"-"                db:"tea.id" gorm:"column:id;primaryKey;auto_increment"`
-	EventID         app.NullInt64  `json:"event.id"         db:"tea.id_event,hide"      gorm:"column:id_event"`
-	AttachmentID    app.NullInt64  `json:"id"               db:"tea.id_attachment"             gorm:"column:id_attachment"`
+	ID              app.NullInt64  `json:"-"                db:"tea.id"             gorm:"column:id;primaryKey;auto_increment"`
+	EventID         app.NullInt64  `json:"event.id"         db:"tea.id_event,hide"  gorm:"column:id_event"`
+	AttachmentID    app.NullInt64  `json:"id"               db:"tea.id_attachment"  gorm:"column:id_attachment"`
 	Filename        app.NullString `json:"filename"         db:"m.filename"         gorm:"-"`
 	Size            app.NullInt64  `json:"size"             db:"m.size"             gorm:"-"`
 	Extension       app.NullString `json:"extension"        db:"m.extension"        gorm:"-"`
@@ -173,12 +173,12 @@ func (m *OtherAttachment) GetOpenAPISchema() map[string]any {
 // other attachments
 type LiveComment struct {
 	app.Model
-	ID                app.NullInt64    `json:"id"                db:"tek.id" gorm:"column:id;primaryKey;auto_increment"`
-	EventID           app.NullInt64    `json:"event.id"         db:"tek.id_event,hide"      gorm:"column:id_event"`
-	Komentar          app.NullText     `json:"komentar" db:"tek.komentar" gorm:"column:komentar"`
-	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"tek.created_by"      gorm:"column:created_by"`
+	ID                app.NullInt64    `json:"id"                  db:"tek.id"            gorm:"column:id;primaryKey;auto_increment"`
+	EventID           app.NullInt64    `json:"event.id"            db:"tek.id_event,hide" gorm:"column:id_event"`
+	Komentar          app.NullText     `json:"komentar"            db:"tek.komentar"      gorm:"column:komentar"`
+	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"tek.created_by"    gorm:"column:created_by"`
 	CreatedByUsername app.NullString   `json:"created_by.username" db:"cbuser.username"   gorm:"-"`
-	CreatedAt         app.NullDateTime `json:"created_at"          db:"tek.created_at"      gorm:"column:created_at"`
+	CreatedAt         app.NullDateTime `json:"created_at"          db:"tek.created_at"    gorm:"column:created_at"`
 }
 
 func (LiveComment) EndPoint() string {

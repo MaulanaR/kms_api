@@ -8,22 +8,22 @@ import (
 
 type Attachment struct {
 	app.Model
-	ID                app.NullInt64         `json:"id"               db:"m.id"               gorm:"column:id;primaryKey;autoIncrement"`
-	File              *multipart.FileHeader `json:"file"             db:"-"                  gorm:"-"`
-	Filename          app.NullString        `json:"filename"         db:"m.filename"         gorm:"column:filename"`
-	Size              app.NullInt64         `json:"size"             db:"m.size"             gorm:"column:size"`
-	Extension         app.NullString        `json:"extension"        db:"m.extension"        gorm:"column:extension"`
-	StorageLocation   app.NullString        `json:"storage_location" db:"m.storage_location" gorm:"column:storage_location"`
-	Url               app.NullString        `json:"url"              db:"m.url"              gorm:"column:url"`
+	ID                app.NullInt64         `json:"id"                  db:"m.id"               gorm:"column:id;primaryKey;autoIncrement"`
+	File              *multipart.FileHeader `json:"file"                db:"-"                  gorm:"-"`
+	Filename          app.NullString        `json:"filename"            db:"m.filename"         gorm:"column:filename"`
+	Size              app.NullInt64         `json:"size"                db:"m.size"             gorm:"column:size"`
+	Extension         app.NullString        `json:"extension"           db:"m.extension"        gorm:"column:extension"`
+	StorageLocation   app.NullString        `json:"storage_location"    db:"m.storage_location" gorm:"column:storage_location"`
+	Url               app.NullString        `json:"url"                 db:"m.url"              gorm:"column:url"`
 	CreatedBy         app.NullInt64         `json:"created_by.id"       db:"m.created_by"       gorm:"column:created_by"`
 	CreatedByUsername app.NullString        `json:"created_by.username" db:"cbuser.username"    gorm:"-"`
 	UpdatedBy         app.NullInt64         `json:"updated_by.id"       db:"m.updated_by"       gorm:"column:updated_by"`
 	UpdatedByUsername app.NullString        `json:"updated_by.username" db:"ubuser.username"    gorm:"-"`
 	DeletedBy         app.NullInt64         `json:"deleted_by.id"       db:"m.deleted_by"       gorm:"column:deleted_by"`
 	DeletedByUsername app.NullString        `json:"deleted_by.username" db:"dbuser.username"    gorm:"-"`
-	CreatedAt         app.NullDateTime      `json:"created_at"       db:"m.created_at"       gorm:"column:created_at"`
-	UpdatedAt         app.NullDateTime      `json:"updated_at"       db:"m.updated_at"       gorm:"column:updated_at"`
-	DeletedAt         app.NullDateTime      `json:"deleted_at"       db:"m.deleted_at,hide"  gorm:"column:deleted_at"`
+	CreatedAt         app.NullDateTime      `json:"created_at"          db:"m.created_at"       gorm:"column:created_at"`
+	UpdatedAt         app.NullDateTime      `json:"updated_at"          db:"m.updated_at"       gorm:"column:updated_at"`
+	DeletedAt         app.NullDateTime      `json:"deleted_at"          db:"m.deleted_at,hide"  gorm:"column:deleted_at"`
 }
 
 func (Attachment) EndPoint() string {

@@ -166,9 +166,15 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if segments[3] == "elibrary" && method == "GET" {
 				return false
-			} else if segments[3] == "slider_pengetahuan" || segments[3] == "mix_slider" && method == "GET" {
+			} else if (segments[3] == "slider_pengetahuan" || segments[3] == "mix_slider") && method == "GET" {
 				return false
-			} else if segments[3] == "total_summaries" && method == "GET" {
+			} else if segments[3] == "advis_kategori" && method == "GET" {
+				return false
+			} else if (segments[3] == "advis_kategori" || segments[3] == "advis_sub_kategori" || segments[3] == "advis_sumber_data") && method == "GET" {
+				return false
+			}
+
+			if (segments[3] == "advis_analytics" || segments[3] == "advis_list_data") && method == "GET" && (ctx.Action.DataID == "" || ctx.Action.DataID == "template_csv") {
 				return false
 			}
 

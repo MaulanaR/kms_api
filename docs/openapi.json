@@ -14,10 +14,1905 @@
   "servers": [
     {
       "description": "Local",
-      "url": "http://127.0.0.1:4001"
+      "url": "http://127.0.0.1"
     }
   ],
   "paths": {
+    "/api/v1/advis_analytics": {
+      "post": {
+        "description": "Use this method to create AdvisAnalytic",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisAnalytic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisAnalytic"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create AdvisAnalytic",
+        "tags": [
+          "AdvisAnalytic"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of AdvisAnalytic",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisAnalyticList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisAnalytic",
+        "tags": [
+          "AdvisAnalytic"
+        ]
+      }
+    },
+    "/api/v1/advis_analytics/{id}": {
+      "get": {
+        "description": "Use this method to get AdvisAnalytic by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisAnalytic"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisAnalytic By ID",
+        "tags": [
+          "AdvisAnalytic"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update AdvisAnalytic by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisAnalytic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisAnalytic"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update AdvisAnalytic By ID",
+        "tags": [
+          "AdvisAnalytic"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update AdvisAnalytic by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisAnalytic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisAnalytic"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update AdvisAnalytic By ID",
+        "tags": [
+          "AdvisAnalytic"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete AdvisAnalytic by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisAnalytic"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisAnalytic"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete AdvisAnalytic By ID",
+        "tags": [
+          "AdvisAnalytic"
+        ]
+      }
+    },
+    "/api/v1/advis_kategori": {
+      "post": {
+        "description": "Use this method to create AdvisKategori",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create AdvisKategori",
+        "tags": [
+          "AdvisKategori"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of AdvisKategori",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisKategoriList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisKategori",
+        "tags": [
+          "AdvisKategori"
+        ]
+      }
+    },
+    "/api/v1/advis_kategori/{id}": {
+      "get": {
+        "description": "Use this method to get AdvisKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisKategori By ID",
+        "tags": [
+          "AdvisKategori"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update AdvisKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update AdvisKategori By ID",
+        "tags": [
+          "AdvisKategori"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update AdvisKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update AdvisKategori By ID",
+        "tags": [
+          "AdvisKategori"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete AdvisKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete AdvisKategori By ID",
+        "tags": [
+          "AdvisKategori"
+        ]
+      }
+    },
+    "/api/v1/advis_list_data": {
+      "post": {
+        "description": "Use this method to create AdvisListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisListData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisListData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create AdvisListData",
+        "tags": [
+          "AdvisListData"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of AdvisListData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisListDataList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisListData",
+        "tags": [
+          "AdvisListData"
+        ]
+      }
+    },
+    "/api/v1/advis_list_data/{id}": {
+      "get": {
+        "description": "Use this method to get AdvisListData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisListData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisListData By ID",
+        "tags": [
+          "AdvisListData"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update AdvisListData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisListData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisListData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update AdvisListData By ID",
+        "tags": [
+          "AdvisListData"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update AdvisListData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisListData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisListData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update AdvisListData By ID",
+        "tags": [
+          "AdvisListData"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete AdvisListData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisListData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisListData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete AdvisListData By ID",
+        "tags": [
+          "AdvisListData"
+        ]
+      }
+    },
+    "/api/v1/advis_sub_kategori": {
+      "post": {
+        "description": "Use this method to create AdvisSubKategori",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSubKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSubKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create AdvisSubKategori",
+        "tags": [
+          "AdvisSubKategori"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of AdvisSubKategori",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSubKategoriList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisSubKategori",
+        "tags": [
+          "AdvisSubKategori"
+        ]
+      }
+    },
+    "/api/v1/advis_sub_kategori/{id}": {
+      "get": {
+        "description": "Use this method to get AdvisSubKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSubKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisSubKategori By ID",
+        "tags": [
+          "AdvisSubKategori"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update AdvisSubKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSubKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSubKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update AdvisSubKategori By ID",
+        "tags": [
+          "AdvisSubKategori"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update AdvisSubKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSubKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSubKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update AdvisSubKategori By ID",
+        "tags": [
+          "AdvisSubKategori"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete AdvisSubKategori by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSubKategori"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSubKategori"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete AdvisSubKategori By ID",
+        "tags": [
+          "AdvisSubKategori"
+        ]
+      }
+    },
+    "/api/v1/advis_sumber_data": {
+      "post": {
+        "description": "Use this method to create AdvisSumberData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSumberData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSumberData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create AdvisSumberData",
+        "tags": [
+          "AdvisSumberData"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of AdvisSumberData",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSumberDataList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisSumberData",
+        "tags": [
+          "AdvisSumberData"
+        ]
+      }
+    },
+    "/api/v1/advis_sumber_data/{id}": {
+      "get": {
+        "description": "Use this method to get AdvisSumberData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSumberData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get AdvisSumberData By ID",
+        "tags": [
+          "AdvisSumberData"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update AdvisSumberData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSumberData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSumberData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update AdvisSumberData By ID",
+        "tags": [
+          "AdvisSumberData"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update AdvisSumberData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSumberData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSumberData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update AdvisSumberData By ID",
+        "tags": [
+          "AdvisSumberData"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete AdvisSumberData by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdvisSumberData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvisSumberData"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete AdvisSumberData By ID",
+        "tags": [
+          "AdvisSumberData"
+        ]
+      }
+    },
     "/api/v1/akademi": {
       "post": {
         "description": "Use this method to create Akademi",
@@ -713,69 +2608,6 @@
       }
     },
     "/api/v1/dislike": {
-      "post": {
-        "description": "Use this method to create Dislike",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Dislike"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dislike"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Create Dislike",
-        "tags": [
-          "Dislike"
-        ]
-      },
       "get": {
         "description": "Use this method to get list of Dislike",
         "parameters": [
@@ -888,204 +2720,6 @@
           }
         },
         "summary": "Get Dislike By ID",
-        "tags": [
-          "Dislike"
-        ]
-      },
-      "put": {
-        "description": "Use this method to update Dislike by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Dislike"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dislike"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Update Dislike By ID",
-        "tags": [
-          "Dislike"
-        ]
-      },
-      "patch": {
-        "description": "Use this method to partially update Dislike by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Dislike"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dislike"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Partially Update Dislike By ID",
-        "tags": [
-          "Dislike"
-        ]
-      },
-      "delete": {
-        "description": "Use this method to delete Dislike by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Dislike"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dislike"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Delete Dislike By ID",
         "tags": [
           "Dislike"
         ]
@@ -1467,6 +3101,385 @@
         "summary": "Delete Dokumen By ID",
         "tags": [
           "Dokumen"
+        ]
+      }
+    },
+    "/api/v1/dokumen_map": {
+      "post": {
+        "description": "Use this method to create DokumenMap",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DokumenMap"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DokumenMap"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create DokumenMap",
+        "tags": [
+          "DokumenMap"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of DokumenMap",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DokumenMapList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get DokumenMap",
+        "tags": [
+          "DokumenMap"
+        ]
+      }
+    },
+    "/api/v1/dokumen_map/{id}": {
+      "get": {
+        "description": "Use this method to get DokumenMap by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DokumenMap"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get DokumenMap By ID",
+        "tags": [
+          "DokumenMap"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update DokumenMap by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DokumenMap"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DokumenMap"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update DokumenMap By ID",
+        "tags": [
+          "DokumenMap"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update DokumenMap by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DokumenMap"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DokumenMap"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update DokumenMap By ID",
+        "tags": [
+          "DokumenMap"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete DokumenMap by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DokumenMap"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DokumenMap"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete DokumenMap By ID",
+        "tags": [
+          "DokumenMap"
         ]
       }
     },
@@ -2607,6 +4620,128 @@
         ]
       }
     },
+    "/api/v1/events/{id}/live_komentar": {
+      "get": {
+        "description": "Use this method to get Event by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Event By ID",
+        "tags": [
+          "Event"
+        ]
+      },
+      "post": {
+        "description": "Use this method to create Event",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Event"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Event",
+        "tags": [
+          "Event"
+        ]
+      }
+    },
     "/api/v1/forum": {
       "post": {
         "description": "Use this method to create Cop",
@@ -3119,6 +5254,385 @@
         "summary": "Partially Update Like By ID",
         "tags": [
           "Like"
+        ]
+      }
+    },
+    "/api/v1/history_points": {
+      "post": {
+        "description": "Use this method to create HistoryPoint",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryPoint"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryPoint"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create HistoryPoint",
+        "tags": [
+          "HistoryPoint"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of HistoryPoint",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryPointList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get HistoryPoint",
+        "tags": [
+          "HistoryPoint"
+        ]
+      }
+    },
+    "/api/v1/history_points/{id}": {
+      "get": {
+        "description": "Use this method to get HistoryPoint by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryPoint"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get HistoryPoint By ID",
+        "tags": [
+          "HistoryPoint"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update HistoryPoint by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryPoint"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryPoint"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update HistoryPoint By ID",
+        "tags": [
+          "HistoryPoint"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update HistoryPoint by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryPoint"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryPoint"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update HistoryPoint By ID",
+        "tags": [
+          "HistoryPoint"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete HistoryPoint by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryPoint"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryPoint"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete HistoryPoint By ID",
+        "tags": [
+          "HistoryPoint"
         ]
       }
     },
@@ -5841,141 +8355,9 @@
         "tags": [
           "Dislike"
         ]
-      },
-      "post": {
-        "description": "Use this method to partially update Dislike by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Dislike"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Dislike"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Partially Update Dislike By ID",
-        "tags": [
-          "Dislike"
-        ]
       }
     },
     "/api/v1/leader_talk/{id}/like": {
-      "post": {
-        "description": "Use this method to partially update Like by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Like"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Partially Update Like By ID",
-        "tags": [
-          "Like"
-        ]
-      },
       "post": {
         "description": "Use this method to partially update Like by id",
         "parameters": [
@@ -6422,10 +8804,81 @@
         ]
       }
     },
-    "/api/v1/like": {
+    "/api/v1/library_cafe/{id}/dislike": {
       "post": {
-        "description": "Use this method to create Like",
+        "description": "Use this method to partially update Dislike by id",
         "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dislike"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dislike"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Dislike By ID",
+        "tags": [
+          "Dislike"
+        ]
+      }
+    },
+    "/api/v1/library_cafe/{id}/like": {
+      "post": {
+        "description": "Use this method to partially update Like by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
           }
@@ -6481,11 +8934,13 @@
             "description": "User doesn't have permission to access the resource."
           }
         },
-        "summary": "Create Like",
+        "summary": "Partially Update Like By ID",
         "tags": [
           "Like"
         ]
-      },
+      }
+    },
+    "/api/v1/like": {
       "get": {
         "description": "Use this method to get list of Like",
         "parameters": [
@@ -6598,204 +9053,6 @@
           }
         },
         "summary": "Get Like By ID",
-        "tags": [
-          "Like"
-        ]
-      },
-      "put": {
-        "description": "Use this method to update Like by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Like"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Update Like By ID",
-        "tags": [
-          "Like"
-        ]
-      },
-      "patch": {
-        "description": "Use this method to partially update Like by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Like"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Partially Update Like By ID",
-        "tags": [
-          "Like"
-        ]
-      },
-      "delete": {
-        "description": "Use this method to delete Like by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Like"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Delete Like By ID",
         "tags": [
           "Like"
         ]
@@ -7245,72 +9502,9 @@
         ]
       }
     },
-    "/api/v1/narasumber": {
-      "post": {
-        "description": "Use this method to create Narasumber",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Narasumber"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Narasumber"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Create Narasumber",
-        "tags": [
-          "Narasumber"
-        ]
-      },
+    "/api/v1/mix_slider": {
       "get": {
-        "description": "Use this method to get list of Narasumber",
+        "description": "Use this method to get list of Pengetahuan",
         "parameters": [
           {
             "$ref": "#/components/parameters/headerParam.Accept-Language"
@@ -7324,7 +9518,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NarasumberList"
+                  "$ref": "#/components/schemas/PengetahuanList"
                 }
               }
             },
@@ -7361,266 +9555,9 @@
             "description": "User doesn't have permission to access the resource."
           }
         },
-        "summary": "Get Narasumber",
+        "summary": "Get Pengetahuan",
         "tags": [
-          "Narasumber"
-        ]
-      }
-    },
-    "/api/v1/narasumber/{id}": {
-      "get": {
-        "description": "Use this method to get Narasumber by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Narasumber"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Get Narasumber By ID",
-        "tags": [
-          "Narasumber"
-        ]
-      },
-      "put": {
-        "description": "Use this method to update Narasumber by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Narasumber"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Narasumber"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Update Narasumber By ID",
-        "tags": [
-          "Narasumber"
-        ]
-      },
-      "patch": {
-        "description": "Use this method to partially update Narasumber by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Narasumber"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Narasumber"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Partially Update Narasumber By ID",
-        "tags": [
-          "Narasumber"
-        ]
-      },
-      "delete": {
-        "description": "Use this method to delete Narasumber by id",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/pathParam.ID"
-          },
-          {
-            "$ref": "#/components/parameters/headerParam.Accept-Language"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Narasumber"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Narasumber"
-                }
-              }
-            },
-            "description": "Success"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.BadRequest"
-                }
-              }
-            },
-            "description": "A validation exception has occurred."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Unauthorized"
-                }
-              }
-            },
-            "description": "Invalid authorization credentials."
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error.Forbidden"
-                }
-              }
-            },
-            "description": "User doesn't have permission to access the resource."
-          }
-        },
-        "summary": "Delete Narasumber By ID",
-        "tags": [
-          "Narasumber"
+          "Pengetahuan"
         ]
       }
     },
@@ -9655,6 +11592,65 @@
         ]
       }
     },
+    "/api/v1/search_forum": {
+      "get": {
+        "description": "Use this method to get list of Cop",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CopList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Cop",
+        "tags": [
+          "Cop"
+        ]
+      }
+    },
     "/api/v1/search_pengetahuan": {
       "get": {
         "description": "Use this method to get list of Pengetahuan",
@@ -9776,6 +11772,65 @@
         "summary": "Login Session",
         "tags": [
           "Login"
+        ]
+      }
+    },
+    "/api/v1/slider_pengetahuan": {
+      "get": {
+        "description": "Use this method to get list of Pengetahuan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PengetahuanList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Pengetahuan",
+        "tags": [
+          "Pengetahuan"
         ]
       }
     },
@@ -10916,6 +12971,65 @@
         ]
       }
     },
+    "/api/v1/total_summaries": {
+      "get": {
+        "description": "Use this method to get list of TotalSummary",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TotalSummaryList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get TotalSummary",
+        "tags": [
+          "TotalSummary"
+        ]
+      }
+    },
     "/api/v1/user": {
       "post": {
         "description": "Use this method to create User",
@@ -11360,7 +13474,15 @@
                 "type": "string"
               },
               "foto": {
-                "type": "string"
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -11369,6 +13491,9 @@
                 "type": "string"
               },
               "jenis": {
+                "type": "string"
+              },
+              "level": {
                 "type": "string"
               },
               "nama_lengkap": {
@@ -11386,10 +13511,10 @@
               "status_level": {
                 "type": "string"
               },
-              "unit_kerja": {
-                "type": "string"
+              "total_point": {
+                "type": "integer"
               },
-              "user_level": {
+              "unit_kerja": {
                 "type": "string"
               },
               "username": {
@@ -11397,6 +13522,844 @@
               }
             },
             "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisAnalytic": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "dashboard_url": {
+            "type": "string"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "file_url": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "img_url": {
+            "type": "string"
+          },
+          "judul": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "uraian": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisAnalyticList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "dashboard_url": {
+                  "type": "string"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "file_url": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "img_url": {
+                  "type": "string"
+                },
+                "judul": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "uraian": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisKategori": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "nama_kategori": {
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisKategoriList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "nama_kategori": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisListData": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "nama_data": {
+            "type": "string"
+          },
+          "sub_kategori": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "kategori": {
+                "nama": {
+                  "type": "string"
+                },
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "nama": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "sumber_data": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "keterangan": {
+                "type": "string"
+              },
+              "nama": {
+                "type": "string"
+              },
+              "singkat": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "url_data": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisListDataList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "nama_data": {
+                  "type": "string"
+                },
+                "sub_kategori": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "kategori": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "nama": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "sumber_data": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "keterangan": {
+                      "type": "string"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "singkat": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "url_data": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisSubKategori": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "nama_sub_kategori": {
+            "type": "string"
+          },
+          "ref_kategori_id": {
+            "type": "integer"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisSubKategoriList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "nama_sub_kategori": {
+                  "type": "string"
+                },
+                "ref_kategori_id": {
+                  "type": "integer"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisSumberData": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "AdvisSumberDataList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -11487,6 +14450,28 @@
             "format": "date-time",
             "type": "string"
           },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           "extension": {
             "type": "string"
           },
@@ -11505,6 +14490,17 @@
           "updated_at": {
             "format": "date-time",
             "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
           "url": {
             "type": "string"
@@ -11555,6 +14551,28 @@
                   "format": "date-time",
                   "type": "string"
                 },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
                 "extension": {
                   "type": "string"
                 },
@@ -11573,6 +14591,17 @@
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 },
                 "url": {
                   "type": "string"
@@ -11624,12 +14653,26 @@
           "results": {
             "items": {
               "properties": {
+                "akademi_knowledge": {
+                  "type": "string"
+                },
                 "created_at": {
                   "format": "date-time",
                   "type": "string"
                 },
                 "created_by": {
                   "properties": {
+                    "foto": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
                     "id": {
                       "type": "integer"
                     },
@@ -11784,15 +14827,15 @@
                 "type": "string"
               },
               "foto": {
+                "nama": {
+                  "type": "string"
+                },
                 "properties": {
-                  "nama": {
-                    "type": "string"
+                  "id": {
+                    "type": "integer"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -11915,15 +14958,15 @@
                       "type": "string"
                     },
                     "foto": {
-                      "nama": {
-                        "type": "string"
-                      },
                       "properties": {
                         "id": {
                           "type": "integer"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -12159,6 +15202,206 @@
         },
         "type": "object"
       },
+      "DokumenMap": {
+        "properties": {
+          "broadcast": {
+            "properties": {
+              "end": {
+                "format": "date",
+                "type": "string"
+              },
+              "start": {
+                "format": "date",
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "dokumen": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "nama": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "DokumenMapList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "broadcast": {
+                  "properties": {
+                    "end": {
+                      "format": "date",
+                      "type": "string"
+                    },
+                    "start": {
+                      "format": "date",
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "dokumen": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "Elibrary": {
         "properties": {
           "created_at": {
@@ -12187,11 +15430,33 @@
             },
             "type": "object"
           },
-          "dokumen_id": {
-            "type": "integer"
+          "dokumen": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "nama": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
-          "gambar_id": {
-            "type": "integer"
+          "gambar": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "nama": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
           "id": {
             "type": "integer"
@@ -12202,8 +15467,16 @@
           "judul_buku": {
             "type": "string"
           },
-          "kategori_buku_id": {
-            "type": "integer"
+          "kategori_buku": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "nama": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
           "lokasi_gedung": {
             "type": "string"
@@ -12213,6 +15486,17 @@
           },
           "ruangan": {
             "type": "string"
+          },
+          "statistik": {
+            "properties": {
+              "komentar": {
+                "type": "integer"
+              },
+              "view": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
           },
           "unit_kerja": {
             "type": "string"
@@ -12300,11 +15584,33 @@
                   },
                   "type": "object"
                 },
-                "dokumen_id": {
-                  "type": "integer"
+                "dokumen": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 },
-                "gambar_id": {
-                  "type": "integer"
+                "gambar": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 },
                 "id": {
                   "type": "integer"
@@ -12315,8 +15621,16 @@
                 "judul_buku": {
                   "type": "string"
                 },
-                "kategori_buku_id": {
-                  "type": "integer"
+                "kategori_buku": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 },
                 "lokasi_gedung": {
                   "type": "string"
@@ -12326,6 +15640,17 @@
                 },
                 "ruangan": {
                   "type": "string"
+                },
+                "statistik": {
+                  "properties": {
+                    "komentar": {
+                      "type": "integer"
+                    },
+                    "view": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
                 },
                 "unit_kerja": {
                   "type": "string"
@@ -12444,8 +15769,48 @@
             },
             "type": "object"
           },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           "id": {
             "type": "integer"
+          },
+          "live_komentar": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "komentar": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
           },
           "lokasi": {
             "type": "string"
@@ -12523,6 +15888,32 @@
           "nama": {
             "type": "string"
           },
+          "other_attachments": {
+            "items": {
+              "properties": {
+                "extension": {
+                  "type": "string"
+                },
+                "filename": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "size": {
+                  "type": "integer"
+                },
+                "storage_location": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
           "tanggal_mulai": {
             "format": "date",
             "type": "string"
@@ -12537,6 +15928,17 @@
           "updated_at": {
             "format": "date-time",
             "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
           },
           "uraian": {
             "type": "string"
@@ -12615,8 +16017,48 @@
                   },
                   "type": "object"
                 },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
                 "id": {
                   "type": "integer"
+                },
+                "live_komentar": {
+                  "items": {
+                    "properties": {
+                      "created_at": {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      "created_by": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "username": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "komentar": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
                 },
                 "lokasi": {
                   "type": "string"
@@ -12694,6 +16136,32 @@
                 "nama": {
                   "type": "string"
                 },
+                "other_attachments": {
+                  "items": {
+                    "properties": {
+                      "extension": {
+                        "type": "string"
+                      },
+                      "filename": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "integer"
+                      },
+                      "size": {
+                        "type": "integer"
+                      },
+                      "storage_location": {
+                        "type": "string"
+                      },
+                      "url": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
                 "tanggal_mulai": {
                   "format": "date",
                   "type": "string"
@@ -12708,6 +16176,17 @@
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 },
                 "uraian": {
                   "type": "string"
@@ -12898,12 +16377,26 @@
       },
       "Forum": {
         "properties": {
+          "akademi_knowledge": {
+            "type": "string"
+          },
           "created_at": {
             "format": "date-time",
             "type": "string"
           },
           "created_by": {
             "properties": {
+              "foto": {
+                "id": {
+                  "type": "integer"
+                },
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
               "id": {
                 "type": "integer"
               },
@@ -12998,6 +16491,422 @@
               }
             },
             "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "HistoryPoint": {
+        "properties": {
+          "adjustment_point": {
+            "type": "integer"
+          },
+          "after": {
+            "type": "integer"
+          },
+          "before": {
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "pengetahuan": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "jenis_pengetahuan": {
+                "nama": {
+                  "type": "string"
+                },
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "judul": {
+                "type": "string"
+              },
+              "lingkup_pengetahuan": {
+                "nama": {
+                  "type": "string"
+                },
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "ringkasan": {
+                "type": "string"
+              },
+              "status_pengetahuan": {
+                "id": {
+                  "type": "integer"
+                },
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "subjenis_pengetahuan": {
+                "nama": {
+                  "type": "string"
+                },
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "thumbnail": {
+                "id": {
+                  "type": "integer"
+                },
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "user": {
+            "properties": {
+              "email": {
+                "type": "string"
+              },
+              "foto": {
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
+              },
+              "id": {
+                "type": "integer"
+              },
+              "jabatan": {
+                "type": "string"
+              },
+              "jenis": {
+                "type": "string"
+              },
+              "level": {
+                "type": "string"
+              },
+              "nama_lengkap": {
+                "type": "string"
+              },
+              "nama_panggilan": {
+                "type": "string"
+              },
+              "nip": {
+                "type": "string"
+              },
+              "orang": {
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              },
+              "status_level": {
+                "type": "string"
+              },
+              "unit_kerja": {
+                "type": "string"
+              },
+              "user_level": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "HistoryPointList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "adjustment_point": {
+                  "type": "integer"
+                },
+                "after": {
+                  "type": "integer"
+                },
+                "before": {
+                  "type": "integer"
+                },
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "pengetahuan": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "jenis_pengetahuan": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "judul": {
+                      "type": "string"
+                    },
+                    "lingkup_pengetahuan": {
+                      "nama": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "ringkasan": {
+                      "type": "string"
+                    },
+                    "status_pengetahuan": {
+                      "nama": {
+                        "type": "string"
+                      },
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "subjenis_pengetahuan": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "thumbnail": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "user": {
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "foto": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "jabatan": {
+                      "type": "string"
+                    },
+                    "jenis": {
+                      "type": "string"
+                    },
+                    "level": {
+                      "type": "string"
+                    },
+                    "nama_lengkap": {
+                      "type": "string"
+                    },
+                    "nama_panggilan": {
+                      "type": "string"
+                    },
+                    "nip": {
+                      "type": "string"
+                    },
+                    "orang": {
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "status_level": {
+                      "type": "string"
+                    },
+                    "unit_kerja": {
+                      "type": "string"
+                    },
+                    "user_level": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
           }
         },
         "type": "object"
@@ -13526,6 +17435,14 @@
             "format": "date-time",
             "type": "string"
           },
+          "elibrary": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
           "forum": {
             "properties": {
               "id": {
@@ -13592,8 +17509,8 @@
               },
               "foto": {
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "nama": {
+                    "type": "string"
                   }
                 },
                 "type": "object",
@@ -13677,6 +17594,14 @@
                   "format": "date-time",
                   "type": "string"
                 },
+                "elibrary": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                },
                 "forum": {
                   "properties": {
                     "id": {
@@ -13742,15 +17667,15 @@
                       "type": "string"
                     },
                     "foto": {
+                      "nama": {
+                        "type": "string"
+                      },
                       "properties": {
-                        "nama": {
+                        "url": {
                           "type": "string"
                         }
                       },
-                      "type": "object",
-                      "url": {
-                        "type": "string"
-                      }
+                      "type": "object"
                     },
                     "id": {
                       "type": "integer"
@@ -14127,6 +18052,20 @@
           "deskripsi": {
             "type": "string"
           },
+          "dokumen": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "nama": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           "gambar": {
             "properties": {
               "id": {
@@ -14255,6 +18194,20 @@
                 },
                 "deskripsi": {
                   "type": "string"
+                },
+                "dokumen": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
                 },
                 "gambar": {
                   "properties": {
@@ -14504,8 +18457,8 @@
                       "type": "string"
                     },
                     "foto": {
-                      "nama": {
-                        "type": "string"
+                      "id": {
+                        "type": "integer"
                       },
                       "properties": {
                         "url": {
@@ -14643,88 +18596,11 @@
         },
         "type": "object"
       },
-      "Narasumber": {
-        "properties": {
-          "created_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "id": {
-            "type": "integer"
-          },
-          "nama": {
-            "type": "string"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "NarasumberList": {
-        "properties": {
-          "count": {
-            "type": "integer"
-          },
-          "links": {
-            "properties": {
-              "first": {
-                "type": "string"
-              },
-              "last": {
-                "type": "string"
-              },
-              "next": {
-                "type": "string"
-              },
-              "previous": {
-                "type": "string"
-              }
-            },
-            "type": "object"
-          },
-          "page_context": {
-            "properties": {
-              "page": {
-                "type": "integer"
-              },
-              "per_page": {
-                "type": "integer"
-              },
-              "total_pages": {
-                "type": "integer"
-              }
-            },
-            "type": "object"
-          },
-          "results": {
-            "items": {
-              "properties": {
-                "created_at": {
-                  "format": "date-time",
-                  "type": "string"
-                },
-                "id": {
-                  "type": "integer"
-                },
-                "nama": {
-                  "type": "string"
-                },
-                "updated_at": {
-                  "format": "date-time",
-                  "type": "string"
-                }
-              },
-              "type": "object"
-            },
-            "type": "array"
-          }
-        },
-        "type": "object"
-      },
       "Orang": {
         "properties": {
+          "alamat": {
+            "type": "string"
+          },
           "created_at": {
             "format": "date-time",
             "type": "string"
@@ -14759,16 +18635,32 @@
           "jabatan": {
             "type": "string"
           },
+          "jenis_kelamin": {
+            "type": "string"
+          },
           "nama_lengkap": {
             "type": "string"
           },
           "nama_panggilan": {
             "type": "string"
           },
+          "nik": {
+            "type": "string"
+          },
           "nip": {
             "type": "string"
           },
           "status_level": {
+            "type": "string"
+          },
+          "telp": {
+            "type": "string"
+          },
+          "tempat_lahir": {
+            "type": "string"
+          },
+          "tgl_lahir": {
+            "format": "date",
             "type": "string"
           },
           "unit_kerja": {
@@ -14826,6 +18718,9 @@
           "results": {
             "items": {
               "properties": {
+                "alamat": {
+                  "type": "string"
+                },
                 "created_at": {
                   "format": "date-time",
                   "type": "string"
@@ -14860,16 +18755,32 @@
                 "jabatan": {
                   "type": "string"
                 },
+                "jenis_kelamin": {
+                  "type": "string"
+                },
                 "nama_lengkap": {
                   "type": "string"
                 },
                 "nama_panggilan": {
                   "type": "string"
                 },
+                "nik": {
+                  "type": "string"
+                },
                 "nip": {
                   "type": "string"
                 },
                 "status_level": {
+                  "type": "string"
+                },
+                "telp": {
+                  "type": "string"
+                },
+                "tempat_lahir": {
+                  "type": "string"
+                },
+                "tgl_lahir": {
+                  "format": "date",
                   "type": "string"
                 },
                 "unit_kerja": {
@@ -15147,6 +19058,17 @@
           },
           "created_by": {
             "properties": {
+              "foto": {
+                "properties": {
+                  "nama": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
+              },
               "id": {
                 "type": "integer"
               },
@@ -15179,6 +19101,18 @@
           "dokumen": {
             "items": {
               "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                },
                 "id": {
                   "type": "integer"
                 },
@@ -15262,10 +19196,55 @@
           "narasumber": {
             "items": {
               "properties": {
+                "alamat": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "foto": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nama": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
                 "id": {
                   "type": "string"
                 },
-                "nama": {
+                "jabatan": {
+                  "type": "string"
+                },
+                "jenis_kelamin": {
+                  "type": "string"
+                },
+                "nama_lengkap": {
+                  "type": "string"
+                },
+                "nama_panggilan": {
+                  "type": "string"
+                },
+                "nik": {
+                  "type": "string"
+                },
+                "nip": {
+                  "type": "string"
+                },
+                "telp": {
+                  "type": "string"
+                },
+                "tempat_lahir": {
+                  "type": "string"
+                },
+                "tgl_lahir": {
+                  "format": "date",
                   "type": "string"
                 }
               },
@@ -15316,15 +19295,15 @@
           "penulis_1": {
             "properties": {
               "foto": {
-                "id": {
-                  "type": "string"
-                },
                 "properties": {
                   "nama": {
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -15341,15 +19320,15 @@
           "penulis_2": {
             "properties": {
               "foto": {
-                "nama": {
-                  "type": "string"
-                },
                 "properties": {
                   "id": {
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -15366,11 +19345,11 @@
           "penulis_3": {
             "properties": {
               "foto": {
-                "id": {
+                "nama": {
                   "type": "string"
                 },
                 "properties": {
-                  "nama": {
+                  "id": {
                     "type": "string"
                   }
                 },
@@ -15469,6 +19448,9 @@
             "properties": {
               "id": {
                 "type": "integer"
+              },
+              "is_show": {
+                "type": "boolean"
               },
               "nama": {
                 "type": "string"
@@ -15616,6 +19598,17 @@
                 },
                 "created_by": {
                   "properties": {
+                    "foto": {
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        }
+                      },
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
+                    },
                     "id": {
                       "type": "integer"
                     },
@@ -15648,6 +19641,18 @@
                 "dokumen": {
                   "items": {
                     "properties": {
+                      "created_at": {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      "created_by": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
                       "id": {
                         "type": "integer"
                       },
@@ -15731,10 +19736,55 @@
                 "narasumber": {
                   "items": {
                     "properties": {
+                      "alamat": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "foto": {
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nama": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
                       "id": {
                         "type": "string"
                       },
-                      "nama": {
+                      "jabatan": {
+                        "type": "string"
+                      },
+                      "jenis_kelamin": {
+                        "type": "string"
+                      },
+                      "nama_lengkap": {
+                        "type": "string"
+                      },
+                      "nama_panggilan": {
+                        "type": "string"
+                      },
+                      "nik": {
+                        "type": "string"
+                      },
+                      "nip": {
+                        "type": "string"
+                      },
+                      "telp": {
+                        "type": "string"
+                      },
+                      "tempat_lahir": {
+                        "type": "string"
+                      },
+                      "tgl_lahir": {
+                        "format": "date",
                         "type": "string"
                       }
                     },
@@ -15785,15 +19835,15 @@
                 "penulis_1": {
                   "properties": {
                     "foto": {
+                      "id": {
+                        "type": "string"
+                      },
                       "properties": {
-                        "nama": {
+                        "url": {
                           "type": "string"
                         }
                       },
-                      "type": "object",
-                      "url": {
-                        "type": "string"
-                      }
+                      "type": "object"
                     },
                     "id": {
                       "type": "integer"
@@ -15810,15 +19860,15 @@
                 "penulis_2": {
                   "properties": {
                     "foto": {
+                      "id": {
+                        "type": "string"
+                      },
                       "properties": {
-                        "id": {
+                        "url": {
                           "type": "string"
                         }
                       },
-                      "type": "object",
-                      "url": {
-                        "type": "string"
-                      }
+                      "type": "object"
                     },
                     "id": {
                       "type": "integer"
@@ -15835,15 +19885,15 @@
                 "penulis_3": {
                   "properties": {
                     "foto": {
-                      "id": {
-                        "type": "string"
-                      },
                       "properties": {
-                        "nama": {
+                        "id": {
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -15938,6 +19988,9 @@
                   "properties": {
                     "id": {
                       "type": "integer"
+                    },
+                    "is_show": {
+                      "type": "boolean"
                     },
                     "nama": {
                       "type": "string"
@@ -16208,6 +20261,9 @@
           "id": {
             "type": "integer"
           },
+          "is_show": {
+            "type": "boolean"
+          },
           "nama": {
             "type": "string"
           },
@@ -16263,6 +20319,9 @@
                 },
                 "id": {
                   "type": "integer"
+                },
+                "is_show": {
+                  "type": "boolean"
                 },
                 "nama": {
                   "type": "string"
@@ -16359,8 +20418,70 @@
         },
         "type": "object"
       },
+      "TotalSummaryList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "total_contributors": {
+                  "type": "integer"
+                },
+                "total_documents": {
+                  "type": "integer"
+                },
+                "total_hits": {
+                  "type": "integer"
+                },
+                "total_threads": {
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
       "User": {
         "properties": {
+          "alamat": {
+            "type": "string"
+          },
           "created_at": {
             "format": "date-time",
             "type": "string"
@@ -16388,7 +20509,13 @@
           "jabatan": {
             "type": "string"
           },
-          "jenis": {
+          "jenis_kelamin": {
+            "type": "string"
+          },
+          "kategori": {
+            "type": "string"
+          },
+          "level": {
             "type": "string"
           },
           "nama_lengkap": {
@@ -16397,11 +20524,27 @@
           "nama_panggilan": {
             "type": "string"
           },
+          "nik": {
+            "type": "string"
+          },
           "nip": {
             "type": "string"
           },
           "status_level": {
             "type": "string"
+          },
+          "telp": {
+            "type": "string"
+          },
+          "tempat_lahir": {
+            "type": "string"
+          },
+          "tgl_lahir": {
+            "format": "date",
+            "type": "string"
+          },
+          "total_point": {
+            "type": "integer"
           },
           "unit_kerja": {
             "type": "string"
@@ -16458,6 +20601,9 @@
           "results": {
             "items": {
               "properties": {
+                "alamat": {
+                  "type": "string"
+                },
                 "created_at": {
                   "format": "date-time",
                   "type": "string"
@@ -16485,7 +20631,13 @@
                 "jabatan": {
                   "type": "string"
                 },
-                "jenis": {
+                "jenis_kelamin": {
+                  "type": "string"
+                },
+                "kategori": {
+                  "type": "string"
+                },
+                "level": {
                   "type": "string"
                 },
                 "nama_lengkap": {
@@ -16494,11 +20646,27 @@
                 "nama_panggilan": {
                   "type": "string"
                 },
+                "nik": {
+                  "type": "string"
+                },
                 "nip": {
                   "type": "string"
                 },
                 "status_level": {
                   "type": "string"
+                },
+                "telp": {
+                  "type": "string"
+                },
+                "tempat_lahir": {
+                  "type": "string"
+                },
+                "tgl_lahir": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "total_point": {
+                  "type": "integer"
                 },
                 "unit_kerja": {
                   "type": "string"
@@ -16575,9 +20743,6 @@
       "name": "Referensi"
     },
     {
-      "name": "Narasumber"
-    },
-    {
       "name": "Penerbit"
     },
     {
@@ -16621,6 +20786,30 @@
     },
     {
       "name": "Elibrary"
+    },
+    {
+      "name": "HistoryPoint"
+    },
+    {
+      "name": "DokumenMap"
+    },
+    {
+      "name": "TotalSummary"
+    },
+    {
+      "name": "AdvisAnalytic"
+    },
+    {
+      "name": "AdvisListData"
+    },
+    {
+      "name": "AdvisKategori"
+    },
+    {
+      "name": "AdvisSubKategori"
+    },
+    {
+      "name": "AdvisSumberData"
     }
   ],
   "externalDocs": {

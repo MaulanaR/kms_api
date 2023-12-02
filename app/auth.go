@@ -7,8 +7,6 @@ import (
 func RemoveExpiredToken() {
 	tx, err := DB().Conn("main")
 	if err == nil {
-		tx.Delete("access_token").
-			Where("expired_at < ?", time.Now()). // sesuai umur refresh token
-			Limit(10000)
+		tx.Where("expired_at < ?", time.Now()).Delete("access_token")
 	}
 }

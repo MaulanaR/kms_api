@@ -6,6 +6,11 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/accesstoken"
+	"github.com/maulanar/kms/src/advisanalytic"
+	"github.com/maulanar/kms/src/adviskategori"
+	"github.com/maulanar/kms/src/advislistdata"
+	"github.com/maulanar/kms/src/advissubkategori"
+	"github.com/maulanar/kms/src/advissumberdata"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
@@ -299,6 +304,43 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/dokumen_map/{id}", "DELETE", dokumenmap.REST().DeleteByID, dokumenmap.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/total_summaries", "GET", totalsummary.REST().Get, totalsummary.OpenAPI().Get())
+
+	app.Server().AddRoute("/api/v1/advis_analytics", "POST", advisanalytic.REST().Create, advisanalytic.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/advis_analytics", "GET", advisanalytic.REST().Get, advisanalytic.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_analytics/template_csv", "GET", advisanalytic.REST().DownloadTemplateCSV, advisanalytic.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_analytics/upload_csv", "POST", advisanalytic.REST().UploadCSV, advisanalytic.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_analytics/{id}", "GET", advisanalytic.REST().GetByID, advisanalytic.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/advis_analytics/{id}", "PUT", advisanalytic.REST().UpdateByID, advisanalytic.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/advis_analytics/{id}", "PATCH", advisanalytic.REST().PartiallyUpdateByID, advisanalytic.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/advis_analytics/{id}", "DELETE", advisanalytic.REST().DeleteByID, advisanalytic.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/advis_list_data", "POST", advislistdata.REST().Create, advislistdata.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/advis_list_data", "GET", advislistdata.REST().Get, advislistdata.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "GET", advislistdata.REST().GetByID, advislistdata.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "PUT", advislistdata.REST().UpdateByID, advislistdata.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "PATCH", advislistdata.REST().PartiallyUpdateByID, advislistdata.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "DELETE", advislistdata.REST().DeleteByID, advislistdata.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/advis_kategori", "POST", adviskategori.REST().Create, adviskategori.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/advis_kategori", "GET", adviskategori.REST().Get, adviskategori.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_kategori/{id}", "GET", adviskategori.REST().GetByID, adviskategori.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/advis_kategori/{id}", "PUT", adviskategori.REST().UpdateByID, adviskategori.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/advis_kategori/{id}", "PATCH", adviskategori.REST().PartiallyUpdateByID, adviskategori.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/advis_kategori/{id}", "DELETE", adviskategori.REST().DeleteByID, adviskategori.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/advis_sub_kategori", "POST", advissubkategori.REST().Create, advissubkategori.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/advis_sub_kategori", "GET", advissubkategori.REST().Get, advissubkategori.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_sub_kategori/{id}", "GET", advissubkategori.REST().GetByID, advissubkategori.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/advis_sub_kategori/{id}", "PUT", advissubkategori.REST().UpdateByID, advissubkategori.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/advis_sub_kategori/{id}", "PATCH", advissubkategori.REST().PartiallyUpdateByID, advissubkategori.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/advis_sub_kategori/{id}", "DELETE", advissubkategori.REST().DeleteByID, advissubkategori.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/advis_sumber_data", "POST", advissumberdata.REST().Create, advissumberdata.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/advis_sumber_data", "GET", advissumberdata.REST().Get, advissumberdata.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "GET", advissumberdata.REST().GetByID, advissumberdata.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "PUT", advissumberdata.REST().UpdateByID, advissumberdata.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "PATCH", advissumberdata.REST().PartiallyUpdateByID, advissumberdata.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "DELETE", advissumberdata.REST().DeleteByID, advissumberdata.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

@@ -3,6 +3,11 @@ package src
 import (
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/accesstoken"
+	"github.com/maulanar/kms/src/advisanalytic"
+	"github.com/maulanar/kms/src/adviskategori"
+	"github.com/maulanar/kms/src/advislistdata"
+	"github.com/maulanar/kms/src/advissubkategori"
+	"github.com/maulanar/kms/src/advissumberdata"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/dislike"
@@ -106,6 +111,11 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", historypoint.HistoryPoint{})
 	app.DB().RegisterTable("main", dokumenmap.DokumenMap{})
 	// app.DB().RegisterTable("main", totalsummary.TotalSummary{})
+	app.DB().RegisterTable("main", advisanalytic.AdvisAnalytic{})
+	app.DB().RegisterTable("main", advislistdata.AdvisListData{})
+	app.DB().RegisterTable("main", adviskategori.AdvisKategori{})
+	app.DB().RegisterTable("main", advissubkategori.AdvisSubKategori{})
+	app.DB().RegisterTable("main", advissumberdata.AdvisSumberData{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

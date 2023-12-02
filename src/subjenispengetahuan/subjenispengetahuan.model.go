@@ -5,14 +5,14 @@ import "github.com/maulanar/kms/app"
 // SubjenisPengetahuan is the main model of SubjenisPengetahuan data. It provides a convenient interface for app.ModelInterface
 type SubjenisPengetahuan struct {
 	app.Model
-	ID app.NullInt64 `json:"id"                     db:"m.id_subjenis_pengetahuan"   gorm:"column:id_subjenis_pengetahuan;primaryKey"`
+	ID app.NullInt64 `json:"id"         db:"m.id_subjenis_pengetahuan"   gorm:"column:id_subjenis_pengetahuan;primaryKey"`
 	// JenisPengetahuanID   app.NullInt64    `json:"jenis_pengetahuan.id"   db:"m.id_jenis_pengetahuan"      gorm:"column:id_jenis_pengetahuan"`
 	// JenisPengetahuanNama app.NullText     `json:"jenis_pengetahuan.nama" db:"jp.nama_jenis_pengetahuan"   gorm:"-"`
-	Nama      app.NullText     `json:"nama"                   db:"m.nama_subjenis_pengetahuan" gorm:"column:nama_subjenis_pengetahuan"`
-	IsShow    app.NullBool     `json:"is_show"                db:"m.is_show" gorm:"column:is_show;default:true"`
-	CreatedAt app.NullDateTime `json:"created_at"             db:"m.created_at"                gorm:"column:created_at"`
-	UpdatedAt app.NullDateTime `json:"updated_at"             db:"m.updated_at"                gorm:"column:updated_at"`
-	DeletedAt app.NullDateTime `json:"deleted_at"             db:"m.deleted_at,hide"           gorm:"column:deleted_at"`
+	Nama      app.NullText     `json:"nama"       db:"m.nama_subjenis_pengetahuan" gorm:"column:nama_subjenis_pengetahuan"`
+	IsShow    app.NullBool     `json:"is_show"    db:"m.is_show"                   gorm:"column:is_show;default:true"`
+	CreatedAt app.NullDateTime `json:"created_at" db:"m.created_at"                gorm:"column:created_at"`
+	UpdatedAt app.NullDateTime `json:"updated_at" db:"m.updated_at"                gorm:"column:updated_at"`
+	DeletedAt app.NullDateTime `json:"deleted_at" db:"m.deleted_at,hide"           gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the SubjenisPengetahuan end point, it used for cache key, etc.

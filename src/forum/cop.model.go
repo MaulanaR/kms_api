@@ -4,39 +4,39 @@ import "github.com/maulanar/kms/app"
 
 type Forum struct {
 	app.Model
-	ID                     app.NullInt64    `json:"id"                  db:"m.id"                                                             gorm:"column:id;primaryKey"`
-	Topik                  app.NullText     `json:"topik"               db:"m.topik"                                                          gorm:"column:topik"`
-	Kategori               app.NullString   `json:"kategori"            db:"m.kategori"                                                       gorm:"column:kategori"             validate:"oneof='cop' 'non-cop' 'umum'"`
-	Judul                  app.NullText     `json:"judul"               db:"m.judul"                                                          gorm:"column:judul"`
-	Deskripsi              app.NullText     `json:"deskripsi"           db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
-	AkademiKnowledge       app.NullString   `json:"akademi_knowledge"   db:"m.akademi_knowledge"                                              gorm:"column:akademi_knowledge" validate:"omitempty,oneof='Perekonomian' 'Polhukam' 'Pemda dan Desa' 'TK Korporasi' 'Forensik dan Investigasi' 'Umum'"`
-	GambarID               app.NullInt64    `json:"gambar.id"           db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
-	GambarFilename         app.NullString   `json:"gambar.filename"     db:"g.filename"                                                       gorm:"-"`
-	GambarUrl              app.NullString   `json:"gambar.url"          db:"g.url"                                                            gorm:"-"`
-	DokumenID              app.NullInt64    `json:"dokumen.id"          db:"m.dokumen_id"                                                     gorm:"column:dokumen_id"`
-	DokumenFilename        app.NullString   `json:"dokumen.filename"    db:"d.filename"                                                       gorm:"-"`
-	DokumenUrl             app.NullString   `json:"dokumen.url"         db:"d.url"                                                            gorm:"-"`
-	CreatedAt              app.NullDateTime `json:"created_at"          db:"m.created_at"                                                     gorm:"column:created_at"`
-	CreatedBy              app.NullInt64    `json:"created_by.id"       db:"m.created_by"                                                     gorm:"column:created_by"`
-	CreatedByUsername      app.NullString   `json:"created_by.username" db:"cbuser.username"                                                  gorm:"-"`
-	CreatedByOrangFotoID   app.NullInt64    `json:"created_by.foto.id"        db:"cbo.foto"                                                                                                                               gorm:"-"`
-	CreatedByOrangFotoUrl  app.NullString   `json:"created_by.foto.url"       db:"cbatt.url"                                                                                                                              gorm:"-"`
-	CreatedByOrangFotoNama app.NullString   `json:"created_by.foto.nama"      db:"cbatt.filename"                                                                                                                         gorm:"-"`
+	ID                     app.NullInt64    `json:"id"                   db:"m.id"                                                             gorm:"column:id;primaryKey"`
+	Topik                  app.NullText     `json:"topik"                db:"m.topik"                                                          gorm:"column:topik"`
+	Kategori               app.NullString   `json:"kategori"             db:"m.kategori"                                                       gorm:"column:kategori"             validate:"oneof='cop' 'non-cop' 'umum'"`
+	Judul                  app.NullText     `json:"judul"                db:"m.judul"                                                          gorm:"column:judul"`
+	Deskripsi              app.NullText     `json:"deskripsi"            db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
+	AkademiKnowledge       app.NullString   `json:"akademi_knowledge"    db:"m.akademi_knowledge"                                              gorm:"column:akademi_knowledge"    validate:"omitempty,oneof='Perekonomian' 'Polhukam' 'Pemda dan Desa' 'TK Korporasi' 'Forensik dan Investigasi' 'Umum'"`
+	GambarID               app.NullInt64    `json:"gambar.id"            db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
+	GambarFilename         app.NullString   `json:"gambar.filename"      db:"g.filename"                                                       gorm:"-"`
+	GambarUrl              app.NullString   `json:"gambar.url"           db:"g.url"                                                            gorm:"-"`
+	DokumenID              app.NullInt64    `json:"dokumen.id"           db:"m.dokumen_id"                                                     gorm:"column:dokumen_id"`
+	DokumenFilename        app.NullString   `json:"dokumen.filename"     db:"d.filename"                                                       gorm:"-"`
+	DokumenUrl             app.NullString   `json:"dokumen.url"          db:"d.url"                                                            gorm:"-"`
+	CreatedAt              app.NullDateTime `json:"created_at"           db:"m.created_at"                                                     gorm:"column:created_at"`
+	CreatedBy              app.NullInt64    `json:"created_by.id"        db:"m.created_by"                                                     gorm:"column:created_by"`
+	CreatedByUsername      app.NullString   `json:"created_by.username"  db:"cbuser.username"                                                  gorm:"-"`
+	CreatedByOrangFotoID   app.NullInt64    `json:"created_by.foto.id"   db:"cbo.foto"                                                         gorm:"-"`
+	CreatedByOrangFotoUrl  app.NullString   `json:"created_by.foto.url"  db:"cbatt.url"                                                        gorm:"-"`
+	CreatedByOrangFotoNama app.NullString   `json:"created_by.foto.nama" db:"cbatt.filename"                                                   gorm:"-"`
 
-	UpdatedBy         app.NullInt64    `json:"updated_by.id"       db:"m.updated_by"                                                     gorm:"column:updated_by"`
-	UpdatedByUsername app.NullString   `json:"updated_by.username" db:"ubuser.username"                                                  gorm:"-"`
-	DeletedBy         app.NullInt64    `json:"deleted_by.id"       db:"m.deleted_by"                                                     gorm:"column:deleted_by"`
-	DeletedByUsername app.NullString   `json:"deleted_by.username" db:"dbuser.username"                                                  gorm:"-"`
-	UpdatedAt         app.NullDateTime `json:"updated_at"          db:"m.updated_at"                                                     gorm:"column:updated_at"`
-	DeletedAt         app.NullDateTime `json:"deleted_at"          db:"m.deleted_at,hide"                                                gorm:"column:deleted_at"`
+	UpdatedBy         app.NullInt64    `json:"updated_by.id"        db:"m.updated_by"                                                     gorm:"column:updated_by"`
+	UpdatedByUsername app.NullString   `json:"updated_by.username"  db:"ubuser.username"                                                  gorm:"-"`
+	DeletedBy         app.NullInt64    `json:"deleted_by.id"        db:"m.deleted_by"                                                     gorm:"column:deleted_by"`
+	DeletedByUsername app.NullString   `json:"deleted_by.username"  db:"dbuser.username"                                                  gorm:"-"`
+	UpdatedAt         app.NullDateTime `json:"updated_at"           db:"m.updated_at"                                                     gorm:"column:updated_at"`
+	DeletedAt         app.NullDateTime `json:"deleted_at"           db:"m.deleted_at,hide"                                                gorm:"column:deleted_at"`
 
 	//statistik View, like, dislike, komentar
-	StatistikView     app.NullInt64 `json:"statistik.view"      db:"(CASE WHEN m.count_view > 0 THEN m.count_view ELSE 0 END)"        gorm:"column:count_view;default:0"`
-	StatistikLike     app.NullInt64 `json:"statistik.like"      db:"(SELECT COUNT(*) FROM t_like WHERE t_like.id_forum=m.id)"         gorm:"-"`
-	StatistikDislike  app.NullInt64 `json:"statistik.dislike"   db:"(SELECT COUNT(*) FROM t_dislike WHERE t_dislike.id_forum=m.id)"   gorm:"-"`
-	StatistikKomentar app.NullInt64 `json:"statistik.komentar"  db:"(SELECT COUNT(*) FROM t_komentar WHERE t_komentar.id_forum=m.id)" gorm:"-"`
-	IsLiked           app.NullBool  `json:"is_liked"            db:"-"                                                                gorm:"-"`
-	IsDisliked        app.NullBool  `json:"is_disliked"         db:"-"                                                                gorm:"-"`
+	StatistikView     app.NullInt64 `json:"statistik.view"       db:"(CASE WHEN m.count_view > 0 THEN m.count_view ELSE 0 END)"        gorm:"column:count_view;default:0"`
+	StatistikLike     app.NullInt64 `json:"statistik.like"       db:"(SELECT COUNT(*) FROM t_like WHERE t_like.id_forum=m.id)"         gorm:"-"`
+	StatistikDislike  app.NullInt64 `json:"statistik.dislike"    db:"(SELECT COUNT(*) FROM t_dislike WHERE t_dislike.id_forum=m.id)"   gorm:"-"`
+	StatistikKomentar app.NullInt64 `json:"statistik.komentar"   db:"(SELECT COUNT(*) FROM t_komentar WHERE t_komentar.id_forum=m.id)" gorm:"-"`
+	IsLiked           app.NullBool  `json:"is_liked"             db:"-"                                                                gorm:"-"`
+	IsDisliked        app.NullBool  `json:"is_disliked"          db:"-"                                                                gorm:"-"`
 }
 
 func (Forum) EndPoint() string {
