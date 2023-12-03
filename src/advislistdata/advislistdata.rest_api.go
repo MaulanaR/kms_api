@@ -1,8 +1,13 @@
 package advislistdata
 
 import (
+	"bytes"
+	"encoding/csv"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"grest.dev/grest"
@@ -172,6 +177,130 @@ func (r *RESTAPIHandler) DeleteByID(c *fiber.Ctx) error {
 			"advis_list_data": p.EndPoint(),
 			"id":              c.Params("id"),
 		}),
+	}
+	return c.JSON(res)
+}
+
+func (r *RESTAPIHandler) DownloadTemplateCSV(c *fiber.Ctx) error {
+	// Data untuk CSV
+	data := [][]string{
+		{"1", "2", "Nama Data Contoh", "http://example.com/file1.pdf", "administrator"},
+		// Tambahkan data lain jika diperlukan
+	}
+
+	// Membuat file CSV di memori
+	csvData := [][]string{{
+		"ref_sub_kategori_id",
+		"ref_sumber_data_id",
+		"nama_data",
+		"url_data",
+		"created_by",
+	}}
+	csvData = append(csvData, data...)
+
+	// Membuat file CSV
+	file, err := os.Create("TemplateAdvisListData.csv")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	// Penulisan data ke file CSV
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	err = writer.WriteAll(csvData)
+	if err != nil {
+		return err
+	}
+
+	// Atur header untuk file CSV
+	c.Set("Content-Disposition", "attachment; filename=TemplateAdvisListData.csv")
+	c.Set("Content-Type", "text/csv")
+
+	// Menghapus file setelah dikirim
+	defer os.Remove("TemplateAdvisListData.csv")
+
+	// Mengirim file CSV sebagai stream
+	err = c.SendFile("TemplateAdvisListData.csv")
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *RESTAPIHandler) UploadCSV(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+
+	form, err := c.MultipartForm()
+	if err != nil {
+		return err
+	}
+
+	files := form.File["files"]
+	if len(files) == 0 {
+		res := map[string]any{
+			"code":    http.StatusBadRequest,
+			"message": "Tidak ada file yang di-upload",
+		}
+		return c.JSON(res)
+	}
+
+	file := files[0]
+	fileContent, err := file.Open()
+	if err != nil {
+		return err
+	}
+	defer fileContent.Close()
+
+	// Baca isi file CSV
+	var buffer bytes.Buffer
+	_, err = io.Copy(&buffer, fileContent)
+	if err != nil {
+		return err
+	}
+
+	// Ubah isi buffer menjadi string
+	csvString := buffer.String()
+
+	// Baca sebagai CSV
+	reader := csv.NewReader(strings.NewReader(csvString))
+	records, err := reader.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	// Lakukan sesuatu dengan data CSV, contohnya tampilkan di console
+	for i, row := range records {
+		if i != 0 {
+			//save data
+			p := ParamCreate{}
+			subKatID, err2 := strconv.Atoi(row[0])
+			if err2 == nil {
+				p.SubKategoriID.Set(int64(subKatID))
+			}
+			sumberDataID, err2 := strconv.Atoi(row[1])
+			if err2 == nil {
+				p.SumberDataID.Set(int64(sumberDataID))
+			}
+			p.NamaData.Set(row[2])
+			p.UrlData.Set(row[3])
+			p.CreatedBy.Set(row[4])
+			p.Ctx = r.UseCase.Ctx
+			err = r.UseCase.Create(&p)
+			if err != nil {
+				return app.Error().Handler(c, err)
+			}
+		}
+	}
+
+	res := map[string]any{
+		"code":    http.StatusOK,
+		"message": "Data CSV berhasil di-Import",
 	}
 	return c.JSON(res)
 }

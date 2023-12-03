@@ -252,7 +252,7 @@ func (u *UseCaseHandler) setDefaultValue(old AdvisListData) error {
 		u.ID = old.ID
 	}
 
-	if u.Ctx.Action.Method == "POST" {
+	if u.Ctx.Action.Method == "POST" && !u.CreatedBy.Valid {
 		u.CreatedBy.Set(u.Ctx.User.OrangNama)
 	}
 

@@ -316,6 +316,8 @@ func (r *routerUtil) Configure() {
 
 	app.Server().AddRoute("/api/v1/advis_list_data", "POST", advislistdata.REST().Create, advislistdata.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/advis_list_data", "GET", advislistdata.REST().Get, advislistdata.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_list_data/template_csv", "GET", advislistdata.REST().DownloadTemplateCSV, advislistdata.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/advis_list_data/upload_csv", "POST", advislistdata.REST().UploadCSV, advislistdata.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "GET", advislistdata.REST().GetByID, advislistdata.OpenAPI().GetByID())
 	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "PUT", advislistdata.REST().UpdateByID, advislistdata.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/advis_list_data/{id}", "PATCH", advislistdata.REST().PartiallyUpdateByID, advislistdata.OpenAPI().PartiallyUpdateByID())

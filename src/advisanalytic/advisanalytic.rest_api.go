@@ -237,7 +237,11 @@ func (r *RESTAPIHandler) UploadCSV(c *fiber.Ctx) error {
 
 	files := form.File["files"]
 	if len(files) == 0 {
-		return c.Status(fiber.StatusBadRequest).SendString("Tidak ada file yang di-upload")
+		res := map[string]any{
+			"code":    http.StatusBadRequest,
+			"message": "Tidak ada file yang di-upload",
+		}
+		return c.JSON(res)
 	}
 
 	file := files[0]
@@ -282,5 +286,9 @@ func (r *RESTAPIHandler) UploadCSV(c *fiber.Ctx) error {
 		}
 	}
 
-	return c.SendString("Data CSV berhasil di-Import")
+	res := map[string]any{
+		"code":    http.StatusOK,
+		"message": "Data CSV berhasil di-Import",
+	}
+	return c.JSON(res)
 }
