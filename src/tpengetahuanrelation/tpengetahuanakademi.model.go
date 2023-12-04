@@ -573,7 +573,7 @@ func (p *TPengetahuanReferensiList) GetOpenAPISchema() map[string]any {
 // tpengetahuan dokumen
 type TPengetahuanDokumen struct {
 	app.Model
-	ID             app.NullInt64    `json:"-"              db:"tpdokumen.id_pengetahuan_dokumen" gorm:"column:id_pengetahuan_dokumen;primaryKey"`
+	ID             app.NullInt64    `json:"pengetahuan_dokumen.id"              db:"tpdokumen.id_pengetahuan_dokumen" gorm:"column:id_pengetahuan_dokumen;primaryKey"`
 	PengetahuanID  app.NullInt64    `json:"pengetahuan.id" db:"tpdokumen.id_pengetahuan,hide"    gorm:"column:id_pengetahuan"`
 	AttachmentID   app.NullInt64    `json:"id"             db:"tpdokumen.id_attachment"          gorm:"column:id_attachment"`
 	AttachmentNama app.NullText     `json:"nama"           db:"attachment.filename"              gorm:"-"`

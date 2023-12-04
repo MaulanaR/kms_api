@@ -5,7 +5,7 @@ import "github.com/maulanar/kms/app"
 type DokumenMap struct {
 	app.Model
 	ID                app.NullInt64    `json:"id"                  db:"tpdokumen.id_pengetahuan_dokumen"                                                gorm:"column:id_pengetahuan_dokumen;primaryKey"`
-	PengetahuanID     app.NullInt64    `json:"-"                   db:"tpdokumen.id_pengetahuan,hide"                                                   gorm:"column:id_pengetahuan"`
+	PengetahuanID     app.NullInt64    `json:"pengetahuan.id"      db:"tpdokumen.id_pengetahuan"                                                        gorm:"column:id_pengetahuan"`
 	AttachmentID      app.NullInt64    `json:"dokumen.id"          db:"tpdokumen.id_attachment"                                                         gorm:"column:id_attachment"`
 	AttachmentNama    app.NullText     `json:"dokumen.nama"        db:"attachment.filename"                                                             gorm:"-"`
 	AttachmentUrl     app.NullText     `json:"dokumen.url"         db:"attachment.url"                                                                  gorm:"-"`
@@ -41,6 +41,7 @@ func (DokumenMap) TableAliasName() string {
 
 func (m *DokumenMap) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_attachments", "attachment", []map[string]any{{"column1": "attachment.id", "column2": "tpdokumen.id_attachment"}})
+	m.AddRelation("left", "t_pengetahuan", "tp", []map[string]any{{"column1": "tp.id_pengetahuan", "column2": "tpdokumen.id_pengetahuan"}})
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "tpdokumen.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "tpdokumen.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "tpdokumen.deleted_by"}})
@@ -49,6 +50,7 @@ func (m *DokumenMap) GetRelations() map[string]map[string]any {
 }
 
 func (m *DokumenMap) GetFilters() []map[string]any {
+	m.AddFilter(map[string]any{"column1": "tp.deleted_at", "operator": "=", "value": nil})
 	return m.Filters
 }
 
