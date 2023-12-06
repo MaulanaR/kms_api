@@ -36,6 +36,7 @@ func (s *serverUtil) configure() {
 		ErrorHandler:          Error().Handler,
 		ReadBufferSize:        16384,
 		DisableStartupMessage: true,
+		BodyLimit:             21 * 1024 * 1024,
 	})
 	s.AddMiddleware(Error().Recover)
 }
