@@ -19,49 +19,20 @@ cp .env-example .env && vi .env
 go run main.go
 ```
 
-## Code Documentation
-1. Install godoc
-```bash
-go install golang.org/x/tools/cmd/godoc@latest
-```
-2. Run godoc in kms directory
-```bash
-godoc -http=:6060
-```
-3. Open http://localhost:6060/pkg/github.com/maulanar/kms in browser
-
-## Open API Documentation
-1. Update your open api documentation
-```bash
-go run main.go update
-```
-2. Start
-```bash
-go run main.go
-```
-3. Open http://localhost:4001/api/docs in browser
-
-## Test
-1. Make sure you have db with name `main_test.db` with credentials same as DB_XXX
-2. Test all with verbose output that lists all of the tests and their results.
-```bash
-ENV_FILE=$(pwd)/.env go test ./... -v
-```
-3. Test all with benchmark.
-```bash
-ENV_FILE=$(pwd)/.env go test ./... -bench=.
-```
-
 ## Build for production
-1. Compile packages and dependencies
-```bash
-go build -o kms main.go
-```
-2. Setup .env file for production
-```bash
-cp .env-example .env && vi .env
-```
-3. Run executable file with systemd, supervisor, pm2 or other process manager
-```bash
-./kms
-```
+1. Pastikan docker & golang (1.21.3) terinstal
+2. Buat folder "BE_KMS", buat folder "storages" didalam BE_KMS untuk attachments dan pastikan posisi user sedang berada didalam folder "BE_KMS" tsb.
+3. Buat file .env COPY dari .env-example dan sesuaikan nilai :
+    - APP_URL (default ke 127.0.0.1)
+    - DB_DATABASE
+    - DB_USERNAME
+    - DB_PASSWORD
+4. pastikan tidak ada image docker yang memiliki nama yg sama dengan yg akan di install, dengan run command ini : 
+    4.1 ```bash docker stop kms ```
+    4.2 ```bash docker rm kms ```
+5. Download image kms terbaru, dengan run command : 
+    ```bash docker pull maulanar/kms:latest ```
+6. Jalankan image yang telah di download, lalu jalankan command ini (baca note dibawah terlebih dahulu): 
+    ```bash docker run -d --name kms --restart always  --add-host=host.docker.internal:host-gateway  -p 4001:4001 -v /home/user-kms/be_kms/storages:/app/storages --env-file .env maulanar/kms:latest ```
+    NOTE : ganti /home/user-kms/be_kms/storages dengan realpath folder storage pada point 2, bisa dicek dengan cmd : pwd
+7. Dapat dicek dengan mengakses {{APP_URL}}:4001/api/v1/ping
