@@ -196,7 +196,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&p).Where("id_referensi = ?", old.ID).Updates(p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -243,7 +243,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	}
 
 	// update data on the db
-	err = tx.Model(&p).Where("id = ?", old.ID).Updates(p).Error
+	err = tx.Model(&p).Where("id_referensi = ?", old.ID).Updates(p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}

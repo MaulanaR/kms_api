@@ -8,6 +8,7 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/lingkuppengetahuan"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -326,6 +327,13 @@ func (u *UseCaseHandler) setDefaultValue(old Event) error {
 
 	if u.AttachmentID.Valid {
 		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.AttachmentID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.LingkupID.Valid {
+		_, err := lingkuppengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LingkupID.Int64)))
 		if err != nil {
 			return err
 		}

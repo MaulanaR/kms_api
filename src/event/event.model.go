@@ -8,6 +8,8 @@ import (
 type Event struct {
 	app.Model
 	ID                 app.NullInt64             `json:"id"                  db:"m.id"              gorm:"column:id;primaryKey"`
+	LingkupID          app.NullInt64             `json:"lingkup.id"          db:"m.lingkup_id"   gorm:"column:lingkup_id"`
+	LingkupNama        app.NullText              `json:"lingkup.nama"        db:"lingkup.nama_lingkup_pengetahuan" gorm:"-"`
 	AttachmentID       app.NullInt64             `json:"attachment.id"       db:"m.attachment_id"   gorm:"column:attachment_id"`
 	AttachmentFilename app.NullString            `json:"attachment.filename" db:"a.filename"        gorm:"-"`
 	AttachmentUrl      app.NullString            `json:"attachment.url"      db:"a.url"             gorm:"-"`
@@ -37,7 +39,7 @@ func (Event) EndPoint() string {
 }
 
 func (Event) TableVersion() string {
-	return "23.10.051152"
+	return "23.12.051152"
 }
 
 func (Event) TableName() string {
@@ -49,6 +51,7 @@ func (Event) TableAliasName() string {
 }
 
 func (m *Event) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_lingkup_pengetahuan", "lingkup", []map[string]any{{"column1": "lingkup.id_lingkup_pengetahuan", "column2": "m.lingkup_id"}})
 	m.AddRelation("left", "m_attachments", "a", []map[string]any{{"column1": "a.id", "column2": "m.attachment_id"}})
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
