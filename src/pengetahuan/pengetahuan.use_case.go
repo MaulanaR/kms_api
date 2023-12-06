@@ -12,7 +12,6 @@ import (
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/historypoint"
-	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
@@ -20,6 +19,7 @@ import (
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
+	"github.com/maulanar/kms/src/subjenispengetahuan"
 	"github.com/maulanar/kms/src/tag"
 	"github.com/maulanar/kms/src/tpengetahuanrelation"
 )
@@ -206,8 +206,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	p.StatistikView.Set(0)
 
-	//cek by jenis
-	jenis, err := jenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.JenisPengetahuanID.Int64)))
+	//cek by subjenis
+	subjenis, err := subjenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.SubJenisPengetahuanID.Int64)))
 	if err != nil {
 		return err
 	}
@@ -383,7 +383,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	// 6 : PKS (Pelatihan Kantor Sendiri)
 	// 7 : Karya Tulis
 	// 8 : Newsletter LC
-	if jenis.ID.Int64 == 1 {
+	if subjenis.ID.Int64 == 1 {
 		//tugas
 		rel := tpengetahuanrelation.TPengetahuanTugas{}
 		rel.PengetahuanID.Set(p.ID.Int64)
@@ -401,7 +401,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		if err != nil {
 			return err
 		}
-	} else if jenis.ID.Int64 == 2 {
+	} else if subjenis.ID.Int64 == 2 {
 		rel := tpengetahuanrelation.TPengetahuanKiat{}
 		rel.PengetahuanID.Set(p.ID.Int64)
 		rel.Masalah = p.Masalah
@@ -414,7 +414,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		if err != nil {
 			return err
 		}
-	} else if jenis.ID.Int64 == 3 {
+	} else if subjenis.ID.Int64 == 3 {
 		rel := tpengetahuanrelation.TPengetahuanKapitalisasi{}
 		rel.PengetahuanID.Set(p.ID.Int64)
 		rel.LatarBelakang = p.LatarBelakang
@@ -428,7 +428,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		if err != nil {
 			return err
 		}
-	} else if jenis.ID.Int64 == 4 {
+	} else if subjenis.ID.Int64 == 4 {
 		rel := tpengetahuanrelation.TPengetahuanResensi{}
 		rel.PengetahuanID.Set(p.ID.Int64)
 		rel.JumlahHalaman = p.JumlahHalaman
@@ -534,10 +534,275 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	p.ID = old.ID
+	//cek by subjenis
+	subjenis, err := subjenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(old.SubJenisPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+	if p.SubJenisPengetahuanID.Valid {
+		subjenis, err = subjenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.SubJenisPengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi LingkupPengetahuan
+	if p.LingkupPengetahuanID.Valid {
+		_, err = lingkuppengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.LingkupPengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi StatusPengetahuan
+	if !p.StatusPengetahuanID.Valid {
+		p.StatusPengetahuanID.Set(1)
+	}
+
+	_, err = statuspengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.StatusPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+
+	//validasi penulis (orang)
+	if p.Penulis1ID.Valid {
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis1ID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if p.Penulis2ID.Valid {
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis2ID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if p.Penulis3ID.Valid {
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis3ID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
 	// update data on the db
 	err = tx.Model(&p).Where("id_pengetahuan = ?", old.ID).Updates(p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	//RELATION
+
+	//validasi referensi
+	if len(p.Referensi) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Referensi)
+		for i, ref := range p.Referensi {
+			//validasi
+			_, err := referensi.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.ReferensiID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Referensi[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Referensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi hastag
+	if len(p.Tag) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Tag)
+		for i, ref := range p.Tag {
+			//validasi
+			_, err := tag.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.TagID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Tag[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Tag).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi kompetensi
+	if len(p.Kompetensi) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Kompetensi)
+		for i, ref := range p.Kompetensi {
+			//validasi
+			_, err := kompetensi.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.KompetensiID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Kompetensi[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Kompetensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi dokumen
+	if len(p.Dokumen) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Dokumen)
+		for i, ref := range p.Dokumen {
+			//validasi
+			_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Dokumen[i].PengetahuanID.Set(p.ID.Int64)
+			p.CreatedAt.Set(time.Now())
+			p.CreatedBy.Set(u.Ctx.User.ID)
+		}
+
+		err = tx.Create(&p.Dokumen).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi tenaga ahli
+	if len(p.TenagaAhli) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.TenagaAhli)
+		for i, ref := range p.TenagaAhli {
+			//validasi
+			_, err := orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.TenagaAhliID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.TenagaAhli[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.TenagaAhli).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi pedoman
+	if len(p.Pedoman) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Pedoman)
+		for i, v := range p.Pedoman {
+			//validasi
+			_, err := pedoman.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(v.PedomanID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Pedoman[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Pedoman).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//NOTE :
+	// 1 : Tugas (Panduan Penugasan)
+	// 2 : KIAT
+	// 3 : Kapitalisasi / Analytic Today
+	// 4 : Resensi
+	// 5 : Aksi Perubahan
+	// 6 : PKS (Pelatihan Kantor Sendiri)
+	// 7 : Karya Tulis
+	// 8 : Newsletter LC
+	if subjenis.ID.Int64 == 1 {
+		//tugas
+		rel := tpengetahuanrelation.TPengetahuanTugas{}
+		rel.Tujuan = p.Tujuan
+		rel.DasarHukum = p.DasarHukum
+		rel.ProsesBisnis = p.ProsesBisnis
+		rel.RumusanMasalah = p.RumusanMasalah
+		rel.RisikoObjetPengawasan = p.RisikoObjetPengawasan
+		rel.MetodePengawasan = p.MetodePengawasan
+		rel.TemuanMaterial = p.TemuanMaterial
+		rel.KeahlianDibutuhkan = p.KeahlianDibutuhkan
+		rel.DataDigunakan = p.DataDigunakan
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if subjenis.ID.Int64 == 2 {
+		rel := tpengetahuanrelation.TPengetahuanKiat{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.Masalah = p.Masalah
+		rel.Dampak = p.Dampak
+		rel.Penyebab = p.Penyebab
+		rel.Solusi = p.Solusi
+		rel.SyaratHasil = p.SyaratHasil
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if subjenis.ID.Int64 == 3 {
+		rel := tpengetahuanrelation.TPengetahuanKapitalisasi{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.LatarBelakang = p.LatarBelakang
+		rel.PenelitianTerdahulu = p.PenelitianTerdahulu
+		rel.Hipotesis = p.Hipotesis
+		rel.Pengujian = p.Pengujian
+		rel.Pembahasan = p.Pembahasan
+		rel.KesimpulanRekomendasi = p.KesimpulanRekomendasi
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if subjenis.ID.Int64 == 4 {
+		rel := tpengetahuanrelation.TPengetahuanResensi{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.JumlahHalaman = p.JumlahHalaman
+		rel.TahunTerbit = p.TahunTerbit
+		rel.LatarBelakang = p.LatarBelakang
+		rel.PenelitianTerdahulu = p.PenelitianTerdahulu
+		rel.LessonLearned = p.LessonLearned
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+
+		if len(p.Penerbit) > 0 {
+			//delete old data
+			tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Penerbit)
+			for i, _ := range p.Penerbit {
+				//validasi
+				p.Penerbit[i].PengetahuanID.Set(p.ID.Int64)
+			}
+			err = tx.Create(&p.Penerbit).Error
+			if err != nil {
+				return err
+			}
+		}
+
+		if len(p.Narasumber) > 0 {
+			//delete old data
+			tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Narasumber)
+			for i, _ := range p.Narasumber {
+				//validasi
+				p.Narasumber[i].PengetahuanID.Set(p.ID.Int64)
+			}
+
+			err = tx.Create(&p.Narasumber).Error
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	// invalidate cache
@@ -581,10 +846,275 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	p.ID = old.ID
+	//cek by subjenis
+	subjenis, err := subjenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(old.SubJenisPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+	if p.SubJenisPengetahuanID.Valid {
+		subjenis, err = subjenispengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.SubJenisPengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi LingkupPengetahuan
+	if p.LingkupPengetahuanID.Valid {
+		_, err = lingkuppengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.LingkupPengetahuanID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi StatusPengetahuan
+	if !p.StatusPengetahuanID.Valid {
+		p.StatusPengetahuanID.Set(1)
+	}
+
+	_, err = statuspengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.StatusPengetahuanID.Int64)))
+	if err != nil {
+		return err
+	}
+
+	//validasi penulis (orang)
+	if p.Penulis1ID.Valid {
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis1ID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if p.Penulis2ID.Valid {
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis2ID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if p.Penulis3ID.Valid {
+		_, err = orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.Penulis3ID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
 	// update data on the db
 	err = tx.Model(&p).Where("id_pengetahuan = ?", old.ID).Updates(p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+	//RELATION
+
+	//validasi referensi
+	if len(p.Referensi) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Referensi)
+		for i, ref := range p.Referensi {
+			//validasi
+			_, err := referensi.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.ReferensiID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Referensi[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Referensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi hastag
+	if len(p.Tag) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Tag)
+		for i, ref := range p.Tag {
+			//validasi
+			_, err := tag.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.TagID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Tag[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Tag).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi kompetensi
+	if len(p.Kompetensi) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Kompetensi)
+		for i, ref := range p.Kompetensi {
+			//validasi
+			_, err := kompetensi.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.KompetensiID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Kompetensi[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Kompetensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi dokumen
+	if len(p.Dokumen) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Dokumen)
+		for i, ref := range p.Dokumen {
+			//validasi
+			_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.AttachmentID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Dokumen[i].PengetahuanID.Set(p.ID.Int64)
+			p.CreatedAt.Set(time.Now())
+			p.CreatedBy.Set(u.Ctx.User.ID)
+		}
+
+		err = tx.Create(&p.Dokumen).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi tenaga ahli
+	if len(p.TenagaAhli) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.TenagaAhli)
+		for i, ref := range p.TenagaAhli {
+			//validasi
+			_, err := orang.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ref.TenagaAhliID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.TenagaAhli[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.TenagaAhli).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi pedoman
+	if len(p.Pedoman) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Pedoman)
+		for i, v := range p.Pedoman {
+			//validasi
+			_, err := pedoman.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(v.PedomanID.Int64)))
+			if err != nil {
+				return err
+			}
+			p.Pedoman[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.Pedoman).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//NOTE :
+	// 1 : Tugas (Panduan Penugasan)
+	// 2 : KIAT
+	// 3 : Kapitalisasi / Analytic Today
+	// 4 : Resensi
+	// 5 : Aksi Perubahan
+	// 6 : PKS (Pelatihan Kantor Sendiri)
+	// 7 : Karya Tulis
+	// 8 : Newsletter LC
+	if subjenis.ID.Int64 == 1 {
+		//tugas
+		rel := tpengetahuanrelation.TPengetahuanTugas{}
+		rel.Tujuan = p.Tujuan
+		rel.DasarHukum = p.DasarHukum
+		rel.ProsesBisnis = p.ProsesBisnis
+		rel.RumusanMasalah = p.RumusanMasalah
+		rel.RisikoObjetPengawasan = p.RisikoObjetPengawasan
+		rel.MetodePengawasan = p.MetodePengawasan
+		rel.TemuanMaterial = p.TemuanMaterial
+		rel.KeahlianDibutuhkan = p.KeahlianDibutuhkan
+		rel.DataDigunakan = p.DataDigunakan
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if subjenis.ID.Int64 == 2 {
+		rel := tpengetahuanrelation.TPengetahuanKiat{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.Masalah = p.Masalah
+		rel.Dampak = p.Dampak
+		rel.Penyebab = p.Penyebab
+		rel.Solusi = p.Solusi
+		rel.SyaratHasil = p.SyaratHasil
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if subjenis.ID.Int64 == 3 {
+		rel := tpengetahuanrelation.TPengetahuanKapitalisasi{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.LatarBelakang = p.LatarBelakang
+		rel.PenelitianTerdahulu = p.PenelitianTerdahulu
+		rel.Hipotesis = p.Hipotesis
+		rel.Pengujian = p.Pengujian
+		rel.Pembahasan = p.Pembahasan
+		rel.KesimpulanRekomendasi = p.KesimpulanRekomendasi
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+	} else if subjenis.ID.Int64 == 4 {
+		rel := tpengetahuanrelation.TPengetahuanResensi{}
+		rel.PengetahuanID.Set(p.ID.Int64)
+		rel.JumlahHalaman = p.JumlahHalaman
+		rel.TahunTerbit = p.TahunTerbit
+		rel.LatarBelakang = p.LatarBelakang
+		rel.PenelitianTerdahulu = p.PenelitianTerdahulu
+		rel.LessonLearned = p.LessonLearned
+
+		err = tx.Where("id_pengetahuan = ?", p.ID.Int64).Updates(&rel).Error
+		if err != nil {
+			return err
+		}
+
+		if len(p.Penerbit) > 0 {
+			//delete old data
+			tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Penerbit)
+			for i, _ := range p.Penerbit {
+				//validasi
+				p.Penerbit[i].PengetahuanID.Set(p.ID.Int64)
+			}
+			err = tx.Create(&p.Penerbit).Error
+			if err != nil {
+				return err
+			}
+		}
+
+		if len(p.Narasumber) > 0 {
+			//delete old data
+			tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.Narasumber)
+			for i, _ := range p.Narasumber {
+				//validasi
+				p.Narasumber[i].PengetahuanID.Set(p.ID.Int64)
+			}
+
+			err = tx.Create(&p.Narasumber).Error
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	// invalidate cache
