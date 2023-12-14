@@ -2,8 +2,10 @@ package pengetahuan
 
 import (
 	"encoding/json"
+	"math"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 	"time"
 
@@ -1197,19 +1199,6 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 	u.Query.Add("$is_disable_pagination", "true")
-	// set pagination info
-	res.Count,
-		res.PageContext.Page,
-		res.PageContext.PerPage,
-		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Pengetahuan{}, u.Query)
-	if err != nil {
-		return res, app.Error().New(http.StatusInternalServerError, err.Error())
-	}
-	// return data count if $per_page set to 0
-	if res.PageContext.PerPage == 0 {
-		return res, err
-	}
 
 	// find data pengetahuan
 	data, err := app.Query().Find(tx, &Pengetahuan{}, u.Query)
@@ -1218,8 +1207,6 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 	}
 
 	res.SetData(data, u.Query)
-	res.Count = int64(len(data))
-
 	if u.Query.Has("levenshtein.keyword.$eq") {
 		newData := []map[string]any{}
 		keyword := u.Query.Get("levenshtein.keyword.$eq")
@@ -1246,7 +1233,6 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			newData = append(newData, data[i])
 		}
 		res.SetData(newData, u.Query)
-		res.Count = int64(len(newData))
 	}
 
 	//sisipkan tipe
@@ -1261,8 +1247,6 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	// res.SetData(data2, u.Query)
-	// res.Count = int64(len(data))
 	if u.Query.Has("levenshtein.keyword.$eq") {
 		newData := []map[string]any{}
 		keyword := u.Query.Get("levenshtein.keyword.$eq")
@@ -1296,8 +1280,53 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		res.Data = append(res.Data, data2...)
 	}
 
-	res.Count = int64(len(res.Data))
+	//order agar konsisten
+	sortKey := "judul"
 
+	// Fungsi untuk membandingkan elemen-elemen berdasarkan kunci tertentu
+	comparator := func(i, j int) bool {
+		return res.Data[i][sortKey].(string) < res.Data[j][sortKey].(string)
+	}
+
+	// Menggunakan sort.Slice untuk mengurutkan slice berdasarkan kunci
+	sort.Slice(res.Data, comparator)
+
+	//pagination
+	perPage := 20
+	if u.Query.Has("$per_page") {
+		xperPage, err := strconv.Atoi(u.Query.Get("$per_page"))
+		if err == nil {
+			perPage = xperPage
+		}
+	}
+
+	paging := 1
+	if u.Query.Has("$page") {
+		xpaging, err := strconv.Atoi(u.Query.Get("$page"))
+		if err == nil {
+			paging = xpaging
+		}
+	}
+
+	totalData := len(res.Data)
+	res.PageContext.Page = paging
+	res.PageContext.PerPage = perPage
+	res.PageContext.PageCount = int(math.Ceil(float64(totalData) / float64(perPage)))
+
+	startIndex := (paging - 1) * perPage
+	endIndex := paging * perPage
+	if endIndex > totalData {
+		endIndex = totalData
+	}
+
+	// Menampilkan data pada halaman saat ini
+	dataPaging := []map[string]any{}
+	for i := startIndex; i < endIndex; i++ {
+		dataPaging = append(dataPaging, res.Data[i])
+	}
+
+	res.Data = dataPaging
+	res.Count = int64(len(res.Data))
 	return res, err
 }
 

@@ -140,7 +140,7 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if segments[3] == "leader_talk" && method == "GET" {
 				return false
-			} else if segments[3] == "search_pengetahuan" && method == "GET" {
+			} else if segments[3] == "search_forum" && method == "GET" {
 				return false
 			} else if segments[3] == "forum" && method == "GET" {
 				return false
