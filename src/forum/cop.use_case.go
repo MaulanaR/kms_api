@@ -94,7 +94,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 	sort.Slice(res.Data, comparator)
 
 	//pagination
-	perPage := 20
+	perPage := 10
 	if u.Query.Has("$per_page") {
 		xperPage, err := strconv.Atoi(u.Query.Get("$per_page"))
 		if err == nil {

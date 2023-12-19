@@ -784,7 +784,7 @@ type TPengetahuanNarsum struct {
 	app.Model
 	ID                      app.NullInt64  `json:"-"              db:"tp_narsum.id_pengetahuan_narsum" gorm:"column:id_pengetahuan_narsum;primaryKey;auto_increment;AutoIncrement;"`
 	PengetahuanID           app.NullInt64  `json:"pengetahuan.id" db:"tp_narsum.id_pengetahuan,hide"   gorm:"column:id_pengetahuan"`
-	NarasumberID            app.NullText   `json:"id"             db:"tp_narsum.id_narasumber"         gorm:"column:id_narasumber"`
+	NarasumberID            app.NullInt64  `json:"id"             db:"tp_narsum.id_narasumber"         gorm:"column:id_narasumber"`
 	NarasumberNama          app.NullString `json:"nama_lengkap"   db:"narsum.nama"                     gorm:"-"`
 	NarasumberNamaPanggilan app.NullString `json:"nama_panggilan" db:"narsum.nama_panggilan"           gorm:"-"`
 	NarasumberNip           app.NullString `json:"nip"            db:"narsum.nip"                      gorm:"-"`
