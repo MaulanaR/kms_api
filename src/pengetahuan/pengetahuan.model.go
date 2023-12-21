@@ -252,3 +252,150 @@ type MixSlide struct {
 	LeaderTalk  []map[string]any `json:"leader_talk" db:"-" gorm:"-"`
 	Events      []map[string]any `json:"event"       db:"-" gorm:"-"`
 }
+
+// Struct Search Pengetahuan
+// SearchPengetahuan is the main model of SearchPengetahuan data. It provides a convenient interface for app.ModelInterface
+type SearchPengetahuan struct {
+	app.Model
+	//for leveinsthein method
+	LevenshteinKeyword    app.NullString  `json:"levenshtein.keyword"          db:"-"                                                                                  gorm:"-"`
+	LevenshteinDistance   app.NullInt64   `json:"levenshtein.distance"         db:"-"                                                                                  gorm:"-"`
+	LevenshteinPercentage app.NullFloat64 `json:"levenshtein.percentage"       db:"-"                                                                                  gorm:"-"`
+	//common data
+	ID            app.NullInt64  `json:"id"                           db:"m.id_pengetahuan"                                                                   gorm:"column:id_pengetahuan;primaryKey"`
+	Judul         app.NullText   `json:"judul"                        db:"m.judul"                                                                            gorm:"column:judul"`
+	Ringkasan     app.NullText   `json:"ringkasan"                    db:"m.ringkasan"                                                                        gorm:"column:ringkasan"`
+	ThumbnailID   app.NullInt64  `json:"thumbnail.id"                 db:"m.thumbnail"                                                                        gorm:"column:thumbnail"`
+	ThumbnailName app.NullString `json:"thumbnail.nama"               db:"attachment.filename"                                                                gorm:"-"`
+	ThumbnailUrl  app.NullString `json:"thumbnail.url"                db:"attachment.url"                                                                     gorm:"-"`
+
+	JenisPengetahuanID       app.NullInt64 `json:"jenis_pengetahuan.id"         db:"m.id_jenis_pengetahuan"                                                             gorm:"column:id_jenis_pengetahuan"`
+	JenisPengtahuanNama      app.NullText  `json:"jenis_pengetahuan.nama"       db:"jp.nama_jenis_pengetahuan"                                                          gorm:"-"`
+	SubJenisPengetahuanID    app.NullInt64 `json:"subjenis_pengetahuan.id"      db:"m.id_subjenis_pengetahuan"                                                          gorm:"column:id_subjenis_pengetahuan"`
+	SubJenisPengtahuanNama   app.NullText  `json:"subjenis_pengetahuan.nama"    db:"sjp.nama_subjenis_pengetahuan"                                                      gorm:"-"`
+	SubJenisPengtahuanIsShow app.NullBool  `json:"subjenis_pengetahuan.is_show" db:"sjp.is_show"                                                                        gorm:"-"`
+	LingkupPengetahuanID     app.NullInt64 `json:"lingkup_pengetahuan.id"       db:"m.id_lingkup_pengetahuan"                                                           gorm:"column:id_lingkup_pengetahuan"`
+	LingkupPengetahuanNama   app.NullText  `json:"lingkup_pengetahuan.nama"     db:"lp.nama_lingkup_pengetahuan"                                                        gorm:"-"`
+	StatusPengetahuanID      app.NullInt64 `json:"status_pengetahuan.id"        db:"m.id_status_pengetahuan"                                                            gorm:"column:id_status_pengetahuan"`
+	StatusPengetahuanNama    app.NullText  `json:"status_pengetahuan.nama"      db:"status.nama_status_pengetahuan"                                                     gorm:"-"`
+}
+
+// EndPoint returns the SearchPengetahuan end point, it used for cache key, etc.
+func (SearchPengetahuan) EndPoint() string {
+	return "search_pengetahuan"
+}
+
+// TableVersion returns the versions of the SearchPengetahuan table in the database.
+// Change this value with date format YY.MM.DDHHii when any table structure changes.
+func (SearchPengetahuan) TableVersion() string {
+	return "28.07.061152"
+}
+
+// TableName returns the name of the SearchPengetahuan table in the database.
+func (SearchPengetahuan) TableName() string {
+	return "t_pengetahuan"
+}
+
+// TableAliasName returns the table alias name of the SearchPengetahuan table, used for querying.
+func (SearchPengetahuan) TableAliasName() string {
+	return "m"
+}
+
+// GetRelations returns the relations of the SearchPengetahuan data in the database, used for querying.
+func (m *SearchPengetahuan) GetRelations() map[string]map[string]any {
+	//jenis pengetahuan
+	m.AddRelation("left", "m_jenis_pengetahuan", "jp", []map[string]any{{"column1": "jp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})
+	m.AddRelation("left", "m_subjenis_pengetahuan", "sjp", []map[string]any{{"column1": "sjp.id_subjenis_pengetahuan", "column2": "m.id_subjenis_pengetahuan"}})
+
+	//lingkup pengetahuan
+	m.AddRelation("left", "m_lingkup_pengetahuan", "lp", []map[string]any{{"column1": "lp.id_lingkup_pengetahuan", "column2": "m.id_lingkup_pengetahuan"}})
+
+	//status pengetahuan
+	m.AddRelation("left", "m_status_pengetahuan", "status", []map[string]any{{"column1": "status.id_status_pengetahuan", "column2": "m.id_status_pengetahuan"}})
+
+	//attachment (thumbnail)
+	m.AddRelation("left", "m_attachments", "attachment", []map[string]any{{"column1": "attachment.id", "column2": "m.thumbnail"}})
+	return m.Relations
+}
+
+// GetFilters returns the filter of the SearchPengetahuan data in the database, used for querying.
+func (m *SearchPengetahuan) GetFilters() []map[string]any {
+	m.AddFilter(map[string]any{"column1": "m.deleted_at", "operator": "=", "value": nil})
+	return m.Filters
+}
+
+// GetSorts returns the default sort of the SearchPengetahuan data in the database, used for querying.
+func (m *SearchPengetahuan) GetSorts() []map[string]any {
+	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
+	return m.Sorts
+}
+
+// GetFields returns list of the field of the SearchPengetahuan data in the database, used for querying.
+func (m *SearchPengetahuan) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+// GetSchema returns the SearchPengetahuan schema, used for querying.
+func (m *SearchPengetahuan) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+type SearchForum struct {
+	app.Model
+	ID             app.NullInt64  `json:"id"                   db:"m.id"                                                             gorm:"column:id;primaryKey"`
+	Judul          app.NullText   `json:"judul"                db:"m.judul"                                                          gorm:"column:judul"`
+	Deskripsi      app.NullText   `json:"ringkasan"            db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
+	GambarID       app.NullInt64  `json:"thumbnail.id"            db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
+	GambarFilename app.NullString `json:"thumbnail.filename"      db:"g.filename"                                                       gorm:"-"`
+	GambarUrl      app.NullString `json:"thumbnail.url"           db:"g.url"                                                            gorm:"-"`
+}
+
+func (SearchForum) EndPoint() string {
+	return "forum"
+}
+
+func (SearchForum) TableVersion() string {
+	return "23.11.271152"
+}
+
+func (SearchForum) TableName() string {
+	return "t_forum"
+}
+
+func (SearchForum) TableAliasName() string {
+	return "m"
+}
+
+func (m *SearchForum) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "m_attachments", "g", []map[string]any{{"column1": "g.id", "column2": "m.gambar_id"}})
+
+	return m.Relations
+}
+
+func (m *SearchForum) GetFilters() []map[string]any {
+	m.AddFilter(map[string]any{"column1": "m.deleted_at", "operator": "=", "value": nil})
+	return m.Filters
+}
+
+func (m *SearchForum) GetSorts() []map[string]any {
+	m.AddSort(map[string]any{"column": "m.updated_at", "direction": "desc"})
+	return m.Sorts
+}
+
+func (m *SearchForum) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *SearchForum) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (SearchForum) OpenAPISchemaName() string {
+	return "SearchForum"
+}
+
+func (m *SearchForum) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}

@@ -12,7 +12,6 @@ import (
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
 	"github.com/maulanar/kms/src/event"
-	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
@@ -1201,7 +1200,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 	u.Query.Add("$is_disable_pagination", "true")
 
 	// find data pengetahuan
-	data, err := app.Query().Find(tx, &Pengetahuan{}, u.Query)
+	data, err := app.Query().Find(tx, &SearchPengetahuan{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -1242,7 +1241,7 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 
 	//data cop
 	// find data
-	data2, err := app.Query().Find(tx, &forum.Forum{}, u.Query)
+	data2, err := app.Query().Find(tx, &SearchForum{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -1255,9 +1254,9 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 		for _, v := range data2 {
 			_, ok := v["judul"].(string)
 			if ok {
-				_, ok2 := v["deskripsi"].(string)
+				_, ok2 := v["ringkasan"].(string)
 				if ok2 {
-					// listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["deskripsi"].(string)))
+					// listJudul = append(listJudul, v["judul"].(string)+" "+app.RemoveHTMLTags(v["ringkasan"].(string)))
 					listJudul = append(listJudul, v["judul"].(string))
 				} else {
 					listJudul = append(listJudul, v["judul"].(string))
