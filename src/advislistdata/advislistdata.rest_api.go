@@ -76,10 +76,65 @@ func (r *RESTAPIHandler) Create(c *fiber.Ctx) error {
 	}
 	p := ParamCreate{}
 	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
-		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+
+	if c.Get("Content-Type") == "application/json" {
+		err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+		if err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+		}
+	} else {
+		if err := c.BodyParser(&p); err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+		}
 	}
+
+	file, err := c.FormFile("file_csv")
+	if err == nil {
+		fileContent, err := file.Open()
+		if err != nil {
+			return err
+		}
+		defer fileContent.Close()
+
+		// Baca isi file CSV
+		var buffer bytes.Buffer
+		_, err = io.Copy(&buffer, fileContent)
+		if err != nil {
+			return err
+		}
+
+		// Ubah isi buffer menjadi string
+		csvString := buffer.String()
+
+		// Baca sebagai CSV
+		var records [][]string
+		reader := csv.NewReader(strings.NewReader(csvString))
+		for {
+			record, err := reader.Read()
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return err
+			}
+			records = append(records, record)
+		}
+
+		// Membuat struktur data yang dinamis untuk JSON
+		var dynamicData []map[string]string
+
+		// Iterasi melalui records dan membaca nama kolom dari baris pertama
+		columnNames := records[0]
+		for i := 1; i < len(records); i++ {
+			item := make(map[string]string)
+			for j := 0; j < len(columnNames); j++ {
+				item[columnNames[j]] = records[i][j]
+			}
+			dynamicData = append(dynamicData, item)
+		}
+
+		p.Data.Set(dynamicData)
+	}
+
 	err = r.UseCase.Create(&p)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -105,10 +160,64 @@ func (r *RESTAPIHandler) UpdateByID(c *fiber.Ctx) error {
 	}
 	p := ParamUpdate{}
 	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
-		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+	if c.Get("Content-Type") == "application/json" {
+		err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+		if err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+		}
+	} else {
+		if err := c.BodyParser(&p); err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+		}
 	}
+
+	file, err := c.FormFile("file_csv")
+	if err == nil {
+		fileContent, err := file.Open()
+		if err != nil {
+			return err
+		}
+		defer fileContent.Close()
+
+		// Baca isi file CSV
+		var buffer bytes.Buffer
+		_, err = io.Copy(&buffer, fileContent)
+		if err != nil {
+			return err
+		}
+
+		// Ubah isi buffer menjadi string
+		csvString := buffer.String()
+
+		// Baca sebagai CSV
+		var records [][]string
+		reader := csv.NewReader(strings.NewReader(csvString))
+		for {
+			record, err := reader.Read()
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return err
+			}
+			records = append(records, record)
+		}
+
+		// Membuat struktur data yang dinamis untuk JSON
+		var dynamicData []map[string]string
+
+		// Iterasi melalui records dan membaca nama kolom dari baris pertama
+		columnNames := records[0]
+		for i := 1; i < len(records); i++ {
+			item := make(map[string]string)
+			for j := 0; j < len(columnNames); j++ {
+				item[columnNames[j]] = records[i][j]
+			}
+			dynamicData = append(dynamicData, item)
+		}
+
+		p.Data.Set(dynamicData)
+	}
+
 	err = r.UseCase.UpdateByID(c.Params("id"), &p)
 	if err != nil {
 		return app.Error().Handler(c, err)
@@ -134,9 +243,62 @@ func (r *RESTAPIHandler) PartiallyUpdateByID(c *fiber.Ctx) error {
 	}
 	p := ParamPartiallyUpdate{}
 	p.Ctx = r.UseCase.Ctx
-	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
-	if err != nil {
-		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+	if c.Get("Content-Type") == "application/json" {
+		err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+		if err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+		}
+	} else {
+		if err := c.BodyParser(&p); err != nil {
+			return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+		}
+	}
+
+	file, err := c.FormFile("file_csv")
+	if err == nil {
+		fileContent, err := file.Open()
+		if err != nil {
+			return err
+		}
+		defer fileContent.Close()
+
+		// Baca isi file CSV
+		var buffer bytes.Buffer
+		_, err = io.Copy(&buffer, fileContent)
+		if err != nil {
+			return err
+		}
+
+		// Ubah isi buffer menjadi string
+		csvString := buffer.String()
+
+		// Baca sebagai CSV
+		var records [][]string
+		reader := csv.NewReader(strings.NewReader(csvString))
+		for {
+			record, err := reader.Read()
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return err
+			}
+			records = append(records, record)
+		}
+
+		// Membuat struktur data yang dinamis untuk JSON
+		var dynamicData []map[string]string
+
+		// Iterasi melalui records dan membaca nama kolom dari baris pertama
+		columnNames := records[0]
+		for i := 1; i < len(records); i++ {
+			item := make(map[string]string)
+			for j := 0; j < len(columnNames); j++ {
+				item[columnNames[j]] = records[i][j]
+			}
+			dynamicData = append(dynamicData, item)
+		}
+
+		p.Data.Set(dynamicData)
 	}
 	err = r.UseCase.PartiallyUpdateByID(c.Params("id"), &p)
 	if err != nil {

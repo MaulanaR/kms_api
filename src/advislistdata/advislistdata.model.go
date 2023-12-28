@@ -4,22 +4,23 @@ import "github.com/maulanar/kms/app"
 
 type AdvisListData struct {
 	app.Model
-	ID                      app.NullInt64    `json:"id"                         db:"m.id"                    gorm:"column:id;primaryKey"`
-	SubKategoriID           app.NullInt64    `json:"sub_kategori.id"            db:"m.ref_sub_kategori_id"   gorm:"column:ref_sub_kategori_id"`
-	SubKategoriNama         app.NullString   `json:"sub_kategori.nama"          db:"skt.nama_sub_kategori"   gorm:"-"`
-	SubKategoriKategoriID   app.NullInt64    `json:"sub_kategori.kategori.id"   db:"skt.ref_kategori_id"     gorm:"-"`
-	SubKategoriKategoriNama app.NullString   `json:"sub_kategori.kategori.nama" db:"skt_kt.nama_kategori"    gorm:"-"`
-	SumberDataID            app.NullInt64    `json:"sumber_data.id"             db:"m.ref_sumber_data_id"    gorm:"column:ref_sumber_data_id"`
-	SumberDataNama          app.NullString   `json:"sumber_data.nama"           db:"smd.nama_sumber_data"    gorm:"-"`
-	SumberDataSingkat       app.NullString   `json:"sumber_data.singkat"        db:"smd.singkat_sumber_data" gorm:"-"`
-	SumberDataKeterangan    app.NullText     `json:"sumber_data.keterangan"     db:"smd.ket_sumber_data"     gorm:"-"`
-	NamaData                app.NullString   `json:"nama_data"                  db:"m.nama_data"             gorm:"column:nama_data"`
-	UrlData                 app.NullString   `json:"url_data"                   db:"m.url_data"              gorm:"column:url_data"`
-	CreatedBy               app.NullString   `json:"created_by"                 db:"m.created_by"            gorm:"column:created_by"`
-	UpdatedBy               app.NullString   `json:"updated_by"                 db:"m.updated_by"            gorm:"column:updated_by"`
-	CreatedAt               app.NullDateTime `json:"created_at"                 db:"m.created_at"            gorm:"column:created_at"`
-	UpdatedAt               app.NullDateTime `json:"updated_at"                 db:"m.updated_at"            gorm:"column:updated_at"`
-	DeletedAt               app.NullDateTime `json:"deleted_at"                 db:"m.deleted_at,hide"       gorm:"column:deleted_at"`
+	ID                      app.NullInt64    `json:"id"                         form:"-" db:"m.id"                    gorm:"column:id;primaryKey"`
+	SubKategoriID           app.NullInt64    `json:"sub_kategori.id"            form:"sub_kategori[id]" db:"m.ref_sub_kategori_id"   gorm:"column:ref_sub_kategori_id"`
+	SubKategoriNama         app.NullString   `json:"sub_kategori.nama"          form:"-" db:"skt.nama_sub_kategori"   gorm:"-"`
+	SubKategoriKategoriID   app.NullInt64    `json:"sub_kategori.kategori.id"   form:"-" db:"skt.ref_kategori_id"     gorm:"-"`
+	SubKategoriKategoriNama app.NullString   `json:"sub_kategori.kategori.nama" form:"-" db:"skt_kt.nama_kategori"    gorm:"-"`
+	SumberDataID            app.NullInt64    `json:"sumber_data.id"             form:"sumber_data[id]" db:"m.ref_sumber_data_id"    gorm:"column:ref_sumber_data_id"`
+	SumberDataNama          app.NullString   `json:"sumber_data.nama"           form:"-" db:"smd.nama_sumber_data"    gorm:"-"`
+	SumberDataSingkat       app.NullString   `json:"sumber_data.singkat"        form:"-" db:"smd.singkat_sumber_data" gorm:"-"`
+	SumberDataKeterangan    app.NullText     `json:"sumber_data.keterangan"     form:"-" db:"smd.ket_sumber_data"     gorm:"-"`
+	NamaData                app.NullString   `json:"nama_data"                  form:"nama_data" db:"m.nama_data"             gorm:"column:nama_data"`
+	Data                    app.NullJSON     `json:"isi_data"                   form:"-" db:"m.isi_data"               gorm:"column:isi_data"`
+	UrlData                 app.NullString   `json:"url_data"                   form:"url_data" db:"m.url_data"              gorm:"column:url_data"`
+	CreatedBy               app.NullString   `json:"created_by"                 form:"-" db:"m.created_by"            gorm:"column:created_by"`
+	UpdatedBy               app.NullString   `json:"updated_by"                 form:"-" db:"m.updated_by"            gorm:"column:updated_by"`
+	CreatedAt               app.NullDateTime `json:"created_at"                 form:"-" db:"m.created_at"            gorm:"column:created_at"`
+	UpdatedAt               app.NullDateTime `json:"updated_at"                 form:"-" db:"m.updated_at"            gorm:"column:updated_at"`
+	DeletedAt               app.NullDateTime `json:"deleted_at"                 form:"-" db:"m.deleted_at,hide"       gorm:"column:deleted_at"`
 	// CreatedByUsername       app.NullString   `json:"created_by.username"        db:"cbuser.username"         gorm:"-"`
 	// UpdatedByUsername       app.NullString   `json:"updated_by.username"        db:"ubuser.username"         gorm:"-"`
 	// DeletedBy         app.NullInt64    `json:"deleted_by.id"              db:"m.deleted_by"            gorm:"column:deleted_by"`
@@ -31,7 +32,7 @@ func (AdvisListData) EndPoint() string {
 }
 
 func (AdvisListData) TableVersion() string {
-	return "28.06.291152"
+	return "23.12.291152"
 }
 
 func (AdvisListData) TableName() string {

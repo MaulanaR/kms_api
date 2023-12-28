@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/advissubkategori"
+	"github.com/maulanar/kms/src/advissumberdata"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -250,6 +252,20 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 func (u *UseCaseHandler) setDefaultValue(old AdvisListData) error {
 	if old.ID.Valid {
 		u.ID = old.ID
+	}
+
+	if u.SubKategoriID.Valid {
+		_, err := advissubkategori.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.SubKategoriID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
+	if u.SumberDataID.Valid {
+		_, err := advissumberdata.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.SumberDataID.Int64)))
+		if err != nil {
+			return err
+		}
 	}
 
 	if u.Ctx.Action.Method == "POST" && !u.CreatedBy.Valid {
