@@ -5,11 +5,21 @@ import "github.com/maulanar/kms/app"
 // Kompetensi is the main model of Kompetensi data. It provides a convenient interface for app.ModelInterface
 type Kompetensi struct {
 	app.Model
-	ID        app.NullInt64    `json:"id"         db:"m.id_kompetensi"   gorm:"column:id_kompetensi;primaryKey"`
-	Nama      app.NullText     `json:"nama"       db:"m.nama_kompetensi" gorm:"column:nama_kompetensi"`
-	CreatedAt app.NullDateTime `json:"created_at" db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt app.NullDateTime `json:"updated_at" db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt app.NullDateTime `json:"deleted_at" db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	ID app.NullInt64 `json:"id"         db:"m.id_kompetensi"   gorm:"column:id_kompetensi;primaryKey"`
+	//id_mapping
+	IDMapping app.NullInt64 `json:"id_mapping" db:"id_mapping" gorm:"column:id_mapping"`
+	//nama_kompetensi_sdm
+	NamaKompetensiSDM app.NullText `json:"nama_kompetensi_sdm"       db:"-" gorm:"-"`
+	Nama              app.NullText `json:"nama"       db:"m.nama_kompetensi" gorm:"column:nama_kompetensi"`
+	// id_kompetensi_sdm
+	IDKompetensiSDM app.NullInt64 `json:"id_kompetensi_sdm" db:"id_kompetensi_sdm" gorm:"column:id_kompetensi_sdm"`
+	// id_kategori_kms
+	IdKategoriKms app.NullInt64 `json:"id_kategori_kms" db:"id_kategori_kms" gorm:"column:id_kategori_kms"`
+	// nama_kategori_kms
+	NamaKategoriKms app.NullText     `json:"nama_kategori_kms" db:"nama_kategori_kms" gorm:"column:nama_kategori_kms"`
+	CreatedAt       app.NullDateTime `json:"created_at" db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt       app.NullDateTime `json:"updated_at" db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt       app.NullDateTime `json:"deleted_at" db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 // EndPoint returns the Kompetensi end point, it used for cache key, etc.
@@ -20,7 +30,7 @@ func (Kompetensi) EndPoint() string {
 // TableVersion returns the versions of the Kompetensi table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Kompetensi) TableVersion() string {
-	return "28.06.291152"
+	return "28.12.301152"
 }
 
 // TableName returns the name of the Kompetensi table in the database.
@@ -106,4 +116,10 @@ type ParamPartiallyUpdate struct {
 // ParamDelete is the expected parameters for delete the Kompetensi data.
 type ParamDelete struct {
 	UseCaseHandler
+}
+
+type LoginStara struct {
+	HttpCode app.NullInt64  `json:"http_code"`
+	Message  app.NullString `json:"message"`
+	Token    app.NullText   `json:"data.token"`
 }

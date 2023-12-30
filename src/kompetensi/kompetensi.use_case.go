@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"grest.dev/grest"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -46,12 +47,17 @@ func (u UseCaseHandler) GetByID(id string) (Kompetensi, error) {
 		return res, err
 	}
 
-	// get from cache and return if exists
-	cacheKey := u.EndPoint() + "." + id
-	app.Cache().Get(cacheKey, &res)
-	if res.ID.Valid {
+	err = u.GetDataFromAPI()
+	if err != nil {
 		return res, err
 	}
+
+	// get from cache and return if exists
+	// cacheKey := u.EndPoint() + "." + id
+	// app.Cache().Get(cacheKey, &res)
+	// if res.ID.Valid {
+	// 	return res, err
+	// }
 
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
@@ -69,8 +75,89 @@ func (u UseCaseHandler) GetByID(id string) (Kompetensi, error) {
 	}
 
 	// save to cache and return if exists
-	app.Cache().Set(cacheKey, res)
+	// app.Cache().Set(cacheKey, res)
 	return res, err
+}
+
+func (u UseCaseHandler) GetDataFromAPI() error {
+	//LOGIN TO API STARA
+	endPoint := "http://api-stara.bpkp.go.id/api/auth/login"
+	body := map[string]any{
+		"username": "eko r prastiawan",
+		"password": "jlnias&7",
+	}
+
+	c := app.HttpClient("POST", endPoint)
+	// c.AddHeader(app.AuthHeaderKey, "Bearer "+u.Ctx.Auth.AccessToken)
+	c.Debug()
+	c.AddJsonBody(body)
+	_, err := c.Send()
+	if err != nil {
+		return err
+	}
+	staraAuth := LoginStara{}
+	err = grest.NewJSON(c.BodyResponse).ToFlat().Unmarshal(&staraAuth)
+	if err != nil {
+		return err
+	}
+	// c.UnmarshalJson(&staraAuth)
+
+	//GET DATA FROM API STARA
+	c2 := app.HttpClient("GET", "http://api-stara.bpkp.go.id/api/kompetensi")
+	c2.AddHeader("Authorization", "Bearer "+staraAuth.Token.String)
+	c2.Debug()
+	_, err = c2.Send()
+	if err != nil {
+		return err
+	}
+	resC2 := make(map[string]interface{})
+	c2.UnmarshalJson(&resC2)
+
+	kompentensi := []Kompetensi{}
+	err = grest.NewJSON(resC2["data"]).ToFlat().Unmarshal(&kompentensi)
+	if err != nil {
+		return err
+	}
+
+	var allIDMappings []int64
+
+	// Iterasi melalui slice Kompentensi
+	for _, k := range kompentensi {
+		allIDMappings = append(allIDMappings, k.IDMapping.Int64)
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return err
+	}
+
+	//hapus data di database (m_kompetensi) jika id_mapping tidak ada di list ini
+	err = tx.Not(allIDMappings).Or("id_kompetensi IS NULL").Delete(&kompentensi).Error
+	if err != nil {
+		return err
+	}
+
+	//Update / Insert data
+	for _, k := range kompentensi {
+		dt := Kompetensi{}
+		result := tx.Where("id_mapping = ?", k.IDMapping).First(&dt)
+		if result.RowsAffected < 1 {
+			//insert
+			k.Nama = k.NamaKompetensiSDM
+			err = tx.Create(&k).Error
+			if err != nil {
+				return err
+			}
+		} else {
+			//update
+			k.Nama = k.NamaKompetensiSDM
+			err = tx.Where("id_kompetensi = ?", dt.ID).Updates(&k).Error
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
 }
 
 // Get returns the list of Kompetensi data.
@@ -82,12 +169,17 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	if err != nil {
 		return res, err
 	}
-	// get from cache and return if exists
-	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
-	err = app.Cache().Get(cacheKey, &res)
-	if err == nil {
+
+	err = u.GetDataFromAPI()
+	if err != nil {
 		return res, err
 	}
+	// get from cache and return if exists
+	// cacheKey := u.EndPoint() + "?" + u.Query.Encode()
+	// err = app.Cache().Get(cacheKey, &res)
+	// if err == nil {
+	// 	return res, err
+	// }
 
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
@@ -117,7 +209,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res.SetData(data, u.Query)
 
 	// save to cache and return if exists
-	app.Cache().Set(cacheKey, res)
+	// app.Cache().Set(cacheKey, res)
 	return res, err
 }
 

@@ -98,12 +98,12 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/jenis_pengetahuan/{id}", "PATCH", jenispengetahuan.REST().PartiallyUpdateByID, jenispengetahuan.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/jenis_pengetahuan/{id}", "DELETE", jenispengetahuan.REST().DeleteByID, jenispengetahuan.OpenAPI().DeleteByID())
 
-	app.Server().AddRoute("/api/v1/kompetensi", "POST", kompetensi.REST().Create, kompetensi.OpenAPI().Create())
+	// app.Server().AddRoute("/api/v1/kompetensi", "POST", kompetensi.REST().Create, kompetensi.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/kompetensi", "GET", kompetensi.REST().Get, kompetensi.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/kompetensi/{id}", "GET", kompetensi.REST().GetByID, kompetensi.OpenAPI().GetByID())
-	app.Server().AddRoute("/api/v1/kompetensi/{id}", "PUT", kompetensi.REST().UpdateByID, kompetensi.OpenAPI().UpdateByID())
-	app.Server().AddRoute("/api/v1/kompetensi/{id}", "PATCH", kompetensi.REST().PartiallyUpdateByID, kompetensi.OpenAPI().PartiallyUpdateByID())
-	app.Server().AddRoute("/api/v1/kompetensi/{id}", "DELETE", kompetensi.REST().DeleteByID, kompetensi.OpenAPI().DeleteByID())
+	// app.Server().AddRoute("/api/v1/kompetensi/{id}", "PUT", kompetensi.REST().UpdateByID, kompetensi.OpenAPI().UpdateByID())
+	// app.Server().AddRoute("/api/v1/kompetensi/{id}", "PATCH", kompetensi.REST().PartiallyUpdateByID, kompetensi.OpenAPI().PartiallyUpdateByID())
+	// app.Server().AddRoute("/api/v1/kompetensi/{id}", "DELETE", kompetensi.REST().DeleteByID, kompetensi.OpenAPI().DeleteByID())
 
 	app.Server().AddRoute("/api/v1/lingkup_pengetahuan", "POST", lingkuppengetahuan.REST().Create, lingkuppengetahuan.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/lingkup_pengetahuan", "GET", lingkuppengetahuan.REST().Get, lingkuppengetahuan.OpenAPI().Get())
