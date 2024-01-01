@@ -151,3 +151,32 @@ type ParamPartiallyUpdate struct {
 type ParamDelete struct {
 	UseCaseHandler
 }
+
+type LoginStara struct {
+	HttpCode     app.NullInt64  `json:"http_code"`
+	Message      app.NullString `json:"message"`
+	Name         app.NullText   `json:"data.user_info.name"`
+	NamaGelar    app.NullText   `json:"data.user_info.nama_gelar"`
+	Username     app.NullText   `json:"data.user_info.username"`
+	RoleId       app.NullText   `json:"data.user_info.role_id"`
+	UserNip      app.NullText   `json:"data.user_info.user_nip"`
+	Nomorhp      app.NullText   `json:"data.user_info.nomorhp"`
+	Aktif        app.NullText   `json:"data.user_info.aktif"`
+	Nipbaru      app.NullText   `json:"data.user_info.nipbaru"`
+	Jabatan      app.NullText   `json:"data.user_info.jabatan"`
+	IsJab        app.NullText   `json:"data.user_info.is_jab"`
+	IsJab2       app.NullText   `json:"data.user_info.is_jab_2"`
+	JenisJab     app.NullText   `json:"data.user_info.jenis_jab"`
+	IsDpil       app.NullText   `json:"data.user_info.is_dpil"`
+	Version      app.NullText   `json:"data.user_info.version"`
+	IsUrgent     app.NullText   `json:"data.user_info.is_urgent"`
+	IsHut        app.NullText   `json:"data.user_info.is_hut"`
+	IsAtasan     app.NullText   `json:"data.user_info.is_atasan"`
+	Nik          app.NullText   `json:"data.user_info.nik"`
+	JenisKelamin app.NullText   `json:"data.user_info.jenis_kelamin"`
+	SNamaAgama   app.NullText   `json:"data.user_info.s_nama_agama"`
+	Namaunit     app.NullText   `json:"data.user_info.namaunit"`
+	KeySortUnit  app.NullText   `json:"data.user_info.key_sort_unit"`
+	KelJab       app.NullText   `json:"data.user_info.kel_jab"`
+	SKdJabdetail app.NullText   `json:"data.user_info.s_kd_jabdetail"`
+}

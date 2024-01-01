@@ -32,6 +32,8 @@ import (
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
+	"github.com/maulanar/kms/src/provinsi"
+	"github.com/maulanar/kms/src/pulau"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
 	"github.com/maulanar/kms/src/subjenispengetahuan"
@@ -116,6 +118,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", adviskategori.AdvisKategori{})
 	app.DB().RegisterTable("main", advissubkategori.AdvisSubKategori{})
 	app.DB().RegisterTable("main", advissumberdata.AdvisSumberData{})
+	app.DB().RegisterTable("main", pulau.Pulau{})
+	app.DB().RegisterTable("main", provinsi.Provinsi{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

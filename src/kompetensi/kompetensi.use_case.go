@@ -47,10 +47,7 @@ func (u UseCaseHandler) GetByID(id string) (Kompetensi, error) {
 		return res, err
 	}
 
-	err = u.GetDataFromAPI()
-	if err != nil {
-		return res, err
-	}
+	u.GetDataFromAPI()
 
 	// get from cache and return if exists
 	// cacheKey := u.EndPoint() + "." + id
@@ -170,10 +167,8 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	err = u.GetDataFromAPI()
-	if err != nil {
-		return res, err
-	}
+	u.GetDataFromAPI()
+
 	// get from cache and return if exists
 	// cacheKey := u.EndPoint() + "?" + u.Query.Encode()
 	// err = app.Cache().Get(cacheKey, &res)

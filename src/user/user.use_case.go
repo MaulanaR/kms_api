@@ -127,6 +127,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
+	p.Ctx = u.Ctx
+
 	// validate param
 	err = u.Ctx.ValidateParam(p)
 	if err != nil {
@@ -168,7 +170,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	org.TempatLahir = p.OrangTempatLahir
 	org.TglLahir = p.OrangTglLahir
 	org.JenisKelamin = p.OrangJenisKelamin
-	org.Alamat = p.OrangUnitKerja
+	org.Alamat = p.OrangAlamat
 	org.Email = p.OrangEmail
 	org.Telp = p.OrangTelp
 	org.Jabatan = p.OrangJabatan
@@ -177,7 +179,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	org.UserLevel = p.OrangUserLevel
 	org.StatusLevel = p.OrangStatusLevel
 
-	err = orang.UseCaseHandler{Ctx: u.Ctx, Query: url.Values{}}.Create(&org)
+	err = orang.UseCase(*u.Ctx).Create(&org)
 	if err != nil {
 		return err
 	}

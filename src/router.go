@@ -35,6 +35,8 @@ import (
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
+	"github.com/maulanar/kms/src/provinsi"
+	"github.com/maulanar/kms/src/pulau"
 	"github.com/maulanar/kms/src/referensi"
 	"github.com/maulanar/kms/src/statuspengetahuan"
 	"github.com/maulanar/kms/src/subjenispengetahuan"
@@ -343,6 +345,20 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "PUT", advissumberdata.REST().UpdateByID, advissumberdata.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "PATCH", advissumberdata.REST().PartiallyUpdateByID, advissumberdata.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/advis_sumber_data/{id}", "DELETE", advissumberdata.REST().DeleteByID, advissumberdata.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/pulau", "POST", pulau.REST().Create, pulau.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/pulau", "GET", pulau.REST().Get, pulau.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/pulau/{id}", "GET", pulau.REST().GetByID, pulau.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/pulau/{id}", "PUT", pulau.REST().UpdateByID, pulau.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/pulau/{id}", "PATCH", pulau.REST().PartiallyUpdateByID, pulau.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/pulau/{id}", "DELETE", pulau.REST().DeleteByID, pulau.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/provinsi", "POST", provinsi.REST().Create, provinsi.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/provinsi", "GET", provinsi.REST().Get, provinsi.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/provinsi/{id}", "GET", provinsi.REST().GetByID, provinsi.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/provinsi/{id}", "PUT", provinsi.REST().UpdateByID, provinsi.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/provinsi/{id}", "PATCH", provinsi.REST().PartiallyUpdateByID, provinsi.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/provinsi/{id}", "DELETE", provinsi.REST().DeleteByID, provinsi.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

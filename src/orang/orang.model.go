@@ -114,7 +114,7 @@ type ParamCreate struct {
 	Nama         app.NullString `json:"nama_lengkap"  db:"m.nama"          gorm:"column:nama"          validate:"required"`
 	Nik          app.NullString `json:"nik"           db:"m.nik"           gorm:"column:nik"           validate:"required"`
 	JenisKelamin app.NullString `json:"jenis_kelamin" db:"m.jenis_kelamin" gorm:"column:jenis_kelamin" validate:"omitempty,oneof='pria' 'wanita'"`
-	Email        app.NullString `json:"email"         db:"m.email"         gorm:"column:email"         validate:"required,email"`
+	Email        app.NullString `json:"email"         db:"m.email"         gorm:"column:email"         validate:"omitempty,email"`
 	Telp         app.NullString `json:"telp"          db:"m.telp"          gorm:"column:telp"          validate:"omitempty"`
 }
 
