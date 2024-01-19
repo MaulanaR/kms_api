@@ -1,7 +1,10 @@
 package pengetahuan
 
 import (
+	"bytes"
+	"embed"
 	"encoding/json"
+	"html/template"
 	"math"
 	"net/http"
 	"net/url"
@@ -16,6 +19,7 @@ import (
 	"github.com/maulanar/kms/src/kompetensi"
 	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
+	"github.com/maulanar/kms/src/notifikasi"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/referensi"
@@ -23,7 +27,13 @@ import (
 	"github.com/maulanar/kms/src/subjenispengetahuan"
 	"github.com/maulanar/kms/src/tag"
 	"github.com/maulanar/kms/src/tpengetahuanrelation"
+	"github.com/maulanar/kms/src/user"
+
+	"gopkg.in/gomail.v2"
 )
+
+//go:embed template/*
+var templatefs embed.FS
 
 // UseCase returns a UseCaseHandler for expected use case functional.
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -494,11 +504,99 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		}
 	}
 
+	//Kirim Email broadcast
+	if len(p.Tag) > 0 {
+		u.SendBroadcast(p)
+	}
+
+	// save history (user activity), send webhook, etc
+	go notifikasi.UseCase(*u.Ctx).Async(*u.Ctx).SaveNotif("Data Knowledge", "Data Knowledge berhasil ditambah", u.Ctx.User.ID, p.EndPoint(), p.ID.Int64, p)
+
 	// invalidate cache
 	app.Cache().Invalidate(u.EndPoint())
 
-	// save history (user activity), send webhook, etc
-	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	return nil
+}
+
+func (u UseCaseHandler) SendBroadcast(p *ParamCreate) error {
+	//arr tag
+	tags := []int64{}
+	for _, t := range p.Tag {
+		tags = append(tags, t.TagID.Int64)
+	}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//pengarang
+	pengarang, err := user.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.CreatedBy.Int64)))
+	if err != nil {
+		return err
+	}
+
+	//cari siapa saja user yang mengikuti tag tsb
+	followers := []user.FollowdHastag{}
+	err = tx.Model(&user.FollowdHastag{}).Distinct("id_user").Where("id_tag", tags).Find(&followers).Error
+	if err == nil {
+		//KIRIM BROADCAST
+
+		//prepare body email
+		var tmpl, err = template.ParseFS(templatefs, "template/blast.html")
+		if err != nil {
+			return err
+		}
+
+		// emailPenerima := []string{}
+		for _, f := range followers {
+			flw, err := user.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(f.UserID.Int64)))
+			if err == nil {
+				// emailPenerima = append(emailPenerima, flw.OrangEmail.String)
+
+				//kirim
+				var bodyHtml bytes.Buffer
+				var data = make(map[string]interface{})
+				data["nama_penerima"] = flw.OrangNama.String
+				data["date"] = p.CreatedAt.Time.Format("Monday, 2 January 2006")
+				data["pengarang"] = pengarang.OrangNama.String
+				data["judul"] = p.Judul.String
+				data["link"] = "http://app.rampai.my.id/knowledge-detail?id=" + strconv.Itoa(int(p.ID.Int64)) + "&jenis=" + strconv.Itoa(int(p.JenisPengetahuanID.Int64)) + "&sub=" + strconv.Itoa(int(p.SubJenisPengetahuanID.Int64))
+				err = tmpl.Execute(&bodyHtml, data)
+				if err != nil {
+					return err
+				}
+
+				//kirim
+				if flw.OrangEmail.Valid {
+					go sendMail(flw.OrangEmail.String, "Notifikasi Update KMS", bodyHtml.String())
+					// if err != nil {
+					// 	return err
+					// }
+				}
+			}
+		}
+		return nil
+	}
+
+	return err
+}
+
+func sendMail(to, subject, message string) error {
+	m := gomail.NewMessage()
+	m.SetHeader("From", app.GMAIL_NAME+"<"+app.GMAIL_AUTH+">")
+	m.SetHeader("To", to)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", message)
+
+	// Send the email to Bob
+	d := gomail.NewDialer(app.GMAIL_HOST, app.GMAIL_PORT, app.GMAIL_AUTH, app.GMAIL_PASS)
+	err := d.DialAndSend(m)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

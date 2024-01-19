@@ -10,6 +10,7 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/orang"
+	"github.com/maulanar/kms/src/tag"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -197,6 +198,23 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	//relation folowing tags
+	if len(p.FollowingTags) > 0 {
+		for _, ft := range p.FollowingTags {
+			//validation
+			tg, err := tag.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ft.HastagID.Int64)))
+			if err != nil {
+				return err
+			}
+			ft.UserID.Set(u.Ctx.User.ID)
+			ft.HastagID.Set(tg.ID.Int64)
+			err = tx.Create(&ft).Error
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	// invalidate cache
 	app.Cache().Invalidate(u.EndPoint())
 
@@ -285,6 +303,24 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	//relation folowing tags
+	if len(p.FollowingTags) > 0 {
+		tx.Where("id_user", u.Ctx.User.ID).Delete(&FollowdHastag{})
+		for _, ft := range p.FollowingTags {
+			//validation
+			tg, err := tag.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ft.HastagID.Int64)))
+			if err != nil {
+				return err
+			}
+			ft.UserID.Set(u.Ctx.User.ID)
+			ft.HastagID.Set(tg.ID.Int64)
+			err = tx.Create(&ft).Error
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	// invalidate cache
 	app.Cache().Invalidate(u.EndPoint(), strconv.Itoa(int(old.ID.Int64)))
 
@@ -346,6 +382,51 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	err = tx.Model(&p).Where("id_user = ?", old.ID).Updates(p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//relation folowing tags
+	if len(p.FollowingTags) > 0 {
+		tx.Where("id_user", u.Ctx.User.ID).Delete(&FollowdHastag{})
+		for _, ft := range p.FollowingTags {
+			//validation
+			tg, err := tag.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(ft.HastagID.Int64)))
+			if err != nil {
+				return err
+			}
+			ft.UserID.Set(u.Ctx.User.ID)
+			ft.HastagID.Set(tg.ID.Int64)
+			err = tx.Create(&ft).Error
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	//update orang
+	op := orang.ParamPartiallyUpdate{}
+	op.ID = p.OrangId
+	op.Nama = p.OrangNama
+	op.NamaPanggilan = p.OrangNamaPanggilan
+	op.Nip = p.OrangNip
+	op.Nik = p.OrangNik
+	op.TempatLahir = p.OrangTempatLahir
+	op.TglLahir = p.OrangTglLahir
+	op.JenisKelamin = p.OrangJenisKelamin
+	op.Alamat = p.OrangAlamat
+	op.Email = p.OrangEmail
+	op.Telp = p.OrangTelp
+	op.Jabatan = p.OrangJabatan
+	op.FotoID = p.OrangFotoID
+	op.FotoUrl = p.OrangFotoUrl
+	op.FotoNama = p.OrangFotoNama
+	op.UnitKerja = p.OrangUnitKerja
+	op.UserLevel = p.OrangUserLevel
+	op.StatusLevel = p.OrangStatusLevel
+	if old.OrangId.Valid {
+		err = orang.UseCase(*u.Ctx).PartiallyUpdateByID(strconv.Itoa(int(old.OrangId.Int64)), &op)
+		if err != nil {
+			return err
+		}
 	}
 
 	// invalidate cache

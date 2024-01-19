@@ -28,6 +28,7 @@ import (
 	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
+	"github.com/maulanar/kms/src/notifikasi"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
@@ -63,6 +64,7 @@ type migratorUtil struct {
 
 func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", user.User{})
+	app.DB().RegisterTable("main", user.FollowdHastag{})
 	app.DB().RegisterTable("main", orang.Orang{})
 	app.DB().RegisterTable("main", akademi.Akademi{})
 	app.DB().RegisterTable("main", jenispengetahuan.JenisPengetahuan{})
@@ -120,6 +122,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", advissumberdata.AdvisSumberData{})
 	app.DB().RegisterTable("main", pulau.Pulau{})
 	app.DB().RegisterTable("main", provinsi.Provinsi{})
+	app.DB().RegisterTable("main", notifikasi.Notifikasi{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
@@ -130,6 +133,9 @@ func (*migratorUtil) Run() {
 	} else {
 		err = app.DB().MigrateTable(tx, "main", app.Setting{})
 	}
+
+	//set auto increment
+	err = tx.Exec("ALTER TABLE m_user_followed_tags MODIFY COLUMN id INT AUTO_INCREMENT;").Error
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	}

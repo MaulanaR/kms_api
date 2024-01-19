@@ -11,6 +11,7 @@ import (
 
 	"github.com/maulanar/kms/app"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/notifikasi"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -271,7 +272,8 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	app.Cache().Invalidate(u.EndPoint())
 
-	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	go notifikasi.UseCase(*u.Ctx).SaveNotif("Data COP", "Data COP berhasil ditambah", u.Ctx.User.ID, p.EndPoint(), p.ID.Int64, p)
+	// go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
 	return nil
 }
 

@@ -31,6 +31,7 @@ import (
 	"github.com/maulanar/kms/src/librarycafe"
 	"github.com/maulanar/kms/src/like"
 	"github.com/maulanar/kms/src/lingkuppengetahuan"
+	"github.com/maulanar/kms/src/notifikasi"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
 	"github.com/maulanar/kms/src/penerbit"
@@ -359,6 +360,13 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/provinsi/{id}", "PUT", provinsi.REST().UpdateByID, provinsi.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/provinsi/{id}", "PATCH", provinsi.REST().PartiallyUpdateByID, provinsi.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/provinsi/{id}", "DELETE", provinsi.REST().DeleteByID, provinsi.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/notifikasi", "POST", notifikasi.REST().Create, notifikasi.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/notifikasi", "GET", notifikasi.REST().Get, notifikasi.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/notifikasi/{id}", "GET", notifikasi.REST().GetByID, notifikasi.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/notifikasi/{id}", "PUT", notifikasi.REST().UpdateByID, notifikasi.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/notifikasi/{id}", "PATCH", notifikasi.REST().PartiallyUpdateByID, notifikasi.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/notifikasi/{id}", "DELETE", notifikasi.REST().DeleteByID, notifikasi.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

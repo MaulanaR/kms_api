@@ -10,6 +10,7 @@ import (
 	"github.com/maulanar/kms/src/forum"
 	"github.com/maulanar/kms/src/leadertalk"
 	"github.com/maulanar/kms/src/librarycafe"
+	"github.com/maulanar/kms/src/notifikasi"
 	"github.com/maulanar/kms/src/pengetahuan"
 )
 
@@ -342,6 +343,8 @@ func (u UseCaseHandler) UpdateByPengetahuanID(id string, p *ParamUpdate) error {
 		if err != nil {
 			return app.Error().New(http.StatusInternalServerError, err.Error())
 		}
+
+		go notifikasi.UseCase(*u.Ctx).SaveNotif("Dislike Baru", u.Ctx.User.OrangNama+" baru saja dislike atas postingan anda.", pgth.CreatedBy.Int64, pgth.EndPoint(), pgth.ID.Int64, p)
 	}
 
 	app.Cache().Invalidate(u.EndPoint())
@@ -393,6 +396,9 @@ func (u UseCaseHandler) UpdateByforumID(id string, p *ParamUpdate) error {
 		if err != nil {
 			return app.Error().New(http.StatusInternalServerError, err.Error())
 		}
+
+		go notifikasi.UseCase(*u.Ctx).SaveNotif("Dislike Baru", u.Ctx.User.OrangNama+" baru saja dislike atas postingan anda.", pgth.CreatedBy.Int64, pgth.EndPoint(), pgth.ID.Int64, p)
+
 	}
 
 	app.Cache().Invalidate(u.EndPoint())

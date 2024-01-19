@@ -81,6 +81,12 @@ var (
 
 	TELEGRAM_ALERT_TOKEN   = ""
 	TELEGRAM_ALERT_USER_ID = ""
+
+	GMAIL_HOST = "smtp.gmail.com"
+	GMAIL_AUTH = ""
+	GMAIL_NAME = ""
+	GMAIL_PASS = ""
+	GMAIL_PORT = 587
 )
 
 // config is a pointer to a configUtil instance.
@@ -156,4 +162,10 @@ func (*configUtil) configure() {
 
 	grest.LoadEnv("TELEGRAM_ALERT_TOKEN", &TELEGRAM_ALERT_TOKEN)
 	grest.LoadEnv("TELEGRAM_ALERT_USER_ID", &TELEGRAM_ALERT_USER_ID)
+
+	grest.LoadEnv("GMAIL_HOST", &GMAIL_HOST)
+	grest.LoadEnv("GMAIL_AUTH", &GMAIL_AUTH)
+	grest.LoadEnv("GMAIL_NAME", &GMAIL_NAME)
+	grest.LoadEnv("GMAIL_PASS", &GMAIL_PASS)
+	grest.LoadEnv("GMAIL_PORT", &GMAIL_PORT)
 }

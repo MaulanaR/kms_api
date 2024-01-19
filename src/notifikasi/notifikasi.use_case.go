@@ -1,4 +1,4 @@
-package komentar
+package notifikasi
 
 import (
 	"net/http"
@@ -7,12 +7,6 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
-	"github.com/maulanar/kms/src/elibrary"
-	"github.com/maulanar/kms/src/forum"
-	"github.com/maulanar/kms/src/leadertalk"
-	"github.com/maulanar/kms/src/librarycafe"
-	"github.com/maulanar/kms/src/notifikasi"
-	"github.com/maulanar/kms/src/pengetahuan"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -27,7 +21,7 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 }
 
 type UseCaseHandler struct {
-	Komentar
+	Notifikasi
 
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
 	Query url.Values `json:"-" db:"-" gorm:"-"`
@@ -38,10 +32,10 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-func (u UseCaseHandler) GetByID(id string) (Komentar, error) {
-	res := Komentar{}
+func (u UseCaseHandler) GetByID(id string) (Notifikasi, error) {
+	res := Notifikasi{}
 
-	err := u.Ctx.ValidatePermission("komentar.detail")
+	err := u.Ctx.ValidatePermission("notifikasi.detail")
 	if err != nil {
 		return res, err
 	}
@@ -72,10 +66,11 @@ func (u UseCaseHandler) GetByID(id string) (Komentar, error) {
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
-	err := u.Ctx.ValidatePermission("komentar.list")
+	err := u.Ctx.ValidatePermission("notifikasi.list")
 	if err != nil {
 		return res, err
 	}
+	u.Query.Add("user_id", strconv.Itoa(int(u.Ctx.User.ID)))
 
 	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
 	err = app.Cache().Get(cacheKey, &res)
@@ -92,7 +87,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Komentar{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &Notifikasi{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -101,7 +96,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	data, err := app.Query().Find(tx, &Komentar{}, u.Query)
+	data, err := app.Query().Find(tx, &Notifikasi{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -111,19 +106,28 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	return res, err
 }
 
+func (u UseCaseHandler) SaveNotif(judul string, deskripsi string, targetID int64, endpoint string, dataID int64, data any) error {
+	p := ParamCreate{}
+	p.Ctx = u.Ctx
+	p.Endpoint.Set(endpoint)
+	p.DataID.Set(dataID)
+	p.UserID.Set(targetID)
+	p.IsRead.Set(false)
+	p.Data.Set(data)
+	p.Judul.Set(judul)
+	p.Deskripsi.Set(deskripsi)
+
+	err := u.Create(&p)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
-	err := u.Ctx.ValidatePermission("komentar.create")
-	if err != nil {
-		return err
-	}
-
-	err = u.Ctx.ValidateParam(p)
-	if err != nil {
-		return err
-	}
-
-	err = p.setDefaultValue(Komentar{})
+	err := p.setDefaultValue(Notifikasi{})
 	if err != nil {
 		return err
 	}
@@ -133,7 +137,10 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	p.CreatedAt.Set(time.Now())
+	err = tx.Exec("ALTER TABLE " + Notifikasi{}.TableName() + " MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	if err != nil {
+		return err
+	}
 
 	err = tx.Model(&p).Create(&p).Error
 	if err != nil {
@@ -142,29 +149,13 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 	app.Cache().Invalidate(u.EndPoint())
 
-	if p.PengetahuanID.Valid {
-		peng, err := pengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.PengetahuanID.Int64)))
-		if err != nil {
-			return err
-		}
-		go notifikasi.UseCase(*u.Ctx).SaveNotif("Komentar Baru", u.Ctx.User.OrangNama+" baru saja memberikan komentar atas postingan anda.", peng.CreatedBy.Int64, peng.EndPoint(), peng.ID.Int64, p)
-	}
-
-	if p.ForumID.Valid {
-		forum, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(p.ForumID.Int64)))
-		if err != nil {
-			return err
-		}
-		go notifikasi.UseCase(*u.Ctx).SaveNotif("Komentar Baru", u.Ctx.User.OrangNama+" baru saja memberikan komentar atas postingan anda.", forum.CreatedBy.Int64, forum.EndPoint(), forum.ID.Int64, p)
-	}
-
-	// go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
+	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
 	return nil
 }
 
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
-	err := u.Ctx.ValidatePermission("komentar.edit")
+	err := u.Ctx.ValidatePermission("notifikasi.edit")
 	if err != nil {
 		return err
 	}
@@ -173,8 +164,6 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 	if err != nil {
 		return err
 	}
-
-	p.UpdatedAt.Set(time.Now())
 
 	old, err := u.GetByID(id)
 	if err != nil {
@@ -204,7 +193,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
-	err := u.Ctx.ValidatePermission("komentar.edit")
+	err := u.Ctx.ValidatePermission("notifikasi.edit")
 	if err != nil {
 		return err
 	}
@@ -213,8 +202,6 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	if err != nil {
 		return err
 	}
-
-	p.UpdatedAt.Set(time.Now())
 
 	old, err := u.GetByID(id)
 	if err != nil {
@@ -244,7 +231,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
-	err := u.Ctx.ValidatePermission("komentar.delete")
+	err := u.Ctx.ValidatePermission("notifikasi.delete")
 	if err != nil {
 		return err
 	}
@@ -275,54 +262,21 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-func (u *UseCaseHandler) setDefaultValue(old Komentar) error {
+func (u *UseCaseHandler) setDefaultValue(old Notifikasi) error {
 	if old.ID.Valid {
 		u.ID = old.ID
 	}
 
-	if old.UserID.Valid {
-		u.UserID = old.UserID
+	if u.Ctx.Action.Method == "POST" {
+		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
 
-	if !u.UserID.Valid {
-		u.UserID.Set(u.Ctx.User.ID)
+	if u.Ctx.Action.Method == "PUT" || u.Ctx.Action.Method == "PATCH" {
+		u.UpdatedBy.Set(u.Ctx.User.ID)
 	}
 
-	//validasi
-	if u.PengetahuanID.Valid {
-		_, err := pengetahuan.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.PengetahuanID.Int64)))
-		if err != nil {
-			return err
-		}
+	if u.Ctx.Action.Method == "DELETE" {
+		u.DeletedBy.Set(u.Ctx.User.ID)
 	}
-
-	if u.ForumID.Valid {
-		_, err := forum.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.ForumID.Int64)))
-		if err != nil {
-			return err
-		}
-	}
-
-	if u.LeaderTalkID.Valid {
-		_, err := leadertalk.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LeaderTalkID.Int64)))
-		if err != nil {
-			return err
-		}
-	}
-
-	if u.LibraryCafeID.Valid {
-		_, err := librarycafe.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.LibraryCafeID.Int64)))
-		if err != nil {
-			return err
-		}
-	}
-
-	if u.ElibraryID.Valid {
-		_, err := elibrary.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.ElibraryID.Int64)))
-		if err != nil {
-			return err
-		}
-	}
-
 	return nil
 }
