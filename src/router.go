@@ -20,6 +20,7 @@ import (
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
+	"github.com/maulanar/kms/src/hadiah"
 	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kategoribuku"
@@ -34,6 +35,7 @@ import (
 	"github.com/maulanar/kms/src/notifikasi"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
+	"github.com/maulanar/kms/src/pencapaian"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
 	"github.com/maulanar/kms/src/provinsi"
@@ -367,6 +369,22 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/notifikasi/{id}", "PUT", notifikasi.REST().UpdateByID, notifikasi.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/notifikasi/{id}", "PATCH", notifikasi.REST().PartiallyUpdateByID, notifikasi.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/notifikasi/{id}", "DELETE", notifikasi.REST().DeleteByID, notifikasi.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/ranking_point", "GET", hadiah.REST().GetRanking, hadiah.OpenAPI().Get())
+
+	app.Server().AddRoute("/api/v1/hadiah", "POST", hadiah.REST().Create, hadiah.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/hadiah", "GET", hadiah.REST().Get, hadiah.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/hadiah/{id}", "GET", hadiah.REST().GetByID, hadiah.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/hadiah/{id}", "PUT", hadiah.REST().UpdateByID, hadiah.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/hadiah/{id}", "PATCH", hadiah.REST().PartiallyUpdateByID, hadiah.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/hadiah/{id}", "DELETE", hadiah.REST().DeleteByID, hadiah.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/pencapaian", "POST", pencapaian.REST().Create, pencapaian.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/pencapaian", "GET", pencapaian.REST().Get, pencapaian.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/pencapaian/{id}", "GET", pencapaian.REST().GetByID, pencapaian.OpenAPI().GetByID())
+	// app.Server().AddRoute("/api/v1/pencapaian/{id}", "PUT", pencapaian.REST().UpdateByID, pencapaian.OpenAPI().UpdateByID())
+	// app.Server().AddRoute("/api/v1/pencapaian/{id}", "PATCH", pencapaian.REST().PartiallyUpdateByID, pencapaian.OpenAPI().PartiallyUpdateByID())
+	// app.Server().AddRoute("/api/v1/pencapaian/{id}", "DELETE", pencapaian.REST().DeleteByID, pencapaian.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

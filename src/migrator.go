@@ -17,6 +17,7 @@ import (
 	"github.com/maulanar/kms/src/event"
 	"github.com/maulanar/kms/src/eventmateri"
 	"github.com/maulanar/kms/src/forum"
+	"github.com/maulanar/kms/src/hadiah"
 	"github.com/maulanar/kms/src/historypoint"
 	"github.com/maulanar/kms/src/jenispengetahuan"
 	"github.com/maulanar/kms/src/kategoribuku"
@@ -31,6 +32,7 @@ import (
 	"github.com/maulanar/kms/src/notifikasi"
 	"github.com/maulanar/kms/src/orang"
 	"github.com/maulanar/kms/src/pedoman"
+	"github.com/maulanar/kms/src/pencapaian"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
 	"github.com/maulanar/kms/src/provinsi"
@@ -123,6 +125,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", pulau.Pulau{})
 	app.DB().RegisterTable("main", provinsi.Provinsi{})
 	app.DB().RegisterTable("main", notifikasi.Notifikasi{})
+	app.DB().RegisterTable("main", hadiah.Hadiah{})
+	app.DB().RegisterTable("main", pencapaian.Pencapaian{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
@@ -136,6 +140,17 @@ func (*migratorUtil) Run() {
 
 	//set auto increment
 	err = tx.Exec("ALTER TABLE m_user_followed_tags MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	}
+
+	//set auto increment
+	err = tx.Exec("ALTER TABLE m_hadiah MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	}
+
+	err = tx.Exec("ALTER TABLE t_pencapaian MODIFY COLUMN id INT AUTO_INCREMENT;").Error
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	}

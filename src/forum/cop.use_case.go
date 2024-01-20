@@ -395,6 +395,14 @@ func (u *UseCaseHandler) setDefaultValue(old Forum) error {
 		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
 
+	if u.Ctx.Action.Method == "PUT" || u.Ctx.Action.Method == "PATCH" {
+		u.UpdatedBy.Set(u.Ctx.User.ID)
+	}
+
+	if u.Ctx.Action.Method == "DELETE" {
+		u.DeletedBy.Set(u.Ctx.User.ID)
+	}
+
 	if u.GambarID.Valid {
 		//validasi
 		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.GambarID.Int64)))

@@ -83,9 +83,9 @@ var (
 	TELEGRAM_ALERT_USER_ID = ""
 
 	GMAIL_HOST = "smtp.gmail.com"
-	GMAIL_AUTH = ""
-	GMAIL_NAME = ""
-	GMAIL_PASS = ""
+	GMAIL_AUTH = "kmsbpkp2023@gmail.com"
+	GMAIL_NAME = "KMS BPKP"
+	GMAIL_PASS = "nejllletqnigebgr"
 	GMAIL_PORT = 587
 )
 

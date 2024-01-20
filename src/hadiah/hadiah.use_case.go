@@ -1,4 +1,4 @@
-package historypoint
+package hadiah
 
 import (
 	"net/http"
@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/attachment"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -21,7 +22,7 @@ func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 }
 
 type UseCaseHandler struct {
-	HistoryPoint
+	Hadiah
 
 	Ctx   *app.Ctx   `json:"-" db:"-" gorm:"-"`
 	Query url.Values `json:"-" db:"-" gorm:"-"`
@@ -32,10 +33,10 @@ func (u UseCaseHandler) Async(ctx app.Ctx, query ...url.Values) UseCaseHandler {
 	return UseCase(ctx, query...)
 }
 
-func (u UseCaseHandler) GetByID(id string) (HistoryPoint, error) {
-	res := HistoryPoint{}
+func (u UseCaseHandler) GetByID(id string) (Hadiah, error) {
+	res := Hadiah{}
 
-	err := u.Ctx.ValidatePermission("history_points.detail")
+	err := u.Ctx.ValidatePermission("hadiah.detail")
 	if err != nil {
 		return res, err
 	}
@@ -66,7 +67,7 @@ func (u UseCaseHandler) GetByID(id string) (HistoryPoint, error) {
 func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res := app.ListModel{}
 
-	err := u.Ctx.ValidatePermission("history_points.list")
+	err := u.Ctx.ValidatePermission("hadiah.list")
 	if err != nil {
 		return res, err
 	}
@@ -86,7 +87,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &HistoryPoint{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &Hadiah{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -95,7 +96,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 
-	data, err := app.Query().Find(tx, &HistoryPoint{}, u.Query)
+	data, err := app.Query().Find(tx, &Hadiah{}, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -107,7 +108,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 
 func (u UseCaseHandler) Create(p *ParamCreate) error {
 
-	err := u.Ctx.ValidatePermission("history_points.create")
+	err := u.Ctx.ValidatePermission("hadiah.create")
 	if err != nil {
 		return err
 	}
@@ -117,7 +118,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	err = p.setDefaultValue(HistoryPoint{})
+	err = p.setDefaultValue(Hadiah{})
 	if err != nil {
 		return err
 	}
@@ -140,7 +141,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 
 func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
-	err := u.Ctx.ValidatePermission("history_points.edit")
+	err := u.Ctx.ValidatePermission("hadiah.edit")
 	if err != nil {
 		return err
 	}
@@ -178,7 +179,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 
 func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) error {
 
-	err := u.Ctx.ValidatePermission("history_points.edit")
+	err := u.Ctx.ValidatePermission("hadiah.edit")
 	if err != nil {
 		return err
 	}
@@ -216,7 +217,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 
 func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 
-	err := u.Ctx.ValidatePermission("history_points.delete")
+	err := u.Ctx.ValidatePermission("hadiah.delete")
 	if err != nil {
 		return err
 	}
@@ -247,88 +248,63 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 	return nil
 }
 
-func (u *UseCaseHandler) setDefaultValue(old HistoryPoint) error {
+func (u *UseCaseHandler) setDefaultValue(old Hadiah) error {
 	if old.ID.Valid {
 		u.ID = old.ID
 	}
 
 	if u.Ctx.Action.Method == "POST" {
-		u.CreatedAt.Set(time.Now())
 		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
 
+	if !u.IsActive.Valid {
+		u.IsActive.Set(true)
+	}
+
+	if u.GambarID.Valid {
+		//validasi
+		_, err := attachment.UseCase(*u.Ctx).GetByID(strconv.Itoa(int(u.GambarID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
 	if u.Ctx.Action.Method == "PUT" || u.Ctx.Action.Method == "PATCH" {
-		u.UpdatedAt.Set(time.Now())
 		u.UpdatedBy.Set(u.Ctx.User.ID)
 	}
 
 	if u.Ctx.Action.Method == "DELETE" {
-		u.DeletedAt.Set(time.Now())
 		u.DeletedBy.Set(u.Ctx.User.ID)
 	}
 	return nil
 }
 
-func (u UseCaseHandler) AddPoint(pengetahuanID int64, point int64) error {
-	p := ParamCreate{}
+func (u UseCaseHandler) GetRanking() (app.ListModel, error) {
+	res := app.ListModel{}
 
-	p.UserID.Set(u.Ctx.User.ID)
-	p.PengetahuanID.Set(pengetahuanID)
-	p.CreatedAt.Set(time.Now())
 	tx, err := u.Ctx.DB()
 	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	//get latest point
-	var before int64 = 0
-	err = tx.Raw("SELECT thp.after FROM t_history_points thp WHERE thp.id_user = ? ORDER BY thp.updated_at DESC, thp.created_at DESC LIMIT 1", u.Ctx.User.ID).Scan(&before).Error
+	res.Count,
+		res.PageContext.Page,
+		res.PageContext.PerPage,
+		res.PageContext.PageCount,
+		err = app.Query().PaginationInfo(tx, &RankingPoint{}, u.Query)
 	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
-	p.Before.Set(before)
-	p.AdjustmentPoint.Set(point)
-	p.After.Set(p.Before.Int64 + point)
 
-	err = tx.Model(&p).Create(&p).Error
+	if res.PageContext.PerPage == 0 {
+		return res, err
+	}
+
+	data, err := app.Query().Find(tx, &RankingPoint{}, u.Query)
 	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
+	res.SetData(data, u.Query)
 
-	app.Cache().Invalidate(u.EndPoint())
-
-	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
-	return nil
-}
-
-func (u UseCaseHandler) MinusPoint(PencapaianID int64, point int64) error {
-	p := ParamCreate{}
-
-	p.UserID.Set(u.Ctx.User.ID)
-	p.PencapaianID.Set(PencapaianID)
-	p.CreatedAt.Set(time.Now())
-	tx, err := u.Ctx.DB()
-	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
-	}
-
-	//get latest point
-	var before int64 = 0
-	err = tx.Raw("SELECT thp.after FROM t_history_points thp WHERE thp.id_user = ? ORDER BY thp.updated_at DESC, thp.created_at DESC LIMIT 1", u.Ctx.User.ID).Scan(&before).Error
-	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
-	}
-	p.Before.Set(before)
-	p.AdjustmentPoint.Set(point)
-	p.After.Set(p.Before.Int64 + point)
-
-	err = tx.Model(&p).Create(&p).Error
-	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
-	}
-
-	app.Cache().Invalidate(u.EndPoint())
-
-	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
-	return nil
+	return res, err
 }

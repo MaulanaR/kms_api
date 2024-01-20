@@ -37,6 +37,16 @@ type HistoryPoint struct {
 	ThumbnailName          app.NullString `json:"pengetahuan.thumbnail.nama"            db:"attachment.filename"            gorm:"-"`
 	ThumbnailUrl           app.NullString `json:"pengetahuan.thumbnail.url"             db:"attachment.url"                 gorm:"-"`
 
+	PencapaianID                   app.NullInt64    `json:"pencapaian.id"                         db:"m.id_pencapaian"                gorm:"column:id_pencapaian"`
+	PencapaianTanggal              app.NullDateTime `json:"pencapaian.tanggal"                    db:"pen.tanggal"                    gorm:"-"`
+	PencapaianHadiahId             app.NullInt64    `json:"pencapaian.hadiah.id"                  db:"pen.hadiah_id"                  gorm:"-"`
+	PencapaianHadiahName           app.NullString   `json:"pencapaian.hadiah.nama"                db:"hadiah.nama"                    gorm:"-"`
+	PencapaianHadiahDesc           app.NullText     `json:"pencapaian.hadiah.deskripsi"           db:"hadiah.deskripsi"               gorm:"-"`
+	PencapaianHadiahPoint          app.NullInt64    `json:"pencapaian.hadiah.point"               db:"hadiah.point"                   gorm:"-"`
+	PencapaianHadiahGambarID       app.NullInt64    `json:"pencapaian.hadiah.gambar.id"           db:"hadiah.gambar_id"               gorm:"-"`
+	PencapaianHadiahGambarFilename app.NullString   `json:"pencapaian.hadiah.gambar.filename"     db:"hadiahgbr.filename"             gorm:"-"`
+	PencapaianHadiahGambarUrl      app.NullString   `json:"pencapaian.hadiah.gambar.url"          db:"hadiahgbr.url"                  gorm:"-"`
+
 	Before          app.NullInt64 `json:"before"                                db:"m.before"                       gorm:"column:before"`
 	AdjustmentPoint app.NullInt64 `json:"adjustment_point"                      db:"m.adjustment_point"             gorm:"column:adjustment_point"`
 	After           app.NullInt64 `json:"after"                                 db:"m.after"                        gorm:"column:after"`
@@ -57,7 +67,7 @@ func (HistoryPoint) EndPoint() string {
 }
 
 func (HistoryPoint) TableVersion() string {
-	return "28.06.291152"
+	return "24.01.201152"
 }
 
 func (HistoryPoint) TableName() string {
@@ -69,6 +79,10 @@ func (HistoryPoint) TableAliasName() string {
 }
 
 func (m *HistoryPoint) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "t_pencapaian", "pen", []map[string]any{{"column1": "pen.id", "column2": "m.id_pencapaian"}})
+	m.AddRelation("left", "m_hadiah", "hadiah", []map[string]any{{"column1": "hadiah.id", "column2": "pen.hadiah_id"}})
+	m.AddRelation("left", "m_attachments", "hadiahgbr", []map[string]any{{"column1": "hadiahgbr.id", "column2": "hadiah.gambar_id"}})
+
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
