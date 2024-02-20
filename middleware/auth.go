@@ -128,7 +128,7 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 			}
 
 			//get tanpa login
-			if segments[3] == "pengetahuan" && method == "GET" {
+			if (segments[3] == "pengetahuan" || segments[3] == "populer_pengetahuan") && method == "GET" {
 				return false
 			} else if segments[3] == "komentar" && method == "GET" {
 				return false

@@ -217,3 +217,18 @@ func (r *RESTAPIHandler) GetMixSlider(c *fiber.Ctx) error {
 	}
 	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
+
+func (r *RESTAPIHandler) GetPopuler(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res, err := r.UseCase.GetPopuler()
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	if r.UseCase.IsFlat() {
+		return c.JSON(res)
+	}
+	return c.JSON(grest.NewJSON(res).ToStructured().Data)
+}

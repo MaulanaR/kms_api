@@ -7,6 +7,7 @@ type Tag struct {
 	app.Model
 	ID        app.NullInt64    `json:"id"         db:"m.id_tag"          gorm:"column:id_tag;primaryKey; not null"`
 	Nama      app.NullText     `json:"nama"       db:"m.nama_tag"        gorm:"column:nama_tag"`
+	Jenis     app.NullText     `json:"nama"       db:"m.jenis"           gorm:"column:jenis"`
 	CreatedAt app.NullDateTime `json:"created_at" db:"m.created_at"      gorm:"column:created_at"`
 	UpdatedAt app.NullDateTime `json:"updated_at" db:"m.updated_at"      gorm:"column:updated_at"`
 	DeletedAt app.NullDateTime `json:"deleted_at" db:"m.deleted_at,hide" gorm:"column:deleted_at"`
@@ -20,7 +21,7 @@ func (Tag) EndPoint() string {
 // TableVersion returns the versions of the Tag table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (Tag) TableVersion() string {
-	return "28.07.301152"
+	return "24.02.211152"
 }
 
 // TableName returns the name of the Tag table in the database.

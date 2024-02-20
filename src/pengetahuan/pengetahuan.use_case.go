@@ -1505,3 +1505,39 @@ func (u UseCaseHandler) GetMixSlider() (MixSlide, error) {
 
 	return res, err
 }
+
+// get return popular pengetahuan, based on higher like and view
+func (u UseCaseHandler) GetPopuler() ([]Pengetahuan, error) {
+	res := []Pengetahuan{}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// find data
+	p := []Pengetahuan{}
+	pFilter := Pengetahuan{}
+	q := url.Values{}
+	q.Add("$per_page", "20")
+
+	pFilter.Sorts = append(pFilter.Sorts, map[string]any{"column": "(`statistik.view`)", "direction": "desc"})
+	pFilter.Sorts = append(pFilter.Sorts, map[string]any{"column": "(`statistik.like`)", "direction": "desc"})
+
+	r, err := app.Query().Find(tx, &pFilter, q)
+	if err != nil {
+		return res, err
+	}
+	b, err := json.Marshal(r)
+	if err == nil {
+		err = json.Unmarshal(b, &p)
+		if err == nil {
+			for _, v := range p {
+				res = append(res, v)
+			}
+		}
+	}
+
+	return res, err
+}

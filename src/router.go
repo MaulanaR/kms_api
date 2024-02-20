@@ -147,6 +147,7 @@ func (r *routerUtil) Configure() {
 
 	app.Server().AddRoute("/api/v1/slider_pengetahuan", "GET", pengetahuan.REST().GetSlider, pengetahuan.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/mix_slider", "GET", pengetahuan.REST().GetMixSlider, pengetahuan.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/populer_pengetahuan", "GET", pengetahuan.REST().GetPopuler, pengetahuan.OpenAPI().Get())
 
 	//like & dislike
 	app.Server().AddRoute("/api/v1/pengetahuan/{id}/like", "POST", like.REST().UpdateByPengetahuanID, like.OpenAPI().PartiallyUpdateByID())
