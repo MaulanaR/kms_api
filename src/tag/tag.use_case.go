@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/kompetensi"
+	"grest.dev/grest"
 )
 
 // UseCase returns a UseCaseHandler for expected use case functional.
@@ -82,12 +84,8 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	if err != nil {
 		return res, err
 	}
-	// get from cache and return if exists
-	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
-	err = app.Cache().Get(cacheKey, &res)
-	if err == nil {
-		return res, err
-	}
+
+	u.GetDataFromAPI()
 
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
@@ -116,8 +114,6 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 	res.SetData(data, u.Query)
 
-	// save to cache and return if exists
-	app.Cache().Set(cacheKey, res)
 	return res, err
 }
 
@@ -183,6 +179,10 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return err
 	}
 
+	if old.Jenis.String == "stara" {
+		return app.Error().New(http.StatusForbidden, "Data berasal dari API STARA, untuk mengubahnya silahkan melalui di API STARA.")
+	}
+
 	// set default value for undefined field
 	err = p.setDefaultValue(old)
 	if err != nil {
@@ -228,6 +228,10 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	old, err := u.GetByID(id)
 	if err != nil {
 		return err
+	}
+
+	if old.Jenis.String == "stara" {
+		return app.Error().New(http.StatusForbidden, "Data berasal dari API STARA, untuk mengubahnya silahkan melalui di API STARA.")
 	}
 
 	// set default value for undefined field
@@ -277,6 +281,10 @@ func (u UseCaseHandler) DeleteByID(id string, p *ParamDelete) error {
 		return err
 	}
 
+	if old.Jenis.String == "stara" {
+		return app.Error().New(http.StatusForbidden, "Data berasal dari API STARA, untuk menghapusnya silahkan melalui di API STARA.")
+	}
+
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
 	if err != nil {
@@ -303,5 +311,88 @@ func (u *UseCaseHandler) setDefaultValue(old Tag) error {
 		u.ID = old.ID
 	}
 
+	return nil
+}
+
+func (u UseCaseHandler) GetDataFromAPI() error {
+	//LOGIN TO API STARA
+	endPoint := "https://api-stara.bpkp.go.id/api/auth/login"
+	body := map[string]any{
+		"username": "eko r prastiawan",
+		"password": "jlnias&7",
+	}
+
+	c := app.HttpClient("POST", endPoint)
+	// c.AddHeader(app.AuthHeaderKey, "Bearer "+u.Ctx.Auth.AccessToken)
+	c.Debug()
+	c.AddJsonBody(body)
+	_, err := c.Send()
+	if err != nil {
+		return err
+	}
+	staraAuth := kompetensi.LoginStara{}
+	err = grest.NewJSON(c.BodyResponse).ToFlat().Unmarshal(&staraAuth)
+	if err != nil {
+		return err
+	}
+	// c.UnmarshalJson(&staraAuth)
+
+	//GET DATA FROM API STARA
+	c2 := app.HttpClient("GET", "https://api-stara.bpkp.go.id/api/kompetensi")
+	c2.AddHeader("Authorization", "Bearer "+staraAuth.Token.String)
+	c2.Debug()
+	_, err = c2.Send()
+	if err != nil {
+		return err
+	}
+	resC2 := make(map[string]interface{})
+	c2.UnmarshalJson(&resC2)
+
+	kompentensi := []kompetensi.Kompetensi{}
+	err = grest.NewJSON(resC2["data"]).ToFlat().Unmarshal(&kompentensi)
+	if err != nil {
+		return err
+	}
+
+	var allIDMappings []int64
+
+	// Iterasi melalui slice Kompentensi
+	for _, k := range kompentensi {
+		allIDMappings = append(allIDMappings, k.IDMapping.Int64)
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return err
+	}
+
+	//hapus data di database jika id_mapping tidak ada di list ini
+	tx.Not("id_mapping =?", allIDMappings).Where("jenis = ?", "stara").Delete(Tag{})
+
+	//Update / Insert data
+	for _, k := range kompentensi {
+		dt := Tag{}
+		result := tx.Where("id_mapping = ?", k.IDMapping).Where("jenis = ?", "stara").First(&dt)
+		if result.RowsAffected < 1 {
+			//insert
+			dt.Nama = k.NamaKompetensiSDM
+			dt.StaraID = k.IDMapping
+			dt.Jenis.Set("stara")
+			err = tx.Create(&dt).Error
+			if err != nil {
+				return err
+			}
+		} else {
+			//update
+			if dt.Nama != k.NamaKompetensiSDM {
+				dt.Nama = k.NamaKompetensiSDM
+				dt.Jenis.Set("stara")
+				err = tx.Where("id_tag = ?", dt.ID).Updates(&dt).Error
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
 	return nil
 }

@@ -78,7 +78,7 @@ func (u UseCaseHandler) GetByID(id string) (Kompetensi, error) {
 
 func (u UseCaseHandler) GetDataFromAPI() error {
 	//LOGIN TO API STARA
-	endPoint := "http://api-stara.bpkp.go.id/api/auth/login"
+	endPoint := "https://api-stara.bpkp.go.id/api/auth/login"
 	body := map[string]any{
 		"username": "eko r prastiawan",
 		"password": "jlnias&7",
@@ -100,7 +100,7 @@ func (u UseCaseHandler) GetDataFromAPI() error {
 	// c.UnmarshalJson(&staraAuth)
 
 	//GET DATA FROM API STARA
-	c2 := app.HttpClient("GET", "http://api-stara.bpkp.go.id/api/kompetensi")
+	c2 := app.HttpClient("GET", "https://api-stara.bpkp.go.id/api/kompetensi")
 	c2.AddHeader("Authorization", "Bearer "+staraAuth.Token.String)
 	c2.Debug()
 	_, err = c2.Send()
