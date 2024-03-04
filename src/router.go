@@ -13,6 +13,7 @@ import (
 	"github.com/maulanar/kms/src/advissumberdata"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/bannercarousel"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/dokumen"
 	"github.com/maulanar/kms/src/dokumenmap"
@@ -386,6 +387,13 @@ func (r *routerUtil) Configure() {
 	// app.Server().AddRoute("/api/v1/pencapaian/{id}", "PUT", pencapaian.REST().UpdateByID, pencapaian.OpenAPI().UpdateByID())
 	// app.Server().AddRoute("/api/v1/pencapaian/{id}", "PATCH", pencapaian.REST().PartiallyUpdateByID, pencapaian.OpenAPI().PartiallyUpdateByID())
 	// app.Server().AddRoute("/api/v1/pencapaian/{id}", "DELETE", pencapaian.REST().DeleteByID, pencapaian.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/banner_carousel", "POST", bannercarousel.REST().Create, bannercarousel.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/banner_carousel", "GET", bannercarousel.REST().Get, bannercarousel.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "GET", bannercarousel.REST().GetByID, bannercarousel.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "PUT", bannercarousel.REST().UpdateByID, bannercarousel.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "PATCH", bannercarousel.REST().PartiallyUpdateByID, bannercarousel.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "DELETE", bannercarousel.REST().DeleteByID, bannercarousel.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

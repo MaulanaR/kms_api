@@ -10,6 +10,7 @@ import (
 	"github.com/maulanar/kms/src/advissumberdata"
 	"github.com/maulanar/kms/src/akademi"
 	"github.com/maulanar/kms/src/attachment"
+	"github.com/maulanar/kms/src/bannercarousel"
 	"github.com/maulanar/kms/src/dislike"
 	"github.com/maulanar/kms/src/dokumen"
 	"github.com/maulanar/kms/src/dokumenmap"
@@ -127,6 +128,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", notifikasi.Notifikasi{})
 	app.DB().RegisterTable("main", hadiah.Hadiah{})
 	app.DB().RegisterTable("main", pencapaian.Pencapaian{})
+	app.DB().RegisterTable("main", bannercarousel.BannerCarousel{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 

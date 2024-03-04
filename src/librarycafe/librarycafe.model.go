@@ -46,6 +46,12 @@ type LibraryCafe struct {
 	StatistikKomentar app.NullInt64 `json:"statistik.komentar"  db:"(SELECT COUNT(*) FROM t_komentar WHERE t_komentar.id_library_cafe=m.id)" gorm:"-"`
 	IsLiked           app.NullBool  `json:"is_liked"            db:"-"                                                                       gorm:"-"`
 	IsDisliked        app.NullBool  `json:"is_disliked"         db:"-"                                                                       gorm:"-"`
+
+	TanggalMulai   app.NullDate     `json:"tanggal_mulai"       db:"m.tanggal_mulai"                                                         gorm:"column:tanggal_mulai"`
+	TanggalSelesai app.NullDate     `json:"tanggal_selesai"     db:"m.tanggal_selesai"                                                       gorm:"column:tanggal_selesai"`
+	WaktuMulai     app.NullDateTime `json:"waktu_mulai"         db:"m.waktu_mulai"                                                           gorm:"column:waktu_mulai"`
+	WaktuSelesai   app.NullDateTime `json:"waktu_selesai"       db:"m.waktu_selesai"                                                         gorm:"column:waktu_selesai"`
+	Lokasi         app.NullText     `json:"lokasi"              db:"m.lokasi"                                                                gorm:"column:lokasi"`
 }
 
 func (LibraryCafe) EndPoint() string {
@@ -53,7 +59,7 @@ func (LibraryCafe) EndPoint() string {
 }
 
 func (LibraryCafe) TableVersion() string {
-	return "23.11.291152"
+	return "24.03.041152"
 }
 
 func (LibraryCafe) TableName() string {
