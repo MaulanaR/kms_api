@@ -156,4 +156,9 @@ func (*migratorUtil) Run() {
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	}
+
+	err = tx.Exec("ALTER TABLE banner_carousel MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	}
 }

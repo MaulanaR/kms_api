@@ -43,7 +43,7 @@ func (m *BannerCarousel) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
-	m.AddRelation("left", "m_attachments", "a", []map[string]any{{"column1": "a.id", "column2": "m.attachment_id"}})
+	m.AddRelation("left", "m_attachments", "a", []map[string]any{{"column1": "a.id", "column2": "m.gambar_id"}})
 
 	return m.Relations
 }
