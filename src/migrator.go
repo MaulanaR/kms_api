@@ -36,6 +36,7 @@ import (
 	"github.com/maulanar/kms/src/pencapaian"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
+	"github.com/maulanar/kms/src/pertanyaan"
 	"github.com/maulanar/kms/src/provinsi"
 	"github.com/maulanar/kms/src/pulau"
 	"github.com/maulanar/kms/src/referensi"
@@ -129,6 +130,8 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", hadiah.Hadiah{})
 	app.DB().RegisterTable("main", pencapaian.Pencapaian{})
 	app.DB().RegisterTable("main", bannercarousel.BannerCarousel{})
+	app.DB().RegisterTable("main", pertanyaan.Pertanyaan{})
+	app.DB().RegisterTable("main", pertanyaan.Jawaban{})
 	// RegisterTable : DONT REMOVE THIS COMMENT
 }
 
@@ -157,7 +160,12 @@ func (*migratorUtil) Run() {
 		app.Logger().Fatal().Err(err).Send()
 	}
 
-	err = tx.Exec("ALTER TABLE banner_carousel MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	err = tx.Exec("ALTER TABLE m_pertanyaan MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	}
+
+	err = tx.Exec("ALTER TABLE m_jawaban MODIFY COLUMN id INT AUTO_INCREMENT;").Error
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	}

@@ -12506,6 +12506,385 @@
         ]
       }
     },
+    "/api/v1/pertanyaan": {
+      "post": {
+        "description": "Use this method to create Pertanyaan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pertanyaan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pertanyaan"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Create Pertanyaan",
+        "tags": [
+          "Pertanyaan"
+        ]
+      },
+      "get": {
+        "description": "Use this method to get list of Pertanyaan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          },
+          {
+            "$ref": "#/components/parameters/queryParam.Any"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PertanyaanList"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Pertanyaan",
+        "tags": [
+          "Pertanyaan"
+        ]
+      }
+    },
+    "/api/v1/pertanyaan/{id}": {
+      "get": {
+        "description": "Use this method to get Pertanyaan by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pertanyaan"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Get Pertanyaan By ID",
+        "tags": [
+          "Pertanyaan"
+        ]
+      },
+      "put": {
+        "description": "Use this method to update Pertanyaan by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pertanyaan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pertanyaan"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Update Pertanyaan By ID",
+        "tags": [
+          "Pertanyaan"
+        ]
+      },
+      "patch": {
+        "description": "Use this method to partially update Pertanyaan by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pertanyaan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pertanyaan"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Partially Update Pertanyaan By ID",
+        "tags": [
+          "Pertanyaan"
+        ]
+      },
+      "delete": {
+        "description": "Use this method to delete Pertanyaan by id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/pathParam.ID"
+          },
+          {
+            "$ref": "#/components/parameters/headerParam.Accept-Language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pertanyaan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pertanyaan"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.BadRequest"
+                }
+              }
+            },
+            "description": "A validation exception has occurred."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Unauthorized"
+                }
+              }
+            },
+            "description": "Invalid authorization credentials."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error.Forbidden"
+                }
+              }
+            },
+            "description": "User doesn't have permission to access the resource."
+          }
+        },
+        "summary": "Delete Pertanyaan By ID",
+        "tags": [
+          "Pertanyaan"
+        ]
+      }
+    },
     "/api/v1/populer_pengetahuan": {
       "get": {
         "description": "Use this method to get list of Pengetahuan",
@@ -15665,15 +16044,15 @@
                 "type": "string"
               },
               "foto": {
-                "id": {
-                  "type": "integer"
-                },
                 "properties": {
                   "nama": {
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -16003,12 +16382,12 @@
                 "type": "integer"
               },
               "kategori": {
-                "id": {
-                  "type": "integer"
+                "nama": {
+                  "type": "string"
                 },
                 "properties": {
-                  "nama": {
-                    "type": "string"
+                  "id": {
+                    "type": "integer"
                   }
                 },
                 "type": "object"
@@ -16749,11 +17128,22 @@
             },
             "type": "object"
           },
+          "gambar": {
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "id": {
+                "type": "integer"
+              },
+              "url": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           "id": {
             "type": "integer"
-          },
-          "image": {
-            "type": "string"
           },
           "is_active": {
             "type": "boolean"
@@ -16850,11 +17240,22 @@
                   },
                   "type": "object"
                 },
+                "gambar": {
+                  "properties": {
+                    "filename": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
                 "id": {
                   "type": "integer"
-                },
-                "image": {
-                  "type": "string"
                 },
                 "is_active": {
                   "type": "boolean"
@@ -16940,12 +17341,12 @@
                 "created_by": {
                   "properties": {
                     "foto": {
-                      "nama": {
-                        "type": "string"
+                      "id": {
+                        "type": "integer"
                       },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "nama": {
+                          "type": "string"
                         }
                       },
                       "type": "object"
@@ -17104,15 +17505,15 @@
                 "type": "string"
               },
               "foto": {
+                "nama": {
+                  "type": "string"
+                },
                 "properties": {
-                  "nama": {
+                  "url": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -17235,15 +17636,15 @@
                       "type": "string"
                     },
                     "foto": {
-                      "id": {
-                        "type": "integer"
-                      },
                       "properties": {
-                        "nama": {
-                          "type": "string"
+                        "id": {
+                          "type": "integer"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -18702,15 +19103,15 @@
           "created_by": {
             "properties": {
               "foto": {
+                "nama": {
+                  "type": "string"
+                },
                 "properties": {
-                  "nama": {
+                  "url": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -19047,15 +19448,15 @@
               "hadiah": {
                 "gambar": {
                   "properties": {
-                    "filename": {
-                      "type": "string"
+                    "id": {
+                      "type": "integer"
                     }
                   },
                   "type": "object"
                 },
                 "properties": {
-                  "nama": {
-                    "type": "string"
+                  "id": {
+                    "type": "integer"
                   }
                 },
                 "type": "object"
@@ -19130,8 +19531,8 @@
                   "type": "string"
                 },
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "url": {
+                    "type": "string"
                   }
                 },
                 "type": "object"
@@ -19160,12 +19561,12 @@
                 "type": "string"
               },
               "foto": {
-                "id": {
-                  "type": "integer"
+                "nama": {
+                  "type": "string"
                 },
                 "properties": {
-                  "url": {
-                    "type": "string"
+                  "id": {
+                    "type": "integer"
                   }
                 },
                 "type": "object"
@@ -19299,20 +19700,15 @@
                     "hadiah": {
                       "gambar": {
                         "properties": {
-                          "filename": {
-                            "type": "string"
+                          "id": {
+                            "type": "integer"
                           }
                         },
                         "type": "object"
                       },
                       "properties": {
-                        "gambar": {
-                          "properties": {
-                            "url": {
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
+                        "id": {
+                          "type": "integer"
                         }
                       },
                       "type": "object"
@@ -19333,12 +19729,12 @@
                       "type": "integer"
                     },
                     "jenis_pengetahuan": {
-                      "nama": {
-                        "type": "string"
+                      "id": {
+                        "type": "integer"
                       },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "nama": {
+                          "type": "string"
                         }
                       },
                       "type": "object"
@@ -19347,12 +19743,12 @@
                       "type": "string"
                     },
                     "lingkup_pengetahuan": {
-                      "nama": {
-                        "type": "string"
+                      "id": {
+                        "type": "integer"
                       },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "nama": {
+                          "type": "string"
                         }
                       },
                       "type": "object"
@@ -19361,37 +19757,37 @@
                       "type": "string"
                     },
                     "status_pengetahuan": {
-                      "nama": {
-                        "type": "string"
+                      "id": {
+                        "type": "integer"
                       },
-                      "properties": {
-                        "id": {
-                          "type": "integer"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "subjenis_pengetahuan": {
-                      "nama": {
-                        "type": "string"
-                      },
-                      "properties": {
-                        "id": {
-                          "type": "integer"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "thumbnail": {
                       "properties": {
                         "nama": {
                           "type": "string"
                         }
                       },
-                      "type": "object",
-                      "url": {
+                      "type": "object"
+                    },
+                    "subjenis_pengetahuan": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "properties": {
+                        "nama": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "thumbnail": {
+                      "nama": {
                         "type": "string"
-                      }
+                      },
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
                     }
                   },
                   "type": "object"
@@ -19417,15 +19813,15 @@
                       "type": "string"
                     },
                     "foto": {
-                      "id": {
-                        "type": "integer"
-                      },
                       "properties": {
-                        "nama": {
-                          "type": "string"
+                        "id": {
+                          "type": "integer"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -20076,15 +20472,15 @@
                 "type": "string"
               },
               "foto": {
-                "id": {
-                  "type": "integer"
-                },
                 "properties": {
-                  "url": {
+                  "nama": {
                     "type": "string"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -20235,15 +20631,15 @@
                       "type": "string"
                     },
                     "foto": {
-                      "id": {
-                        "type": "integer"
-                      },
                       "properties": {
-                        "url": {
+                        "nama": {
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -20681,6 +21077,9 @@
           "link_kegiatan": {
             "type": "string"
           },
+          "lokasi": {
+            "type": "string"
+          },
           "nama_penyelenggara": {
             "type": "string"
           },
@@ -20701,6 +21100,14 @@
             },
             "type": "object"
           },
+          "tanggal_mulai": {
+            "format": "date",
+            "type": "string"
+          },
+          "tanggal_selesai": {
+            "format": "date",
+            "type": "string"
+          },
           "updated_at": {
             "format": "date-time",
             "type": "string"
@@ -20715,6 +21122,12 @@
               }
             },
             "type": "object"
+          },
+          "waktu_mulai": {
+            "type": "integer"
+          },
+          "waktu_selesai": {
+            "type": "integer"
           }
         },
         "type": "object"
@@ -20824,6 +21237,9 @@
                 "link_kegiatan": {
                   "type": "string"
                 },
+                "lokasi": {
+                  "type": "string"
+                },
                 "nama_penyelenggara": {
                   "type": "string"
                 },
@@ -20844,6 +21260,14 @@
                   },
                   "type": "object"
                 },
+                "tanggal_mulai": {
+                  "format": "date",
+                  "type": "string"
+                },
+                "tanggal_selesai": {
+                  "format": "date",
+                  "type": "string"
+                },
                 "updated_at": {
                   "format": "date-time",
                   "type": "string"
@@ -20858,6 +21282,12 @@
                     }
                   },
                   "type": "object"
+                },
+                "waktu_mulai": {
+                  "type": "integer"
+                },
+                "waktu_selesai": {
+                  "type": "integer"
                 }
               },
               "type": "object"
@@ -20918,15 +21348,15 @@
                 "type": "string"
               },
               "foto": {
+                "id": {
+                  "type": "integer"
+                },
                 "properties": {
-                  "nama": {
+                  "url": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -21049,15 +21479,15 @@
                       "type": "string"
                     },
                     "foto": {
-                      "nama": {
-                        "type": "string"
-                      },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "nama": {
+                          "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -21764,15 +22194,15 @@
                 "type": "string"
               },
               "gambar": {
+                "id": {
+                  "type": "integer"
+                },
                 "properties": {
-                  "filename": {
+                  "url": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -21817,15 +22247,15 @@
                 "type": "string"
               },
               "foto": {
-                "id": {
-                  "type": "integer"
-                },
                 "properties": {
-                  "url": {
-                    "type": "string"
+                  "id": {
+                    "type": "integer"
                   }
                 },
-                "type": "object"
+                "type": "object",
+                "url": {
+                  "type": "string"
+                }
               },
               "id": {
                 "type": "integer"
@@ -21945,15 +22375,15 @@
                       "type": "string"
                     },
                     "gambar": {
-                      "filename": {
-                        "type": "string"
-                      },
                       "properties": {
-                        "url": {
+                        "filename": {
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -21998,15 +22428,15 @@
                       "type": "string"
                     },
                     "foto": {
+                      "id": {
+                        "type": "integer"
+                      },
                       "properties": {
-                        "id": {
-                          "type": "integer"
+                        "nama": {
+                          "type": "string"
                         }
                       },
-                      "type": "object",
-                      "url": {
-                        "type": "string"
-                      }
+                      "type": "object"
                     },
                     "id": {
                       "type": "integer"
@@ -22163,12 +22593,12 @@
           "created_by": {
             "properties": {
               "foto": {
-                "nama": {
-                  "type": "string"
+                "id": {
+                  "type": "integer"
                 },
                 "properties": {
-                  "id": {
-                    "type": "integer"
+                  "url": {
+                    "type": "string"
                   }
                 },
                 "type": "object"
@@ -22407,15 +22837,15 @@
           "penulis_1": {
             "properties": {
               "foto": {
+                "nama": {
+                  "type": "string"
+                },
                 "properties": {
-                  "nama": {
+                  "url": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -22432,15 +22862,15 @@
           "penulis_2": {
             "properties": {
               "foto": {
+                "id": {
+                  "type": "string"
+                },
                 "properties": {
-                  "id": {
+                  "nama": {
                     "type": "string"
                   }
                 },
-                "type": "object",
-                "url": {
-                  "type": "string"
-                }
+                "type": "object"
               },
               "id": {
                 "type": "integer"
@@ -22461,7 +22891,7 @@
                   "type": "string"
                 },
                 "properties": {
-                  "url": {
+                  "nama": {
                     "type": "string"
                   }
                 },
@@ -22711,15 +23141,15 @@
                 "created_by": {
                   "properties": {
                     "foto": {
+                      "nama": {
+                        "type": "string"
+                      },
                       "properties": {
                         "id": {
                           "type": "integer"
                         }
                       },
-                      "type": "object",
-                      "url": {
-                        "type": "string"
-                      }
+                      "type": "object"
                     },
                     "id": {
                       "type": "integer"
@@ -22955,7 +23385,7 @@
                 "penulis_1": {
                   "properties": {
                     "foto": {
-                      "id": {
+                      "nama": {
                         "type": "string"
                       },
                       "properties": {
@@ -22980,15 +23410,15 @@
                 "penulis_2": {
                   "properties": {
                     "foto": {
-                      "nama": {
-                        "type": "string"
-                      },
                       "properties": {
-                        "id": {
+                        "nama": {
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -23005,15 +23435,15 @@
                 "penulis_3": {
                   "properties": {
                     "foto": {
-                      "nama": {
-                        "type": "string"
-                      },
                       "properties": {
-                        "url": {
+                        "nama": {
                           "type": "string"
                         }
                       },
-                      "type": "object"
+                      "type": "object",
+                      "url": {
+                        "type": "string"
+                      }
                     },
                     "id": {
                       "type": "integer"
@@ -23180,6 +23610,146 @@
                 },
                 "tujuan": {
                   "type": "string"
+                },
+                "updated_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "updated_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "Pertanyaan": {
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "deleted_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "PertanyaanList": {
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "links": {
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              },
+              "next": {
+                "type": "string"
+              },
+              "previous": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "page_context": {
+            "properties": {
+              "page": {
+                "type": "integer"
+              },
+              "per_page": {
+                "type": "integer"
+              },
+              "total_pages": {
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "results": {
+            "items": {
+              "properties": {
+                "created_at": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "created_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "deleted_by": {
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "username": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "id": {
+                  "type": "integer"
                 },
                 "updated_at": {
                   "format": "date-time",
@@ -24356,6 +24926,9 @@
     },
     {
       "name": "BannerCarousel"
+    },
+    {
+      "name": "Pertanyaan"
     }
   ],
   "externalDocs": {

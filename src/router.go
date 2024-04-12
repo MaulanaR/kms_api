@@ -39,6 +39,7 @@ import (
 	"github.com/maulanar/kms/src/pencapaian"
 	"github.com/maulanar/kms/src/penerbit"
 	"github.com/maulanar/kms/src/pengetahuan"
+	"github.com/maulanar/kms/src/pertanyaan"
 	"github.com/maulanar/kms/src/provinsi"
 	"github.com/maulanar/kms/src/pulau"
 	"github.com/maulanar/kms/src/referensi"
@@ -394,6 +395,16 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "PUT", bannercarousel.REST().UpdateByID, bannercarousel.OpenAPI().UpdateByID())
 	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "PATCH", bannercarousel.REST().PartiallyUpdateByID, bannercarousel.OpenAPI().PartiallyUpdateByID())
 	app.Server().AddRoute("/api/v1/banner_carousel/{id}", "DELETE", bannercarousel.REST().DeleteByID, bannercarousel.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/pertanyaan", "POST", pertanyaan.REST().Create, pertanyaan.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/pertanyaan", "GET", pertanyaan.REST().Get, pertanyaan.OpenAPI().Get())
+	app.Server().AddRoute("/api/v1/pertanyaan/{id}", "GET", pertanyaan.REST().GetByID, pertanyaan.OpenAPI().GetByID())
+	app.Server().AddRoute("/api/v1/pertanyaan/{id}", "PUT", pertanyaan.REST().UpdateByID, pertanyaan.OpenAPI().UpdateByID())
+	app.Server().AddRoute("/api/v1/pertanyaan/{id}", "PATCH", pertanyaan.REST().PartiallyUpdateByID, pertanyaan.OpenAPI().PartiallyUpdateByID())
+	app.Server().AddRoute("/api/v1/pertanyaan/{id}", "DELETE", pertanyaan.REST().DeleteByID, pertanyaan.OpenAPI().DeleteByID())
+
+	app.Server().AddRoute("/api/v1/pertanyaan/{id}/jawaban", "POST", pertanyaan.REST().PostJawaban, pertanyaan.OpenAPI().Create())
+	app.Server().AddRoute("/api/v1/jawaban/{id}", "DELETE", pertanyaan.REST().DeleteJawabanByID, pertanyaan.OpenAPI().DeleteByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }
