@@ -4,20 +4,30 @@ import "github.com/maulanar/kms/app"
 
 type Pertanyaan struct {
 	app.Model
-	ID                app.NullInt64    `json:"id"                  db:"m.id"              gorm:"column:id;primaryKey"`
-	Judul             app.NullText     `json:"judul"               db:"m.judul"           gorm:"column:judul"`
-	Masalah           app.NullText     `json:"masalah"             db:"m.masalah"         gorm:"column:masalah"`
-	Ekspektasi        app.NullText     `json:"ekspektasi"          db:"m.ekspektasi"      gorm:"column:ekspektasi"`
-	Jawaban           []Jawaban        `json:"jawaban"             db:"id={id}"           gorm:"-"`
-	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"m.created_by"      gorm:"column:created_by"`
-	CreatedByUsername app.NullString   `json:"created_by.username" db:"cbuser.username"   gorm:"-"`
-	UpdatedBy         app.NullInt64    `json:"updated_by.id"       db:"m.updated_by"      gorm:"column:updated_by"`
-	UpdatedByUsername app.NullString   `json:"updated_by.username" db:"ubuser.username"   gorm:"-"`
-	DeletedBy         app.NullInt64    `json:"deleted_by.id"       db:"m.deleted_by"      gorm:"column:deleted_by"`
-	DeletedByUsername app.NullString   `json:"deleted_by.username" db:"dbuser.username"   gorm:"-"`
-	CreatedAt         app.NullDateTime `json:"created_at"          db:"m.created_at"      gorm:"column:created_at"`
-	UpdatedAt         app.NullDateTime `json:"updated_at"          db:"m.updated_at"      gorm:"column:updated_at"`
-	DeletedAt         app.NullDateTime `json:"deleted_at"          db:"m.deleted_at,hide" gorm:"column:deleted_at"`
+	ID                 app.NullInt64    `json:"id"                   db:"m.id"              gorm:"column:id;primaryKey"`
+	Judul              app.NullText     `json:"judul"                db:"m.judul"           gorm:"column:judul"`
+	Masalah            app.NullText     `json:"masalah"              db:"m.masalah"         gorm:"column:masalah"`
+	Ekspektasi         app.NullText     `json:"ekspektasi"           db:"m.ekspektasi"      gorm:"column:ekspektasi"`
+	PakarID            app.NullInt64    `json:"pakar.id"             db:"m.pakar_id"        gorm:"column:pakar_id"`
+	OrangNama          app.NullString   `json:"pakar.nama_lengkap"   db:"o.nama"            gorm:"-"`
+	OrangNamaPanggilan app.NullString   `json:"pakar.nama_panggilan" db:"o.nama_panggilan"  gorm:"-"`
+	OrangJenisKelamin  app.NullString   `json:"pakar.jenis_kelamin"  db:"o.jenis_kelamin"   gorm:"-"`
+	OrangEmail         app.NullString   `json:"pakar.email"          db:"o.email"           gorm:"-"`
+	OrangFotoID        app.NullInt64    `json:"pakar.foto.id"        db:"o.foto"            gorm:"-"`
+	OrangFotoUrl       app.NullString   `json:"pakar.foto.url"       db:"att.url"           gorm:"-"`
+	OrangFotoNama      app.NullString   `json:"pakar.foto.nama"      db:"att.filename"      gorm:"-"`
+	Kategori           app.NullString   `json:"pakar.kategori"       db:"u.kategori"        gorm:"-"`
+	Level              app.NullString   `json:"pakar.level"          db:"u.level"           gorm:"-"`
+	Jawaban            []Jawaban        `json:"jawaban"              db:"id={id}"           gorm:"-"`
+	CreatedBy          app.NullInt64    `json:"created_by.id"        db:"m.created_by"      gorm:"column:created_by"`
+	CreatedByUsername  app.NullString   `json:"created_by.username"  db:"cbuser.username"   gorm:"-"`
+	UpdatedBy          app.NullInt64    `json:"updated_by.id"        db:"m.updated_by"      gorm:"column:updated_by"`
+	UpdatedByUsername  app.NullString   `json:"updated_by.username"  db:"ubuser.username"   gorm:"-"`
+	DeletedBy          app.NullInt64    `json:"deleted_by.id"        db:"m.deleted_by"      gorm:"column:deleted_by"`
+	DeletedByUsername  app.NullString   `json:"deleted_by.username"  db:"dbuser.username"   gorm:"-"`
+	CreatedAt          app.NullDateTime `json:"created_at"           db:"m.created_at"      gorm:"column:created_at"`
+	UpdatedAt          app.NullDateTime `json:"updated_at"           db:"m.updated_at"      gorm:"column:updated_at"`
+	DeletedAt          app.NullDateTime `json:"deleted_at"           db:"m.deleted_at,hide" gorm:"column:deleted_at"`
 }
 
 func (Pertanyaan) EndPoint() string {
@@ -25,7 +35,7 @@ func (Pertanyaan) EndPoint() string {
 }
 
 func (Pertanyaan) TableVersion() string {
-	return "24.04.051130"
+	return "24.04.201130"
 }
 
 func (Pertanyaan) TableName() string {
@@ -40,6 +50,10 @@ func (m *Pertanyaan) GetRelations() map[string]map[string]any {
 	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
 	m.AddRelation("left", "m_user", "ubuser", []map[string]any{{"column1": "ubuser.id_user", "column2": "m.updated_by"}})
 	m.AddRelation("left", "m_user", "dbuser", []map[string]any{{"column1": "dbuser.id_user", "column2": "m.deleted_by"}})
+
+	m.AddRelation("left", "m_user", "u", []map[string]any{{"column1": "u.id_user", "column2": "m.pakar_id"}})
+	m.AddRelation("left", "m_orang", "o", []map[string]any{{"column1": "o.id_orang", "column2": "u.id_orang"}})
+	m.AddRelation("left", "m_attachments", "att", []map[string]any{{"column1": "att.id", "column2": "o.foto"}})
 
 	return m.Relations
 }
@@ -104,8 +118,8 @@ type ParamDelete struct {
 }
 
 type PostJawaban struct {
-	Ctx        *app.Ctx     `json:"-" db:"-" gorm:"-"`
-	Keterangan app.NullText `json:"keterangan"              db:"j.keterangan"          gorm:"column:keterangan" validate:"required"`
+	Ctx        *app.Ctx     `json:"-"          db:"-"            gorm:"-"`
+	Keterangan app.NullText `json:"keterangan" db:"j.keterangan" gorm:"column:keterangan" validate:"required"`
 	Jawaban
 }
 
@@ -118,8 +132,8 @@ type ParamJawabanDelete struct {
 type Jawaban struct {
 	app.Model
 	ID                app.NullInt64    `json:"id"                  db:"j.id"              gorm:"column:id;primaryKey"`
-	IDPertanyaan      app.NullInt64    `json:"id_pertanyaan"       db:"j.id_pertanyaan"          gorm:"column:id_pertanyaan"`
-	Keterangan        app.NullText     `json:"keterangan"              db:"j.keterangan"          gorm:"column:keterangan"`
+	IDPertanyaan      app.NullInt64    `json:"id_pertanyaan"       db:"j.id_pertanyaan"   gorm:"column:id_pertanyaan"`
+	Keterangan        app.NullText     `json:"keterangan"          db:"j.keterangan"      gorm:"column:keterangan"`
 	CreatedBy         app.NullInt64    `json:"created_by.id"       db:"j.created_by"      gorm:"column:created_by"`
 	CreatedByUsername app.NullString   `json:"created_by.username" db:"cbuser.username"   gorm:"-"`
 	UpdatedBy         app.NullInt64    `json:"updated_by.id"       db:"j.updated_by"      gorm:"column:updated_by"`

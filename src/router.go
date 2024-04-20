@@ -405,6 +405,7 @@ func (r *routerUtil) Configure() {
 
 	app.Server().AddRoute("/api/v1/pertanyaan/{id}/jawaban", "POST", pertanyaan.REST().PostJawaban, pertanyaan.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/jawaban/{id}", "DELETE", pertanyaan.REST().DeleteJawabanByID, pertanyaan.OpenAPI().DeleteByID())
+	app.Server().AddRoute("/api/v1/jawaban/{id}", "GET", pertanyaan.REST().GetJawabanByID, pertanyaan.OpenAPI().GetByID())
 
 	// AddRoute : DONT REMOVE THIS COMMENT
 }

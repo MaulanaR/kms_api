@@ -137,11 +137,6 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
-	err = tx.Exec("ALTER TABLE " + Notifikasi{}.TableName() + " MODIFY COLUMN id INT AUTO_INCREMENT;").Error
-	if err != nil {
-		return err
-	}
-
 	err = tx.Model(&p).Create(&p).Error
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())

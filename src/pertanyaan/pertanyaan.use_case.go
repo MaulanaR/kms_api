@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/maulanar/kms/app"
+	"github.com/maulanar/kms/src/notifikasi"
+	"github.com/maulanar/kms/src/user"
 )
 
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -132,6 +134,11 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	if p.PakarID.Valid {
+		//buat notifikasi kepada pakar ybs
+		go notifikasi.UseCase(*u.Ctx).SaveNotif("Pertanyaan Baru", u.Ctx.User.OrangNama+" membuat pertanyaan yang ditunjukan untuk anda.", p.PakarID.Int64, p.EndPoint(), p.ID.Int64, p)
+	}
+
 	app.Cache().Invalidate(u.EndPoint())
 
 	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
@@ -241,6 +248,13 @@ func (u *UseCaseHandler) setDefaultValue(old Pertanyaan) error {
 		u.ID = old.ID
 	}
 
+	if u.PakarID.Valid {
+		_, err := user.UseCase(*u.Ctx, url.Values{}).GetByID(strconv.Itoa(int(u.PakarID.Int64)))
+		if err != nil {
+			return err
+		}
+	}
+
 	if u.Ctx.Action.Method == "POST" {
 		u.CreatedBy.Set(u.Ctx.User.ID)
 	}
@@ -261,7 +275,7 @@ func (u UseCaseHandler) PostJawaban(id string, p *PostJawaban) error {
 		return err
 	}
 
-	_, err = u.GetByID(id)
+	pertanyaan, err := u.GetByID(id)
 	if err != nil {
 		return err
 	}
@@ -284,6 +298,9 @@ func (u UseCaseHandler) PostJawaban(id string, p *PostJawaban) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	//buat notifikasi kepada pembuat pertanyaan ybs
+	notifikasi.UseCase(*u.Ctx).SaveNotif("Jawaban Baru", u.Ctx.User.OrangNama+" membalas pertanyaan yang anda buat.", pertanyaan.CreatedBy.Int64, p.EndPoint(), p.ID.Int64, p)
+
 	app.Cache().Invalidate(u.EndPoint())
 
 	go u.Ctx.Hook("POST", "create", strconv.Itoa(int(p.ID.Int64)), p)
@@ -291,7 +308,7 @@ func (u UseCaseHandler) PostJawaban(id string, p *PostJawaban) error {
 }
 
 func (u UseCaseHandler) DeleteJawabanByID(id string, p *ParamJawabanDelete) error {
-	old, err := u.GetByID(id)
+	old, err := u.GetJawabanByID(id)
 	if err != nil {
 		return err
 	}
@@ -310,4 +327,30 @@ func (u UseCaseHandler) DeleteJawabanByID(id string, p *ParamJawabanDelete) erro
 
 	go u.Ctx.Hook("DELETE", "By Sistem", strconv.Itoa(int(old.ID.Int64)), old)
 	return nil
+}
+
+func (u UseCaseHandler) GetJawabanByID(id string) (Jawaban, error) {
+	res := Jawaban{}
+
+	cacheKey := res.EndPoint() + "." + id
+	app.Cache().Get(cacheKey, &res)
+	if res.ID.Valid {
+		return res, nil
+	}
+
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return res, app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	key := "id"
+
+	u.Query.Add(key, id)
+	err = app.Query().First(tx, &res, u.Query)
+	if err != nil {
+		return res, u.Ctx.NotFoundError(err, u.EndPoint(), key, id)
+	}
+
+	app.Cache().Set(cacheKey, res)
+	return res, err
 }

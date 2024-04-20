@@ -2,6 +2,7 @@ package pertanyaan
 
 import (
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -188,7 +189,15 @@ func (r *RESTAPIHandler) PostJawaban(c *fiber.Ctx) error {
 	if err != nil {
 		return app.Error().Handler(c, err)
 	}
-	return c.JSON(map[string]any{"message": "Success"})
+	r.UseCase.Query = url.Values{}
+	res, err := r.UseCase.GetJawabanByID(strconv.Itoa(int(p.ID.Int64)))
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	if r.UseCase.IsFlat() {
+		return c.Status(http.StatusCreated).JSON(res)
+	}
+	return c.Status(http.StatusCreated).JSON(grest.NewJSON(res).ToStructured().Data)
 }
 
 func (r *RESTAPIHandler) DeleteJawabanByID(c *fiber.Ctx) error {
@@ -210,4 +219,19 @@ func (r *RESTAPIHandler) DeleteJawabanByID(c *fiber.Ctx) error {
 		}),
 	}
 	return c.JSON(res)
+}
+
+func (r *RESTAPIHandler) GetJawabanByID(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	res, err := r.UseCase.GetJawabanByID(c.Params("id"))
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	if r.UseCase.IsFlat() {
+		return c.JSON(res)
+	}
+	return c.JSON(grest.NewJSON(res).ToStructured().Data)
 }
