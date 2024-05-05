@@ -71,3 +71,43 @@ func (r *RESTAPIHandler) Login(c *fiber.Ctx) error {
 	}
 	return c.Status(http.StatusOK).JSON(grest.NewJSON(res).ToStructured().Data)
 }
+
+func (r *RESTAPIHandler) RequestForgotPassword(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	p := RequestForgotPassword{}
+	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	if err != nil {
+		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+	}
+	err = r.UseCase.RequestForgotPassword(p)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	return c.Status(http.StatusOK).JSON(map[string]string{
+		"status":  "200",
+		"message": "Permintaan terkirim, periksa inbox email anda.",
+	})
+}
+
+func (r *RESTAPIHandler) ForgotPassword(c *fiber.Ctx) error {
+	err := r.injectDeps(c)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	p := ForgotPassword{}
+	err = grest.NewJSON(c.Body()).ToFlat().Unmarshal(&p)
+	if err != nil {
+		return app.Error().Handler(c, app.Error().New(http.StatusBadRequest, err.Error()))
+	}
+	err = r.UseCase.ForgotPassword(p)
+	if err != nil {
+		return app.Error().Handler(c, err)
+	}
+	return c.Status(http.StatusOK).JSON(map[string]string{
+		"status":  "200",
+		"message": "Password berhasil diubah.",
+	})
+}

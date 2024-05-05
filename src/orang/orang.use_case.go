@@ -161,6 +161,13 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		}
 	}
 
+	// validasi email
+	var existingUser Orang
+	result := tx.Model(Orang{}).Where("email = ?", p.Email.String).First(&existingUser)
+	if result.RowsAffected == 0 {
+		return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
+	}
+
 	// save data to db
 	err = tx.Model(&p).Create(&p).Error
 	if err != nil {
@@ -202,6 +209,21 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return err
 	}
 
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	if p.Email.Valid && p.Email.String != old.Email.String {
+		// validasi email
+		var existingUser Orang
+		result := tx.Model(Orang{}).Where("email = ?", p.Email.String).First(&existingUser)
+		if result.RowsAffected == 0 {
+			return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
+		}
+	}
+
 	if p.FotoID.Valid {
 		att := attachment.UseCaseHandler{
 			Ctx:   u.Ctx,
@@ -217,12 +239,6 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		if err != nil {
 			return err
 		}
-	}
-
-	// prepare db for current ctx
-	tx, err := u.Ctx.DB()
-	if err != nil {
-		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
 	// update data on the db
@@ -270,6 +286,15 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	if p.Email.Valid && p.Email.String != old.Email.String {
+		// validasi email
+		var existingUser Orang
+		result := tx.Model(Orang{}).Where("email = ?", p.Email.String).First(&existingUser)
+		if result.RowsAffected == 0 {
+			return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
+		}
 	}
 
 	if p.FotoID.Valid {

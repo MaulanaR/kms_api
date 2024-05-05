@@ -249,3 +249,16 @@ func (FollowdHastag) OpenAPISchemaName() string {
 func (m *FollowdHastag) GetOpenAPISchema() map[string]any {
 	return m.SetOpenAPISchema(m)
 }
+
+// FORGOT PASSWORD
+type RequestForgotPassword struct {
+	app.Model
+	Email app.NullString `json:"email" validate:"required"`
+}
+
+type ForgotPassword struct {
+	app.Model
+	Key            app.NullString `json:"key" validate:"required"`
+	Password       app.NullString `json:"password" validate:"required"`
+	ReTypePassword app.NullString `json:"re_password" validate:"required"`
+}

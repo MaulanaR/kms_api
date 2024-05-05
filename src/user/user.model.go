@@ -34,6 +34,7 @@ type User struct {
 	CreatedAt          app.NullDateTime `json:"created_at"     db:"m.created_at"                                                                                                                         gorm:"column:created_at"`
 	UpdatedAt          app.NullDateTime `json:"updated_at"     db:"m.updated_at"                                                                                                                         gorm:"column:updated_at"`
 	DeletedAt          app.NullDateTime `json:"deleted_at"     db:"m.deleted_at,hide"                                                                                                                    gorm:"column:deleted_at"`
+	ResetToken         app.NullUUID     `json:"reset_token"     db:"m.reset_token"                                                                                                                         gorm:"column:reset_token"`
 }
 
 // EndPoint returns the User end point, it used for cache key, etc.
@@ -44,7 +45,7 @@ func (User) EndPoint() string {
 // TableVersion returns the versions of the User table in the database.
 // Change this value with date format YY.MM.DDHHii when any table structure changes.
 func (User) TableVersion() string {
-	return "23.12.0112302"
+	return "24.04.0512302"
 }
 
 // TableName returns the name of the User table in the database.

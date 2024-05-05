@@ -6,6 +6,7 @@ import (
 
 	"github.com/sahilm/fuzzy"
 	"golang.org/x/net/html"
+	"gopkg.in/gomail.v2"
 )
 
 func FindSimilarStrings(searchKey string, data []string) map[int]string {
@@ -48,4 +49,21 @@ func RemoveHTMLTags(input string) string {
 
 	extractText(doc)
 	return strings.TrimSpace(result)
+}
+
+func SendMail(to, subject, message string) error {
+	m := gomail.NewMessage()
+	m.SetHeader("From", GMAIL_NAME+"<"+GMAIL_AUTH+">")
+	m.SetHeader("To", to)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/html", message)
+
+	// Send the email to Bob
+	d := gomail.NewDialer(GMAIL_HOST, GMAIL_PORT, GMAIL_AUTH, GMAIL_PASS)
+	err := d.DialAndSend(m)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

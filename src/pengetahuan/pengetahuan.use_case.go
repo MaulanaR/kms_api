@@ -28,8 +28,6 @@ import (
 	"github.com/maulanar/kms/src/tag"
 	"github.com/maulanar/kms/src/tpengetahuanrelation"
 	"github.com/maulanar/kms/src/user"
-
-	"gopkg.in/gomail.v2"
 )
 
 //go:embed template/*
@@ -570,7 +568,7 @@ func (u UseCaseHandler) SendBroadcast(p *ParamCreate) error {
 
 				//kirim
 				if flw.OrangEmail.Valid {
-					go sendMail(flw.OrangEmail.String, "Notifikasi Update KMS", bodyHtml.String())
+					go app.SendMail(flw.OrangEmail.String, "Notifikasi Update KMS", bodyHtml.String())
 					// if err != nil {
 					// 	return err
 					// }
@@ -581,23 +579,6 @@ func (u UseCaseHandler) SendBroadcast(p *ParamCreate) error {
 	}
 
 	return err
-}
-
-func sendMail(to, subject, message string) error {
-	m := gomail.NewMessage()
-	m.SetHeader("From", app.GMAIL_NAME+"<"+app.GMAIL_AUTH+">")
-	m.SetHeader("To", to)
-	m.SetHeader("Subject", subject)
-	m.SetBody("text/html", message)
-
-	// Send the email to Bob
-	d := gomail.NewDialer(app.GMAIL_HOST, app.GMAIL_PORT, app.GMAIL_AUTH, app.GMAIL_PASS)
-	err := d.DialAndSend(m)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 // UpdateByID updates the Pengetahuan data for the specified ID with specified parameters.

@@ -179,6 +179,10 @@ func (r *routerUtil) Configure() {
 	app.Server().AddRoute("/api/v1/login", "POST", accesstoken.REST().Login, accesstoken.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/session", "GET", accesstoken.REST().GetByID, accesstoken.OpenAPI().Create())
 
+	//forgot password
+	app.Server().AddRoute("/api/v1/request_forgot_password", "POST", accesstoken.REST().RequestForgotPassword, nil)
+	app.Server().AddRoute("/api/v1/forgot_password", "POST", accesstoken.REST().ForgotPassword, nil)
+
 	app.Server().AddRoute("/api/v1/attachments", "POST", attachment.REST().Create, attachment.OpenAPI().Create())
 	app.Server().AddRoute("/api/v1/attachments", "GET", attachment.REST().Get, attachment.OpenAPI().Get())
 	app.Server().AddRoute("/api/v1/attachments/{id}", "GET", attachment.REST().GetByID, attachment.OpenAPI().GetByID())

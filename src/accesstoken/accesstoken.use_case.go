@@ -1,6 +1,9 @@
 package accesstoken
 
 import (
+	"bytes"
+	"embed"
+	"html/template"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -10,6 +13,9 @@ import (
 	"github.com/maulanar/kms/src/user"
 	"grest.dev/grest"
 )
+
+//go:embed template/*
+var templatefs embed.FS
 
 // UseCase returns a UseCaseHandler for expected use case functional.
 func UseCase(ctx app.Ctx, query ...url.Values) UseCaseHandler {
@@ -247,4 +253,105 @@ func (u UseCaseHandler) Login(p *ParamCreate) (AccessToken, error) {
 	}
 
 	return res, nil
+}
+
+// forgot password
+func (u UseCaseHandler) RequestForgotPassword(p RequestForgotPassword) error {
+	res := user.User{}
+
+	// validate param
+	err := u.Ctx.ValidateParam(p)
+	if err != nil {
+		return err
+	}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// get from db
+	u.Query.Add("email", p.Email.String)
+	err = app.Query().First(tx, &res, u.Query)
+	if err != nil {
+		return u.Ctx.NotFoundError(err, u.EndPoint(), "email", p.Email.String)
+	}
+
+	if res.ID.Valid {
+		//kirim email
+		res.ResetToken = app.NewNullUUID()
+		tx.Updates(&res)
+		//KIRIM BROADCAST
+
+		//prepare body email
+		var tmpl, err = template.ParseFS(templatefs, "template/forgotpassword.html")
+		if err != nil {
+			return err
+		}
+
+		//kirim
+		var bodyHtml bytes.Buffer
+		var data = make(map[string]interface{})
+		data["nama_penerima"] = res.OrangNama.String
+		data["link"] = "http://app.rampai.my.id/new-pw?key=" + res.ResetToken.String
+		err = tmpl.Execute(&bodyHtml, data)
+		if err != nil {
+			return err
+		}
+
+		//kirim
+		if res.OrangEmail.Valid {
+			app.SendMail(res.OrangEmail.String, "Permintaan Reset Password KMS", bodyHtml.String())
+		}
+	}
+
+	return nil
+}
+
+func (u UseCaseHandler) ForgotPassword(p ForgotPassword) error {
+	res := user.User{}
+
+	// validate param
+	err := u.Ctx.ValidateParam(p)
+	if err != nil {
+		return err
+	}
+
+	if p.Password.String != p.ReTypePassword.String {
+		return app.Error().New(http.StatusBadRequest, "Re-type password tidak sesuai.")
+	}
+
+	// prepare db for current ctx
+	tx, err := u.Ctx.DB()
+	if err != nil {
+		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// get from db
+	u.Query.Add("reset_token", p.Key.String)
+	err = app.Query().First(tx, &res, u.Query)
+	if err != nil {
+		return app.Error().New(http.StatusNotFound, "Key tidak valid. Silahkan ulangi request reset password.")
+	}
+
+	if res.ID.Valid {
+		//reset password
+		res.ResetToken.Valid = true
+		res.ResetToken.String = ""
+		if p.Password.Valid {
+			enc, err := app.Crypto().Encrypt(p.Password.String)
+			if err != nil {
+				return err
+			}
+			res.Password.Set(enc)
+		}
+		res.UpdatedAt.Set(time.Now())
+		err = tx.Updates(&res).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
