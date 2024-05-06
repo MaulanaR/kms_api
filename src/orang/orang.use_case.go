@@ -164,7 +164,7 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	// validasi email
 	var existingUser Orang
 	result := tx.Model(Orang{}).Where("email = ?", p.Email.String).First(&existingUser)
-	if result.RowsAffected == 0 {
+	if result.RowsAffected > 0 {
 		return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
 	}
 

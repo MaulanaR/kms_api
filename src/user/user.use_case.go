@@ -162,34 +162,97 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		return err
 	}
 
-	//Insert to Orang
-	org := orang.ParamCreate{}
-	org.Nama = p.OrangNama
-	org.NamaPanggilan = p.OrangNama
-	org.Nip = p.OrangNip
-	org.Nik = p.OrangNik
-	org.TempatLahir = p.OrangTempatLahir
-	org.TglLahir = p.OrangTglLahir
-	org.JenisKelamin = p.OrangJenisKelamin
-	org.Alamat = p.OrangAlamat
-	org.Email = p.OrangEmail
-	org.Telp = p.OrangTelp
-	org.Jabatan = p.OrangJabatan
-	org.FotoID = p.OrangFotoID
-	org.UnitKerja = p.OrangUnitKerja
-	org.UserLevel = p.OrangUserLevel
-	org.StatusLevel = p.OrangStatusLevel
-
-	err = orang.UseCase(*u.Ctx).Create(&org)
-	if err != nil {
-		return err
-	}
-
-	p.OrangId.Set(org.ID.Int64)
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	//cek ke orang apakah email sudah ada / belum, jika sudah ada, maka update dengan data terbaru.
+	var existingOrang orang.Orang
+	result := tx.Model(orang.Orang{}).Where("email = ?", p.OrangAlamat.String).First(&existingOrang)
+	if result.RowsAffected > 0 {
+		// email pada data orang sudah ada.
+		// update data orang
+		org := orang.ParamPartiallyUpdate{}
+		org.ID.Set(existingOrang.ID.Int64)
+		if p.OrangNama.Valid {
+			org.Nama = p.OrangNama
+		}
+		if p.OrangNama.Valid {
+			org.NamaPanggilan = p.OrangNama
+		}
+		if p.OrangNip.Valid {
+			org.Nip = p.OrangNip
+		}
+		if p.OrangNik.Valid {
+			org.Nik = p.OrangNik
+		}
+		if p.OrangTempatLahir.Valid {
+			org.TempatLahir = p.OrangTempatLahir
+		}
+		if p.OrangTglLahir.Valid {
+			org.TglLahir = p.OrangTglLahir
+		}
+		if p.OrangJenisKelamin.Valid {
+			org.JenisKelamin = p.OrangJenisKelamin
+		}
+		if p.OrangAlamat.Valid {
+			org.Alamat = p.OrangAlamat
+		}
+		if p.OrangEmail.Valid {
+			org.Email = p.OrangEmail
+		}
+		if p.OrangTelp.Valid {
+			org.Telp = p.OrangTelp
+		}
+		if p.OrangJabatan.Valid {
+			org.Jabatan = p.OrangJabatan
+		}
+		if p.OrangFotoID.Valid {
+			org.FotoID = p.OrangFotoID
+		}
+		if p.OrangUnitKerja.Valid {
+			org.UnitKerja = p.OrangUnitKerja
+		}
+		if p.OrangUserLevel.Valid {
+			org.UserLevel = p.OrangUserLevel
+		}
+		if p.OrangStatusLevel.Valid {
+			org.StatusLevel = p.OrangStatusLevel
+		}
+
+		err = orang.UseCase(*u.Ctx).PartiallyUpdateByID(strconv.Itoa(int(existingOrang.ID.Int64)), &org)
+		if err != nil {
+			return err
+		}
+
+		p.OrangId.Set(existingOrang.ID.Int64)
+	} else {
+		//Insert to Orang
+		org := orang.ParamCreate{}
+		org.Nama = p.OrangNama
+		org.NamaPanggilan = p.OrangNama
+		org.Nip = p.OrangNip
+		org.Nik = p.OrangNik
+		org.TempatLahir = p.OrangTempatLahir
+		org.TglLahir = p.OrangTglLahir
+		org.JenisKelamin = p.OrangJenisKelamin
+		org.Alamat = p.OrangAlamat
+		org.Email = p.OrangEmail
+		org.Telp = p.OrangTelp
+		org.Jabatan = p.OrangJabatan
+		org.FotoID = p.OrangFotoID
+		org.UnitKerja = p.OrangUnitKerja
+		org.UserLevel = p.OrangUserLevel
+		org.StatusLevel = p.OrangStatusLevel
+
+		err = orang.UseCase(*u.Ctx).Create(&org)
+		if err != nil {
+			return err
+		}
+
+		p.OrangId.Set(org.ID.Int64)
 	}
 
 	// save data to db
@@ -297,6 +360,60 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	// update data orang
+	org := orang.ParamPartiallyUpdate{}
+	org.ID.Set(old.OrangId.Int64)
+	if p.OrangNama.Valid {
+		org.Nama = p.OrangNama
+	}
+	if p.OrangNama.Valid {
+		org.NamaPanggilan = p.OrangNama
+	}
+	if p.OrangNip.Valid {
+		org.Nip = p.OrangNip
+	}
+	if p.OrangNik.Valid {
+		org.Nik = p.OrangNik
+	}
+	if p.OrangTempatLahir.Valid {
+		org.TempatLahir = p.OrangTempatLahir
+	}
+	if p.OrangTglLahir.Valid {
+		org.TglLahir = p.OrangTglLahir
+	}
+	if p.OrangJenisKelamin.Valid {
+		org.JenisKelamin = p.OrangJenisKelamin
+	}
+	if p.OrangAlamat.Valid {
+		org.Alamat = p.OrangAlamat
+	}
+	if p.OrangEmail.Valid {
+		org.Email = p.OrangEmail
+	}
+	if p.OrangTelp.Valid {
+		org.Telp = p.OrangTelp
+	}
+	if p.OrangJabatan.Valid {
+		org.Jabatan = p.OrangJabatan
+	}
+	if p.OrangFotoID.Valid {
+		org.FotoID = p.OrangFotoID
+	}
+	if p.OrangUnitKerja.Valid {
+		org.UnitKerja = p.OrangUnitKerja
+	}
+	if p.OrangUserLevel.Valid {
+		org.UserLevel = p.OrangUserLevel
+	}
+	if p.OrangStatusLevel.Valid {
+		org.StatusLevel = p.OrangStatusLevel
+	}
+
+	err = orang.UseCase(*u.Ctx).PartiallyUpdateByID(strconv.Itoa(int(old.OrangId.Int64)), &org)
+	if err != nil {
+		return err
+	}
+
 	// update data on the db
 	err = tx.Model(&p).Where("id_user = ?", old.ID).Updates(p).Error
 	if err != nil {
@@ -376,6 +493,60 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 	tx, err := u.Ctx.DB()
 	if err != nil {
 		return app.Error().New(http.StatusInternalServerError, err.Error())
+	}
+
+	// update data orang
+	org := orang.ParamPartiallyUpdate{}
+	org.ID.Set(old.OrangId.Int64)
+	if p.OrangNama.Valid {
+		org.Nama = p.OrangNama
+	}
+	if p.OrangNama.Valid {
+		org.NamaPanggilan = p.OrangNama
+	}
+	if p.OrangNip.Valid {
+		org.Nip = p.OrangNip
+	}
+	if p.OrangNik.Valid {
+		org.Nik = p.OrangNik
+	}
+	if p.OrangTempatLahir.Valid {
+		org.TempatLahir = p.OrangTempatLahir
+	}
+	if p.OrangTglLahir.Valid {
+		org.TglLahir = p.OrangTglLahir
+	}
+	if p.OrangJenisKelamin.Valid {
+		org.JenisKelamin = p.OrangJenisKelamin
+	}
+	if p.OrangAlamat.Valid {
+		org.Alamat = p.OrangAlamat
+	}
+	if p.OrangEmail.Valid {
+		org.Email = p.OrangEmail
+	}
+	if p.OrangTelp.Valid {
+		org.Telp = p.OrangTelp
+	}
+	if p.OrangJabatan.Valid {
+		org.Jabatan = p.OrangJabatan
+	}
+	if p.OrangFotoID.Valid {
+		org.FotoID = p.OrangFotoID
+	}
+	if p.OrangUnitKerja.Valid {
+		org.UnitKerja = p.OrangUnitKerja
+	}
+	if p.OrangUserLevel.Valid {
+		org.UserLevel = p.OrangUserLevel
+	}
+	if p.OrangStatusLevel.Valid {
+		org.StatusLevel = p.OrangStatusLevel
+	}
+
+	err = orang.UseCase(*u.Ctx).PartiallyUpdateByID(strconv.Itoa(int(old.OrangId.Int64)), &org)
+	if err != nil {
+		return err
 	}
 
 	// update data on the db
