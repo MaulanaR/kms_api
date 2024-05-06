@@ -172,6 +172,14 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 	var existingOrang orang.Orang
 	result := tx.Model(orang.Orang{}).Where("email = ?", p.OrangAlamat.String).First(&existingOrang)
 	if result.RowsAffected > 0 {
+		// check apakah data orang sudah ada relasi dengan user
+		var count int64
+
+		tx.Model(&User{}).Where("id_orang = ?", existingOrang.ID.Int64).Count(&count)
+		if count > 0 {
+			return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
+		}
+
 		// email pada data orang sudah ada.
 		// update data orang
 		org := orang.ParamPartiallyUpdate{}
