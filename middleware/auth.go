@@ -172,6 +172,8 @@ func (auth *authHandler) IsNeedValidate(ctx *app.Ctx) bool {
 				return false
 			} else if (segments[3] == "advis_kategori" || segments[3] == "advis_sub_kategori" || segments[3] == "advis_sumber_data") && method == "GET" {
 				return false
+			} else if segments[3] == "request_forgot_password" || segments[3] == "forgot_password" {
+				return false
 			}
 
 			if (segments[3] == "advis_analytics" || segments[3] == "advis_list_data") && method == "GET" && (ctx.Action.DataID == "" || ctx.Action.DataID == "template_csv") {
