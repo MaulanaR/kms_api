@@ -219,7 +219,7 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		// validasi email
 		var existingUser Orang
 		result := tx.Model(Orang{}).Where("email = ?", p.Email.String).First(&existingUser)
-		if result.RowsAffected == 0 {
+		if result.RowsAffected > 0 {
 			return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
 		}
 	}
@@ -292,7 +292,7 @@ func (u UseCaseHandler) PartiallyUpdateByID(id string, p *ParamPartiallyUpdate) 
 		// validasi email
 		var existingUser Orang
 		result := tx.Model(Orang{}).Where("email = ?", p.Email.String).First(&existingUser)
-		if result.RowsAffected == 0 {
+		if result.RowsAffected > 0 {
 			return app.Error().New(http.StatusBadRequest, "Email telah digunakan.")
 		}
 	}
