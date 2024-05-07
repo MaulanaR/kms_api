@@ -1305,17 +1305,24 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			}
 		}
 		rnk := app.FindSimilarStrings(keyword, listJudul)
-		for i, _ := range rnk {
-			data[i]["levenshtein.keyword"] = keyword
+		sort.Slice(rnk, func(i, j int) bool {
+			return rnk[i].Score > rnk[j].Score
+		})
 
-			newData = append(newData, data[i])
+		r := 0
+		for _, match := range rnk {
+			data[match.Index]["levenshtein.keyword"] = keyword
+			data[match.Index]["rank"] = r
+			data[match.Index]["tipe"] = "pengetahuan"
+			newData = append(newData, data[match.Index])
+			r++
 		}
 		res.SetData(newData, u.Query)
-	}
-
-	//sisipkan tipe
-	for i, _ := range res.Data {
-		res.Data[i]["tipe"] = "pengetahuan"
+	} else {
+		//sisipkan tipe
+		for i, _ := range res.Data {
+			res.Data[i]["tipe"] = "pengetahuan"
+		}
 	}
 
 	//data cop
@@ -1345,10 +1352,17 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			}
 		}
 		rnk := app.FindSimilarStrings(keyword, listJudul)
-		for i, _ := range rnk {
-			data2[i]["levenshtein.keyword"] = keyword
-			data2[i]["tipe"] = "cop"
-			newData = append(newData, data2[i])
+		sort.Slice(rnk, func(i, j int) bool {
+			return rnk[i].Score > rnk[j].Score
+		})
+
+		r := 0
+		for _, match := range rnk {
+			data2[match.Index]["levenshtein.keyword"] = keyword
+			data2[match.Index]["rank"] = r
+			data2[match.Index]["tipe"] = "cop"
+			newData = append(newData, data2[match.Index])
+			r++
 		}
 		res.Data = append(res.Data, newData...)
 	} else {
@@ -1359,11 +1373,31 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 	}
 
 	//order agar konsisten
-	sortKey := "judul"
-
+	sortKey := "created_at"
 	// Fungsi untuk membandingkan elemen-elemen berdasarkan kunci tertentu
 	comparator := func(i, j int) bool {
-		return res.Data[i][sortKey].(string) < res.Data[j][sortKey].(string)
+		iValue, ok := res.Data[i][sortKey].(time.Time)
+		if !ok {
+			// Jika nilai tidak valid, anggap sebagai waktu paling awal
+			return false
+		}
+
+		jValue, ok := res.Data[j][sortKey].(time.Time)
+		if !ok {
+			// Jika nilai tidak valid, anggap sebagai waktu paling awal
+			return true
+		}
+
+		// Urutkan secara descending (terbaru ke terlama)
+		return iValue.After(jValue)
+	}
+
+	if u.Query.Has("levenshtein.keyword.$eq") {
+		sortKey = "rank"
+		// Fungsi untuk membandingkan elemen-elemen berdasarkan kunci tertentu
+		comparator = func(i, j int) bool {
+			return res.Data[i][sortKey].(int) < res.Data[j][sortKey].(int)
+		}
 	}
 
 	// Menggunakan sort.Slice untuk mengurutkan slice berdasarkan kunci

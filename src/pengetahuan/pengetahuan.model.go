@@ -48,6 +48,7 @@ type Pengetahuan struct {
 	Penulis3Filename         app.NullString `json:"penulis_3.foto.nama"          db:"p3attachment.filename"                                                              gorm:"-"`
 	CreatedBy                app.NullInt64  `json:"created_by.id"                db:"m.created_by"                                                                       gorm:"column:created_by"`
 	CreatedByUsername        app.NullString `json:"created_by.username"          db:"cbuser.username"                                                                    gorm:"-"`
+	CreatedByNamaLengkap     app.NullString `json:"created_by.nama"              db:"cbo.nama"                                                                           gorm:"-"`
 	CreatedByOrangFotoID     app.NullInt64  `json:"created_by.foto.id"           db:"cbo.foto"                                                                           gorm:"-"`
 	CreatedByOrangFotoUrl    app.NullString `json:"created_by.foto.url"          db:"cbatt.url"                                                                          gorm:"-"`
 	CreatedByOrangFotoNama   app.NullString `json:"created_by.foto.nama"         db:"cbatt.filename"                                                                     gorm:"-"`
@@ -258,26 +259,34 @@ type MixSlide struct {
 type SearchPengetahuan struct {
 	app.Model
 	//for leveinsthein method
-	LevenshteinKeyword    app.NullString  `json:"levenshtein.keyword"          db:"-"                                                                                  gorm:"-"`
-	LevenshteinDistance   app.NullInt64   `json:"levenshtein.distance"         db:"-"                                                                                  gorm:"-"`
-	LevenshteinPercentage app.NullFloat64 `json:"levenshtein.percentage"       db:"-"                                                                                  gorm:"-"`
+	LevenshteinKeyword    app.NullString  `json:"levenshtein.keyword"          db:"-"                              gorm:"-"`
+	LevenshteinDistance   app.NullInt64   `json:"levenshtein.distance"         db:"-"                              gorm:"-"`
+	LevenshteinPercentage app.NullFloat64 `json:"levenshtein.percentage"       db:"-"                              gorm:"-"`
 	//common data
-	ID            app.NullInt64  `json:"id"                           db:"m.id_pengetahuan"                                                                   gorm:"column:id_pengetahuan;primaryKey"`
-	Judul         app.NullText   `json:"judul"                        db:"m.judul"                                                                            gorm:"column:judul"`
-	Ringkasan     app.NullText   `json:"ringkasan"                    db:"m.ringkasan"                                                                        gorm:"column:ringkasan"`
-	ThumbnailID   app.NullInt64  `json:"thumbnail.id"                 db:"m.thumbnail"                                                                        gorm:"column:thumbnail"`
-	ThumbnailName app.NullString `json:"thumbnail.nama"               db:"attachment.filename"                                                                gorm:"-"`
-	ThumbnailUrl  app.NullString `json:"thumbnail.url"                db:"attachment.url"                                                                     gorm:"-"`
+	ID            app.NullInt64  `json:"id"                           db:"m.id_pengetahuan"               gorm:"column:id_pengetahuan;primaryKey"`
+	Judul         app.NullText   `json:"judul"                        db:"m.judul"                        gorm:"column:judul"`
+	Ringkasan     app.NullText   `json:"ringkasan"                    db:"m.ringkasan"                    gorm:"column:ringkasan"`
+	ThumbnailID   app.NullInt64  `json:"thumbnail.id"                 db:"m.thumbnail"                    gorm:"column:thumbnail"`
+	ThumbnailName app.NullString `json:"thumbnail.nama"               db:"attachment.filename"            gorm:"-"`
+	ThumbnailUrl  app.NullString `json:"thumbnail.url"                db:"attachment.url"                 gorm:"-"`
 
-	JenisPengetahuanID       app.NullInt64 `json:"jenis_pengetahuan.id"         db:"m.id_jenis_pengetahuan"                                                             gorm:"column:id_jenis_pengetahuan"`
-	JenisPengtahuanNama      app.NullText  `json:"jenis_pengetahuan.nama"       db:"jp.nama_jenis_pengetahuan"                                                          gorm:"-"`
-	SubJenisPengetahuanID    app.NullInt64 `json:"subjenis_pengetahuan.id"      db:"m.id_subjenis_pengetahuan"                                                          gorm:"column:id_subjenis_pengetahuan"`
-	SubJenisPengtahuanNama   app.NullText  `json:"subjenis_pengetahuan.nama"    db:"sjp.nama_subjenis_pengetahuan"                                                      gorm:"-"`
-	SubJenisPengtahuanIsShow app.NullBool  `json:"subjenis_pengetahuan.is_show" db:"sjp.is_show"                                                                        gorm:"-"`
-	LingkupPengetahuanID     app.NullInt64 `json:"lingkup_pengetahuan.id"       db:"m.id_lingkup_pengetahuan"                                                           gorm:"column:id_lingkup_pengetahuan"`
-	LingkupPengetahuanNama   app.NullText  `json:"lingkup_pengetahuan.nama"     db:"lp.nama_lingkup_pengetahuan"                                                        gorm:"-"`
-	StatusPengetahuanID      app.NullInt64 `json:"status_pengetahuan.id"        db:"m.id_status_pengetahuan"                                                            gorm:"column:id_status_pengetahuan"`
-	StatusPengetahuanNama    app.NullText  `json:"status_pengetahuan.nama"      db:"status.nama_status_pengetahuan"                                                     gorm:"-"`
+	JenisPengetahuanID       app.NullInt64 `json:"jenis_pengetahuan.id"         db:"m.id_jenis_pengetahuan"         gorm:"column:id_jenis_pengetahuan"`
+	JenisPengtahuanNama      app.NullText  `json:"jenis_pengetahuan.nama"       db:"jp.nama_jenis_pengetahuan"      gorm:"-"`
+	SubJenisPengetahuanID    app.NullInt64 `json:"subjenis_pengetahuan.id"      db:"m.id_subjenis_pengetahuan"      gorm:"column:id_subjenis_pengetahuan"`
+	SubJenisPengtahuanNama   app.NullText  `json:"subjenis_pengetahuan.nama"    db:"sjp.nama_subjenis_pengetahuan"  gorm:"-"`
+	SubJenisPengtahuanIsShow app.NullBool  `json:"subjenis_pengetahuan.is_show" db:"sjp.is_show"                    gorm:"-"`
+	LingkupPengetahuanID     app.NullInt64 `json:"lingkup_pengetahuan.id"       db:"m.id_lingkup_pengetahuan"       gorm:"column:id_lingkup_pengetahuan"`
+	LingkupPengetahuanNama   app.NullText  `json:"lingkup_pengetahuan.nama"     db:"lp.nama_lingkup_pengetahuan"    gorm:"-"`
+	StatusPengetahuanID      app.NullInt64 `json:"status_pengetahuan.id"        db:"m.id_status_pengetahuan"        gorm:"column:id_status_pengetahuan"`
+	StatusPengetahuanNama    app.NullText  `json:"status_pengetahuan.nama"      db:"status.nama_status_pengetahuan" gorm:"-"`
+
+	CreatedAt              app.NullDateTime `json:"created_at"                   db:"m.created_at"                   gorm:"-"`
+	CreatedBy              app.NullInt64    `json:"created_by.id"                db:"m.created_by"                   gorm:"column:created_by"`
+	CreatedByUsername      app.NullString   `json:"created_by.username"          db:"cbuser.username"                gorm:"-"`
+	CreatedByNamaLengkap   app.NullString   `json:"created_by.nama"              db:"cbo.nama"                       gorm:"-"`
+	CreatedByOrangFotoID   app.NullInt64    `json:"created_by.foto.id"           db:"cbo.foto"                       gorm:"-"`
+	CreatedByOrangFotoUrl  app.NullString   `json:"created_by.foto.url"          db:"cbatt.url"                      gorm:"-"`
+	CreatedByOrangFotoNama app.NullString   `json:"created_by.foto.nama"         db:"cbatt.filename"                 gorm:"-"`
 }
 
 // EndPoint returns the SearchPengetahuan end point, it used for cache key, etc.
@@ -303,6 +312,11 @@ func (SearchPengetahuan) TableAliasName() string {
 
 // GetRelations returns the relations of the SearchPengetahuan data in the database, used for querying.
 func (m *SearchPengetahuan) GetRelations() map[string]map[string]any {
+	//created by, updated by , deleted by
+	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
+	m.AddRelation("left", "m_orang", "cbo", []map[string]any{{"column1": "cbo.id_orang", "column2": "cbuser.id_orang"}})
+	m.AddRelation("left", "m_attachments", "cbatt", []map[string]any{{"column1": "cbatt.id", "column2": "cbo.foto"}})
+
 	//jenis pengetahuan
 	m.AddRelation("left", "m_jenis_pengetahuan", "jp", []map[string]any{{"column1": "jp.id_jenis_pengetahuan", "column2": "m.id_jenis_pengetahuan"}})
 	m.AddRelation("left", "m_subjenis_pengetahuan", "sjp", []map[string]any{{"column1": "sjp.id_subjenis_pengetahuan", "column2": "m.id_subjenis_pengetahuan"}})
@@ -343,12 +357,20 @@ func (m *SearchPengetahuan) GetSchema() map[string]any {
 
 type SearchForum struct {
 	app.Model
-	ID             app.NullInt64  `json:"id"                   db:"m.id"                                                             gorm:"column:id;primaryKey"`
-	Judul          app.NullText   `json:"judul"                db:"m.judul"                                                          gorm:"column:judul"`
-	Deskripsi      app.NullText   `json:"ringkasan"            db:"m.deskripsi"                                                      gorm:"column:deskripsi"`
-	GambarID       app.NullInt64  `json:"thumbnail.id"            db:"m.gambar_id"                                                      gorm:"column:gambar_id"`
-	GambarFilename app.NullString `json:"thumbnail.filename"      db:"g.filename"                                                       gorm:"-"`
-	GambarUrl      app.NullString `json:"thumbnail.url"           db:"g.url"                                                            gorm:"-"`
+	ID             app.NullInt64  `json:"id"                   db:"m.id"            gorm:"column:id;primaryKey"`
+	Judul          app.NullText   `json:"judul"                db:"m.judul"         gorm:"column:judul"`
+	Deskripsi      app.NullText   `json:"ringkasan"            db:"m.deskripsi"     gorm:"column:deskripsi"`
+	GambarID       app.NullInt64  `json:"thumbnail.id"         db:"m.gambar_id"     gorm:"column:gambar_id"`
+	GambarFilename app.NullString `json:"thumbnail.filename"   db:"g.filename"      gorm:"-"`
+	GambarUrl      app.NullString `json:"thumbnail.url"        db:"g.url"           gorm:"-"`
+
+	CreatedAt              app.NullDateTime `json:"created_at"           db:"m.created_at"    gorm:"-"`
+	CreatedBy              app.NullInt64    `json:"created_by.id"        db:"m.created_by"    gorm:"column:created_by"`
+	CreatedByUsername      app.NullString   `json:"created_by.username"  db:"cbuser.username" gorm:"-"`
+	CreatedByNamaLengkap   app.NullString   `json:"created_by.nama"      db:"cbo.nama"        gorm:"-"`
+	CreatedByOrangFotoID   app.NullInt64    `json:"created_by.foto.id"   db:"cbo.foto"        gorm:"-"`
+	CreatedByOrangFotoUrl  app.NullString   `json:"created_by.foto.url"  db:"cbatt.url"       gorm:"-"`
+	CreatedByOrangFotoNama app.NullString   `json:"created_by.foto.nama" db:"cbatt.filename"  gorm:"-"`
 }
 
 func (SearchForum) EndPoint() string {
@@ -368,6 +390,11 @@ func (SearchForum) TableAliasName() string {
 }
 
 func (m *SearchForum) GetRelations() map[string]map[string]any {
+	//created by, updated by , deleted by
+	m.AddRelation("left", "m_user", "cbuser", []map[string]any{{"column1": "cbuser.id_user", "column2": "m.created_by"}})
+	m.AddRelation("left", "m_orang", "cbo", []map[string]any{{"column1": "cbo.id_orang", "column2": "cbuser.id_orang"}})
+	m.AddRelation("left", "m_attachments", "cbatt", []map[string]any{{"column1": "cbatt.id", "column2": "cbo.foto"}})
+
 	m.AddRelation("left", "m_attachments", "g", []map[string]any{{"column1": "g.id", "column2": "m.gambar_id"}})
 
 	return m.Relations

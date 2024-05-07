@@ -9,12 +9,22 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-func FindSimilarStrings(searchKey string, data []string) map[int]string {
-	result := make(map[int]string)
+type Match struct {
+	Index int
+	Score int
+	Value string
+}
+
+func FindSimilarStrings(searchKey string, data []string) []Match {
 	lowercaseSlice := toLower(data)
 	matches := fuzzy.Find(strings.ToLower(searchKey), lowercaseSlice)
+	var result []Match
 	for _, match := range matches {
-		result[match.Index] = data[match.Index]
+		result = append(result, Match{
+			Index: match.Index,
+			Score: match.Score,
+			Value: data[match.Index],
+		})
 	}
 	return result
 }
