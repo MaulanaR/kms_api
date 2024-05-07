@@ -116,10 +116,10 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 	// get from cache and return if exists
 	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
-	err = app.Cache().Get(cacheKey, &res)
-	if err == nil {
-		return res, err
-	}
+	// err = app.Cache().Get(cacheKey, &res)
+	// if err == nil {
+	// 	return res, err
+	// }
 
 	// prepare db for current ctx
 	tx, err := u.Ctx.DB()
@@ -1311,11 +1311,14 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 
 		r := 0
 		for _, match := range rnk {
-			data[match.Index]["levenshtein.keyword"] = keyword
-			data[match.Index]["rank"] = r
-			data[match.Index]["tipe"] = "pengetahuan"
-			newData = append(newData, data[match.Index])
-			r++
+			//treshold = 0, jika score dibawah 0, maka tidak dianggap
+			if match.Score > 0 {
+				data[match.Index]["levenshtein.keyword"] = keyword
+				data[match.Index]["rank"] = r
+				data[match.Index]["tipe"] = "pengetahuan"
+				newData = append(newData, data[match.Index])
+				r++
+			}
 		}
 		res.SetData(newData, u.Query)
 	} else {
@@ -1358,11 +1361,13 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 
 		r := 0
 		for _, match := range rnk {
-			data2[match.Index]["levenshtein.keyword"] = keyword
-			data2[match.Index]["rank"] = r
-			data2[match.Index]["tipe"] = "cop"
-			newData = append(newData, data2[match.Index])
-			r++
+			if match.Score > 0 {
+				data2[match.Index]["levenshtein.keyword"] = keyword
+				data2[match.Index]["rank"] = r
+				data2[match.Index]["tipe"] = "cop"
+				newData = append(newData, data2[match.Index])
+				r++
+			}
 		}
 		res.Data = append(res.Data, newData...)
 	} else {

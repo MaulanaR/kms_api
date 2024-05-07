@@ -19,6 +19,7 @@ type Forum struct {
 	CreatedAt              app.NullDateTime `json:"created_at"           db:"m.created_at"                                                     gorm:"column:created_at"`
 	CreatedBy              app.NullInt64    `json:"created_by.id"        db:"m.created_by"                                                     gorm:"column:created_by"`
 	CreatedByUsername      app.NullString   `json:"created_by.username"  db:"cbuser.username"                                                  gorm:"-"`
+	CreatedByNamaLengkap   app.NullString   `json:"created_by.nama"      db:"cbo.nama"                                                         gorm:"-"`
 	CreatedByOrangFotoID   app.NullInt64    `json:"created_by.foto.id"   db:"cbo.foto"                                                         gorm:"-"`
 	CreatedByOrangFotoUrl  app.NullString   `json:"created_by.foto.url"  db:"cbatt.url"                                                        gorm:"-"`
 	CreatedByOrangFotoNama app.NullString   `json:"created_by.foto.nama" db:"cbatt.filename"                                                   gorm:"-"`

@@ -478,11 +478,69 @@ func (q *DBQuery) SetWhere(db *gorm.DB, schema map[string]any, query url.Values)
 }
 
 // qsToCond convert key val query params to schema conditions
+// func (q *DBQuery) qsToCond(key, val string, fields map[string]map[string]any, arrayFields map[string]map[string]any) map[string]any {
+// 	cond := map[string]any{}
+// 	key, _ = url.QueryUnescape(key)
+// 	subkey := strings.Split(key, ".")
+// 	lastSubkey := subkey[len(subkey)-1]
+
+// 	operator := q.qsToOptSQL(lastSubkey)
+// 	cond["operator"] = operator
+
+// 	if lastSubkey == QueryOptInsensitiveLike || lastSubkey == QueryOptInsensitiveNotLike {
+// 		cond["isCaseInsensitive"] = true
+// 	}
+
+// 	if subkey[0] == QueryDbField {
+// 		cond["column1"] = strings.ReplaceAll(key, QueryDbField+".", "")
+// 	}
+// 	if operator != "" {
+// 		key = strings.ReplaceAll(key, "."+lastSubkey, "")
+// 	}
+// 	if fields[key] != nil {
+// 		cond["column1"], _ = fields[key]["db"].(string)
+// 		cond["column1type"], _ = fields[key]["type"].(string)
+// 	} else {
+// 		for k, v := range fields {
+// 			if strings.HasPrefix(key, k) {
+// 				cond["column1"], _ = v["db"].(string)
+// 				fType, _ := v["type"].(string)
+// 				cond["column1type"] = fType
+// 				if strings.Contains(strings.ToLower(fType), "json") {
+// 					cond["column1jsonKey"] = strings.Replace(key, k+".", "", 1)
+// 				}
+// 			}
+// 		}
+// 		if cond["column1"] == nil {
+// 			// todo : filter from array fields
+// 			// ?arrayFields.0.field.id={field_id} > where exists (select 1 from array_table at where at.parent_id = parent.id and field_id = {field_id})
+// 			// ?arrayFields.*.field.id={field_id} > same as above but the array fields response also filtered
+// 			// for k, v := range arrayFields {
+// 			// 	// todo
+// 			// }
+// 		}
+// 	}
+
+//		colVal := strings.Split(val, QueryField+":")
+//		if len(colVal) > 1 {
+//			cond["column2"] = colVal[1]
+//		} else {
+//			vUnescape, err := url.QueryUnescape(val)
+//			if err != nil {
+//				cond["value"] = val
+//			} else {
+//				cond["value"] = vUnescape
+//			}
+//		}
+//		return cond
+//	}
+//
+// qsToCond convert key val query params to schema conditions
 func (q *DBQuery) qsToCond(key, val string, fields map[string]map[string]any, arrayFields map[string]map[string]any) map[string]any {
 	cond := map[string]any{}
 	key, _ = url.QueryUnescape(key)
-	subkey := strings.Split(key, ".")
-	lastSubkey := subkey[len(subkey)-1]
+	subkeys := strings.Split(key, ".")
+	lastSubkey := subkeys[len(subkeys)-1]
 
 	operator := q.qsToOptSQL(lastSubkey)
 	cond["operator"] = operator
@@ -491,16 +549,41 @@ func (q *DBQuery) qsToCond(key, val string, fields map[string]map[string]any, ar
 		cond["isCaseInsensitive"] = true
 	}
 
-	if subkey[0] == QueryDbField {
+	if subkeys[0] == QueryDbField {
 		cond["column1"] = strings.ReplaceAll(key, QueryDbField+".", "")
 	}
 	if operator != "" {
-		key = strings.ReplaceAll(key, "."+lastSubkey, "")
+		key = strings.TrimSuffix(key, "."+lastSubkey)
 	}
+
+	// Find column1 from fields map
+	var column1Found bool
 	if fields[key] != nil {
 		cond["column1"], _ = fields[key]["db"].(string)
 		cond["column1type"], _ = fields[key]["type"].(string)
-	} else {
+		column1Found = true
+	}
+
+	// If column1 not found in fields map, try to find it from array fields
+	if !column1Found {
+		fieldKey := subkeys[len(subkeys)-1]
+		for k, v := range arrayFields {
+			if strings.HasPrefix(key, k+".") {
+				fieldsArr := v["schema"].(map[string]any)["fields"].((map[string]map[string]any))
+				cond["column1"] = fieldsArr[fieldKey]["db"].(string)
+				fType, _ := v["type"].(string)
+				cond["column1type"] = fType
+				if strings.Contains(strings.ToLower(fType), "json") {
+					cond["column1jsonKey"] = strings.Replace(key, k+".", "", 1)
+				}
+				column1Found = true
+				break
+			}
+		}
+	}
+
+	// If column1 still not found, try to find it from fields map with json key
+	if !column1Found {
 		for k, v := range fields {
 			if strings.HasPrefix(key, k) {
 				cond["column1"], _ = v["db"].(string)
@@ -509,15 +592,9 @@ func (q *DBQuery) qsToCond(key, val string, fields map[string]map[string]any, ar
 				if strings.Contains(strings.ToLower(fType), "json") {
 					cond["column1jsonKey"] = strings.Replace(key, k+".", "", 1)
 				}
+				column1Found = true
+				break
 			}
-		}
-		if cond["column1"] == nil {
-			// todo : filter from array fields
-			// ?arrayFields.0.field.id={field_id} > where exists (select 1 from array_table at where at.parent_id = parent.id and field_id = {field_id})
-			// ?arrayFields.*.field.id={field_id} > same as above but the array fields response also filtered
-			// for k, v := range arrayFields {
-			// 	// todo
-			// }
 		}
 	}
 

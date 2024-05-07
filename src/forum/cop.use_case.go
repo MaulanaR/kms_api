@@ -75,10 +75,18 @@ func (u UseCaseHandler) GetSearch() (app.ListModel, error) {
 			}
 		}
 		rnk := app.FindSimilarStrings(keyword, listJudul)
-		for i, _ := range rnk {
-			data[i]["levenshtein.keyword"] = keyword
+		sort.Slice(rnk, func(i, j int) bool {
+			return rnk[i].Score > rnk[j].Score
+		})
 
-			newData = append(newData, data[i])
+		r := 0
+		for _, match := range rnk {
+			if match.Score > 0 {
+				data[match.Index]["levenshtein.keyword"] = keyword
+				data[match.Index]["rank"] = r
+				newData = append(newData, data[match.Index])
+				r++
+			}
 		}
 		res.SetData(newData, u.Query)
 	}
