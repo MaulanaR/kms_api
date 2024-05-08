@@ -115,7 +115,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, err
 	}
 	// get from cache and return if exists
-	cacheKey := u.EndPoint() + "?" + u.Query.Encode()
+	// cacheKey := u.EndPoint() + "?" + u.Query.Encode()
 	// err = app.Cache().Get(cacheKey, &res)
 	// if err == nil {
 	// 	return res, err
@@ -182,7 +182,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	res.SetData(s2Data, u.Query)
 
 	// save to cache and return if exists
-	app.Cache().Set(cacheKey, res)
+	// app.Cache().Set(cacheKey, res)
 	return res, err
 }
 
