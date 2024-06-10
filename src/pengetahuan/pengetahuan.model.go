@@ -178,7 +178,7 @@ func (m *Pengetahuan) GetRelations() map[string]map[string]any {
 	//resensi
 	m.AddRelation("left", "t_pengetahuan_resensi", "tp_resensi", []map[string]any{{"column1": "tp_resensi.id_pengetahuan", "column2": "m.id_pengetahuan"}})
 
-	m.AddRelation("left", "t_pengetahuan_pengetahuan_tag", "tptag", []map[string]any{{"column1": "tptag.id_pengetahuan", "column2": "m.id_pengetahuan"}})
+	// m.AddRelation("left", "t_pengetahuan_pengetahuan_tag", "tptag", []map[string]any{{"column1": "tptag.id_pengetahuan", "column2": "m.id_pengetahuan"}})
 
 	return m.Relations
 }
