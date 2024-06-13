@@ -335,7 +335,18 @@ func (m *Model) AddRelation(joinType string, tableName any, tableAliasName strin
 	} else {
 		m.Relations = map[string]map[string]any{tableAliasName: relation}
 	}
-	m.RelationOrder = append(m.RelationOrder, tableAliasName)
+	if !contains(m.RelationOrder, tableAliasName) {
+		m.RelationOrder = append(m.RelationOrder, tableAliasName)
+	}
+}
+
+func contains(slice []string, value string) bool {
+	for _, v := range slice {
+		if v == value {
+			return true
+		}
+	}
+	return false
 }
 
 // get model relation, expected key :

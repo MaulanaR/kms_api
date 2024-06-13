@@ -127,12 +127,17 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
 
+	p := Pengetahuan{}
+	if u.Query.Has("tag.id") || u.Query.Has("tag.id.$eq") {
+		p.AddRelation("left", "t_pengetahuan_pengetahuan_tag", "tptag", []map[string]any{{"column1": "tptag.id_pengetahuan", "column2": "m.id_pengetahuan"}})
+	}
+
 	// set pagination info
 	res.Count,
 		res.PageContext.Page,
 		res.PageContext.PerPage,
 		res.PageContext.PageCount,
-		err = app.Query().PaginationInfo(tx, &Pengetahuan{}, u.Query)
+		err = app.Query().PaginationInfo(tx, &p, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
@@ -142,7 +147,7 @@ func (u UseCaseHandler) Get() (app.ListModel, error) {
 	}
 
 	// find data
-	data, err := app.Query().Find(tx, &Pengetahuan{}, u.Query)
+	data, err := app.Query().Find(tx, &p, u.Query)
 	if err != nil {
 		return res, app.Error().New(http.StatusInternalServerError, err.Error())
 	}
