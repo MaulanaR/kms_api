@@ -69,14 +69,15 @@ type Pengetahuan struct {
 	IsLiked           app.NullBool  `json:"is_liked"                     db:"-"                                                                                  gorm:"-"`
 	IsDisliked        app.NullBool  `json:"is_disliked"                  db:"-"                                                                                  gorm:"-"`
 
-	Akademi         []tpengetahuanrelation.TPengetahuanAkademi         `json:"akademi"                      db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	PenulisExternal []tpengetahuanrelation.TPengetahuanPenulisExternal `json:"penulis_external"             db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	Tag             []tpengetahuanrelation.TPengetahuanTag             `json:"tag"                          db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	Referensi       []tpengetahuanrelation.TPengetahuanReferensi       `json:"referensi"                    db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	Kompetensi      []tpengetahuanrelation.TPengetahuanKompetensi      `json:"kompetensi"                   db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	Dokumen         []tpengetahuanrelation.TPengetahuanDokumen         `json:"dokumen"                      db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	TenagaAhli      []tpengetahuanrelation.TPengetahuanTenagaAhli      `json:"tenaga_ahli"                  db:"pengetahuan.id={id}"                                                                gorm:"-"`
-	Pedoman         []tpengetahuanrelation.TPengetahuanPedoman         `json:"pedoman"                      db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	Akademi              []tpengetahuanrelation.TPengetahuanAkademi              `json:"akademi"                      db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	PenulisExternal      []tpengetahuanrelation.TPengetahuanPenulisExternal      `json:"penulis_external"             db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	Tag                  []tpengetahuanrelation.TPengetahuanTag                  `json:"tag"                          db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	Referensi            []tpengetahuanrelation.TPengetahuanReferensi            `json:"referensi"                    db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	ReferensiPengetahuan []tpengetahuanrelation.TPengetahuanReferensiPengetahuan `json:"referensi_pengetahuan"        db:"rel_id={id}"                                                                gorm:"-"`
+	Kompetensi           []tpengetahuanrelation.TPengetahuanKompetensi           `json:"kompetensi"                   db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	Dokumen              []tpengetahuanrelation.TPengetahuanDokumen              `json:"dokumen"                      db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	TenagaAhli           []tpengetahuanrelation.TPengetahuanTenagaAhli           `json:"tenaga_ahli"                  db:"pengetahuan.id={id}"                                                                gorm:"-"`
+	Pedoman              []tpengetahuanrelation.TPengetahuanPedoman              `json:"pedoman"                      db:"pengetahuan.id={id}"                                                                gorm:"-"`
 	//jenis
 
 	//tugas

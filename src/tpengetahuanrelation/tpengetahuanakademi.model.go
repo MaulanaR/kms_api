@@ -570,16 +570,73 @@ func (p *TPengetahuanReferensiList) GetOpenAPISchema() map[string]any {
 	return p.SetOpenAPISchema(&TPengetahuanReferensi{})
 }
 
+// tpengetahuan referensi new
+type TPengetahuanReferensiPengetahuan struct {
+	app.Model
+	ID            app.NullInt64 `json:"-"                     db:"tprefPengetahuan.id"                       gorm:"column:id;primaryKey;auto_increment"`
+	PengetahuanID app.NullInt64 `json:"rel_id"                db:"tprefPengetahuan.id_pengetahuan,hide"      gorm:"column:id_pengetahuan"`
+	RefID         app.NullInt64 `json:"id"                    db:"tprefPengetahuan.id_pengetahuan_referensi" gorm:"column:id_pengetahuan_referensi"`
+	RefJudul      app.NullText  `json:"judul"                 db:"mPeng.judul"                               gorm:"-"`
+	RefRingkasan  app.NullText  `json:"ringkasan"             db:"mPeng.ringkasan"                           gorm:"-"`
+}
+
+func (TPengetahuanReferensiPengetahuan) EndPoint() string {
+	return "t_pengetahuan_referensi_by_pengetahuan"
+}
+
+func (TPengetahuanReferensiPengetahuan) TableVersion() string {
+	return "28.07.291152"
+}
+
+func (TPengetahuanReferensiPengetahuan) TableName() string {
+	return "t_pengetahuan_referensi_by_pengetahuan"
+}
+
+func (TPengetahuanReferensiPengetahuan) TableAliasName() string {
+	return "tprefPengetahuan"
+}
+
+func (m *TPengetahuanReferensiPengetahuan) GetRelations() map[string]map[string]any {
+	m.AddRelation("left", "t_pengetahuan", "mPeng", []map[string]any{{"column1": "mPeng.id_pengetahuan", "column2": "tprefPengetahuan.id_pengetahuan_referensi"}})
+
+	return m.Relations
+}
+
+func (m *TPengetahuanReferensiPengetahuan) GetFilters() []map[string]any {
+	return m.Filters
+}
+
+func (m *TPengetahuanReferensiPengetahuan) GetSorts() []map[string]any {
+	return m.Sorts
+}
+
+func (m *TPengetahuanReferensiPengetahuan) GetFields() map[string]map[string]any {
+	m.SetFields(m)
+	return m.Fields
+}
+
+func (m *TPengetahuanReferensiPengetahuan) GetSchema() map[string]any {
+	return m.SetSchema(m)
+}
+
+func (TPengetahuanReferensiPengetahuan) OpenAPISchemaName() string {
+	return "TPengetahuanReferensiPengetahuan"
+}
+
+func (m *TPengetahuanReferensiPengetahuan) GetOpenAPISchema() map[string]any {
+	return m.SetOpenAPISchema(m)
+}
+
 // tpengetahuan dokumen
 type TPengetahuanDokumen struct {
 	app.Model
-	ID             app.NullInt64    `json:"pengetahuan_dokumen.id"              db:"tpdokumen.id_pengetahuan_dokumen" gorm:"column:id_pengetahuan_dokumen;primaryKey"`
-	PengetahuanID  app.NullInt64    `json:"pengetahuan.id" db:"tpdokumen.id_pengetahuan,hide"    gorm:"column:id_pengetahuan"`
-	AttachmentID   app.NullInt64    `json:"id"             db:"tpdokumen.id_attachment"          gorm:"column:id_attachment"`
-	AttachmentNama app.NullText     `json:"nama"           db:"attachment.filename"              gorm:"-"`
-	AttachmentUrl  app.NullText     `json:"url"            db:"attachment.url"                   gorm:"-"`
-	CreatedAt      app.NullDateTime `json:"created_at"     db:"tpdokumen.created_at"             gorm:"column:created_at"`
-	CreatedBy      app.NullInt64    `json:"created_by.id"  db:"tpdokumen.created_by"             gorm:"column:created_by"`
+	ID             app.NullInt64    `json:"pengetahuan_dokumen.id" db:"tpdokumen.id_pengetahuan_dokumen" gorm:"column:id_pengetahuan_dokumen;primaryKey"`
+	PengetahuanID  app.NullInt64    `json:"pengetahuan.id"         db:"tpdokumen.id_pengetahuan,hide"    gorm:"column:id_pengetahuan"`
+	AttachmentID   app.NullInt64    `json:"id"                     db:"tpdokumen.id_attachment"          gorm:"column:id_attachment"`
+	AttachmentNama app.NullText     `json:"nama"                   db:"attachment.filename"              gorm:"-"`
+	AttachmentUrl  app.NullText     `json:"url"                    db:"attachment.url"                   gorm:"-"`
+	CreatedAt      app.NullDateTime `json:"created_at"             db:"tpdokumen.created_at"             gorm:"column:created_at"`
+	CreatedBy      app.NullInt64    `json:"created_by.id"          db:"tpdokumen.created_by"             gorm:"column:created_by"`
 }
 
 func (TPengetahuanDokumen) EndPoint() string {

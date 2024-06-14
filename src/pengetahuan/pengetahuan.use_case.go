@@ -289,6 +289,30 @@ func (u UseCaseHandler) Create(p *ParamCreate) error {
 		}
 	}
 
+	//validasi referensi pengetahuan
+	if len(p.ReferensiPengetahuan) > 0 {
+		for i, ref := range p.ReferensiPengetahuan {
+			//validasi
+			var countValid int64 = 0
+			err = tx.Model(&Pengetahuan{}).Where("id_pengetahuan", ref.RefID.Int64).Count(&countValid).Error
+			if err != nil || countValid == 0 {
+				return app.Error().New(http.StatusNotFound, u.Ctx.Trans("not_found",
+					map[string]string{
+						"entity": "Referensi Pengetahuan",
+						"key":    "id",
+						"value":  strconv.Itoa(int(ref.RefID.Int64)),
+					},
+				))
+			}
+			p.ReferensiPengetahuan[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.ReferensiPengetahuan).Error
+		if err != nil {
+			return err
+		}
+	}
+
 	//validasi penulis
 	// if len(p.PenulisExternal) > 0 {
 	// 	for i, _ := range p.PenulisExternal {
@@ -693,6 +717,32 @@ func (u UseCaseHandler) UpdateByID(id string, p *ParamUpdate) error {
 		}
 
 		err = tx.Create(&p.Referensi).Error
+		if err != nil {
+			return err
+		}
+	}
+
+	//validasi referensi pengetahuan
+	if len(p.ReferensiPengetahuan) > 0 {
+		//delete old data
+		tx.Where("id_pengetahuan = ?", p.ID.Int64).Delete(&p.ReferensiPengetahuan)
+		for i, ref := range p.ReferensiPengetahuan {
+			//validasi
+			var countValid int64 = 0
+			err = tx.Model(&Pengetahuan{}).Where("id_pengetahuan", ref.RefID.Int64).Count(&countValid).Error
+			if err != nil || countValid == 0 {
+				return app.Error().New(http.StatusNotFound, u.Ctx.Trans("not_found",
+					map[string]string{
+						"entity": "Referensi Pengetahuan",
+						"key":    "id",
+						"value":  strconv.Itoa(int(ref.RefID.Int64)),
+					},
+				))
+			}
+			p.ReferensiPengetahuan[i].PengetahuanID.Set(p.ID.Int64)
+		}
+
+		err = tx.Create(&p.ReferensiPengetahuan).Error
 		if err != nil {
 			return err
 		}

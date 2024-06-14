@@ -93,6 +93,7 @@ func (*migratorUtil) Configure() {
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanResensi{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanNarsum{})
 	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanPenerbit{})
+	app.DB().RegisterTable("main", tpengetahuanrelation.TPengetahuanReferensiPengetahuan{})
 
 	app.DB().RegisterTable("main", referensi.Referensi{})
 	app.DB().RegisterTable("main", accesstoken.AccessToken{})
@@ -171,6 +172,11 @@ func (*migratorUtil) Run() {
 	}
 
 	err = tx.Exec("ALTER TABLE notifikasi MODIFY COLUMN id INT AUTO_INCREMENT;").Error
+	if err != nil {
+		app.Logger().Fatal().Err(err).Send()
+	}
+
+	err = tx.Exec("ALTER TABLE t_pengetahuan_referensi_by_pengetahuan MODIFY COLUMN id INT AUTO_INCREMENT;").Error
 	if err != nil {
 		app.Logger().Fatal().Err(err).Send()
 	}
